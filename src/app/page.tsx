@@ -17,14 +17,17 @@ export default function Home() {
           playsInline
           className="absolute top-0 left-0 w-full h-full object-cover"
         >
-          <source src="/background.mp4" type="video/mp4" />
+          <source
+            src="https://icwg9u8ngzketf8y.public.blob.vercel-storage.com/bg.mp4"
+            type="video/mp4"
+          />
         </video>
-        
+
         {/* Video overlay for better text readability */}
         <div className="absolute inset-0 bg-black/20"></div>
-        
+
         <HomeNavigation onLearnClick={() => setIsLoginOpen(true)} />
-        
+
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center h-full px-4">
           <div className="text-center text-white max-w-4xl">
@@ -32,7 +35,8 @@ export default function Home() {
               Welcome to StemXio
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Empowering the next generation of innovators through cutting-edge STEM education
+              Empowering the next generation of innovators through cutting-edge
+              STEM education
             </p>
             <div className="space-x-4">
               <button
@@ -57,36 +61,44 @@ export default function Home() {
               Why Choose StemXio?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover innovative learning experiences designed to prepare you for the future
+              Discover innovative learning experiences designed to prepare you
+              for the future
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl">🔬</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Interactive Labs</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                Interactive Labs
+              </h3>
               <p className="text-gray-600">
-                Hands-on virtual laboratories that bring complex concepts to life
+                Hands-on virtual laboratories that bring complex concepts to
+                life
               </p>
             </div>
-            
+
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl">👨‍🏫</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Expert Instructors</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                Expert Instructors
+              </h3>
               <p className="text-gray-600">
                 Learn from industry professionals and academic experts
               </p>
             </div>
-            
+
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl">🚀</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Real Projects</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                Real Projects
+              </h3>
               <p className="text-gray-600">
                 Work on actual industry projects and build your portfolio
               </p>
@@ -103,7 +115,9 @@ export default function Home() {
                 Start Your Journey Today
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                Join thousands of students who have transformed their careers through our comprehensive STEM programs. From beginner to expert, we have the right path for you.
+                Join thousands of students who have transformed their careers
+                through our comprehensive STEM programs. From beginner to
+                expert, we have the right path for you.
               </p>
               <button
                 onClick={() => setIsLoginOpen(true)}
@@ -113,34 +127,45 @@ export default function Home() {
               </button>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">What you&apos;ll get:</h3>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+                What you&apos;ll get:
+              </h3>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3">
-                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">
+                    ✓
+                  </span>
                   <span className="text-gray-700">Access to 500+ courses</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                  <span className="text-gray-700">Virtual lab environments</span>
+                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">
+                    ✓
+                  </span>
+                  <span className="text-gray-700">
+                    Virtual lab environments
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">
+                    ✓
+                  </span>
                   <span className="text-gray-700">1-on-1 mentorship</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                  <span className="text-gray-700">Certificate of completion</span>
+                  <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">
+                    ✓
+                  </span>
+                  <span className="text-gray-700">
+                    Certificate of completion
+                  </span>
                 </li>
               </ul>
             </div>
           </div>
         </div>
       </section>
-      
-      <LoginModal 
-        isOpen={isLoginOpen}
-        onClose={() => setIsLoginOpen(false)}
-      />
+
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </div>
   );
 }
