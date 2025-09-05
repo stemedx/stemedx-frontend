@@ -113,7 +113,7 @@ export default function Home() {
               </button>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">What you'll get:</h3>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6">What you&apos;ll get:</h3>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3">
                   <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">✓</span>
