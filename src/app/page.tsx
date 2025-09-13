@@ -1,14 +1,13 @@
 "use client";
-import { HomeNavigation } from "@/components/nav-bar";
-import { LoginModal } from "@/components/login-modal";
+
+import { LoginModal } from "@/app/components/loginModal";
 import { useState } from "react";
 
 export default function Home() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section with Video Background */}
+    <div className="min-h-screen bg-black">
       <section className="relative h-screen overflow-hidden">
         <video
           autoPlay
@@ -22,31 +21,24 @@ export default function Home() {
             type="video/mp4"
           />
         </video>
-
-        {/* Video overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/20"></div>
-
-        <HomeNavigation onLearnClick={() => setIsLoginOpen(true)} />
-
-        {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center h-full px-4">
           <div className="text-center text-white max-w-4xl">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
               Welcome to StemXio
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Empowering the next generation of innovators through cutting-edge
-              STEM education
+              Master STEM skills online with interactive courses, virtual labs,
+              and expert instruction
             </p>
             <div className="space-x-4">
               <button
                 onClick={() => setIsLoginOpen(true)}
                 className="bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/30 transition-all duration-300 hover:scale-105"
               >
-                Start Learning
+                Start Learning Online
               </button>
               <button className="bg-teal-500/20 backdrop-blur-md border border-teal-400/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-teal-500/30 transition-all duration-300 hover:scale-105">
-                Watch Demo
+                Take a Tour
               </button>
             </div>
           </div>
@@ -58,11 +50,11 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Why Choose StemXio?
+              Why Choose Online Learning with StemXio?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover innovative learning experiences designed to prepare you
-              for the future
+              Experience flexible, interactive online education that fits your
+              schedule and learning style
             </p>
           </div>
 
@@ -72,11 +64,11 @@ export default function Home() {
                 <span className="text-3xl">🔬</span>
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Interactive Labs
+                Virtual Labs
               </h3>
               <p className="text-gray-600">
-                Hands-on virtual laboratories that bring complex concepts to
-                life
+                State-of-the-art online laboratories accessible 24/7 from
+                anywhere
               </p>
             </div>
 
@@ -85,10 +77,11 @@ export default function Home() {
                 <span className="text-3xl">👨‍🏫</span>
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Expert Instructors
+                Live Online Sessions
               </h3>
               <p className="text-gray-600">
-                Learn from industry professionals and academic experts
+                Interactive classes with industry experts and personalized
+                feedback
               </p>
             </div>
 
@@ -97,10 +90,10 @@ export default function Home() {
                 <span className="text-3xl">🚀</span>
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Real Projects
+                Flexible Learning
               </h3>
               <p className="text-gray-600">
-                Work on actual industry projects and build your portfolio
+                Learn at your own pace with lifetime access to course materials
               </p>
             </div>
           </div>
@@ -112,12 +105,12 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                Start Your Journey Today
+                Start Your Online STEM Journey
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                Join thousands of students who have transformed their careers
-                through our comprehensive STEM programs. From beginner to
-                expert, we have the right path for you.
+                Join thousands of students learning online with flexible
+                scheduling, expert support, and career-focused curriculum
+                designed for working professionals.
               </p>
               <button
                 onClick={() => setIsLoginOpen(true)}
@@ -135,21 +128,25 @@ export default function Home() {
                   <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">
                     ✓
                   </span>
-                  <span className="text-gray-700">Access to 500+ courses</span>
+                  <span className="text-gray-700">
+                    500+ online courses and tutorials
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">
                     ✓
                   </span>
                   <span className="text-gray-700">
-                    Virtual lab environments
+                    24/7 access to virtual labs
                   </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">
                     ✓
                   </span>
-                  <span className="text-gray-700">1-on-1 mentorship</span>
+                  <span className="text-gray-700">
+                    Online mentorship and career guidance
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="w-6 h-6 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-sm">

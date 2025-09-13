@@ -1,6 +1,9 @@
+import "./globals.css";
+import { HomeNavigation } from "@/app/components/navbar";
+import { CustomScrollbar } from "@/app/components/scrolbar";
+import { b } from "motion/react-client";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,6 +52,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <CustomScrollbar />
+        <header className="absolute top-4 left-0 right-4 z-50">
+          <HomeNavigation />
+        </header>
         {children}
       </body>
     </html>
