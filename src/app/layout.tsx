@@ -1,6 +1,6 @@
 import "./globals.css";
 import { HomeNavigation } from "@/app/components/navbar";
-import { CustomScrollbar } from "@/app/components/scrolbar";
+import { CustomScrollbar } from "@/app/components/scrollbar";
 import { b } from "motion/react-client";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";

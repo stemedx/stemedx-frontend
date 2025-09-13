@@ -3,10 +3,6 @@ import { Home, BookOpen, PlayCircle, MessageCircle, CircleDollarSign } from "luc
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-interface HomeNavigationProps {
-  onLearnClick: () => void;
-}
-
 export function HomeNavigation() {
   const pathname = usePathname();
 
@@ -34,7 +30,7 @@ const menuItems = [
   {
     icon: MessageCircle,
     label: "Reach Us",
-    href: "/reach-us",
+    href: "/reachus",
   },
 ];
 
@@ -52,7 +48,7 @@ const menuItems = [
                 className={`relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ease-out 
                   cursor-pointer border-b-2 hover:scale-110 ${
                   isActive
-                    ? "border-teal-400"
+                    ? "border-white"
                     : "border-transparent"
                 }`}
               >

@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* StemXio Theme Colors */
+  --primary-start: #9333ea; /* purple-600 */
+  --primary-end: #2563eb;   /* blue-600 */
+  --secondary-start: #a855f7; /* purple-500 */
+  --secondary-end: #3b82f6;   /* blue-500 */
+  --bg-start: #faf5ff;       /* purple-50 */
+  --bg-end: #eff6ff;         /* blue-50 */
 }
 
 @theme inline {
@@ -10,6 +18,14 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* StemXio Custom Colors */
+  --color-primary-start: var(--primary-start);
+  --color-primary-end: var(--primary-end);
+  --color-secondary-start: var(--secondary-start);
+  --color-secondary-end: var(--secondary-end);
+  --color-bg-start: var(--bg-start);
+  --color-bg-end: var(--bg-end);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,4 +49,28 @@ html {
 
 html::-webkit-scrollbar {
   display: none;
+}
+
+/* StemXio Theme Utility Classes */
+.bg-primary-gradient {
+  background: linear-gradient(to bottom right, var(--primary-start), var(--primary-end));
+}
+
+.bg-secondary-gradient {
+  background: linear-gradient(to bottom right, var(--secondary-start), var(--secondary-end));
+}
+
+.bg-page-gradient {
+  background: linear-gradient(to bottom right, var(--bg-start), var(--bg-end));
+}
+
+.text-primary-gradient {
+  background: linear-gradient(to right, var(--primary-start), var(--primary-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hover-primary-gradient:hover {
+  background: linear-gradient(to bottom right, var(--primary-start), var(--primary-end));
 }

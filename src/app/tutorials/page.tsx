@@ -98,8 +98,8 @@ export default function Tutorials() {
       : tutorials.filter((tutorial) => tutorial.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="relative bg-gradient-to-br from-purple-600 to-blue-700 py-20">
+    <div className="min-h-screen bg-page-gradient">
+      <div className="relative bg-primary-gradient py-20">
         <div className="max-w-6xl mx-auto px-4 text-center text-white mt-16">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
             Online Tutorials
@@ -120,8 +120,8 @@ export default function Tutorials() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
                   selectedCategory === category
-                    ? "bg-purple-600 text-white shadow-lg"
-                    : "bg-white text-gray-700 hover:bg-purple-50 border border-gray-200"
+                    ? "bg-primary-gradient text-white shadow-lg"
+                    : "bg-white text-gray-700 hover:bg-secondary-gradient/10 border border-gray-200"
                 }`}
               >
                 {category}
@@ -172,7 +172,7 @@ export default function Tutorials() {
 
                   <button
                     onClick={() => setIsLoginOpen(true)}
-                    className="w-full bg-purple-600 text-white py-2 rounded-xl font-semibold text-sm hover:bg-purple-700 transition-colors duration-200"
+                    className="w-full bg-primary-gradient text-white py-2 rounded-xl font-semibold text-sm hover-primary-gradient transition-colors duration-200"
                   >
                     Start Tutorial
                   </button>
@@ -183,17 +183,17 @@ export default function Tutorials() {
         </div>
       </section>
 
-      <section className="bg-purple-600 py-16">
+      <section className="bg-primary-gradient py-16">
         <div className="max-w-4xl mx-auto text-center px-4">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready for More Online Learning?
           </h2>
-          <p className="text-xl text-purple-100 mb-8">
+          <p className="text-xl text-white/80 mb-8">
             Access our complete online library of 500+ interactive tutorials
           </p>
           <button
             onClick={() => setIsLoginOpen(true)}
-            className="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors duration-200"
+            className="bg-white text-primary-start px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors duration-200"
           >
             Unlock All Tutorials
           </button>
