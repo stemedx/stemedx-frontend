@@ -17,7 +17,7 @@ export function Footer() {
   const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE);
 
   return (
-    <footer className="bg-primary-gradient py-5 w-full">
+    <footer className="bg-white/10 backdrop-blur-md shadow-lg border-t border-t-white/20 py-5 w-full">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="flex flex-col md:items-start justify-start items-center">
@@ -109,8 +109,10 @@ export function Footer() {
         </div>
 
         {/* Bottom Border */}
-        <div className="mt-12 pt-8 border-t border-white/20">
-          <div className="text-center">
+        <div className="pt-12">
+          <div className="mx-auto h-0.5 w-5xl bg-gradient-to-r from-blue-600/30 via-purple-600 via-pu to-blue-600/30"></div>
+
+          <div className="mt-8 text-center">
             <p className="text-white/60 text-sm">
               © {new Date().getFullYear()} StemXio LLC. All rights reserved.
             </p>
