@@ -2,101 +2,105 @@
 
 import { useState } from "react";
 import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
-import { FaFacebook, FaWhatsapp, FaTelegram } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { ChatWidget } from "@/app/components/chat-widget";
+import { Toast } from "@/app/components/toast";
 
 // Get translations for this page
-const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE);
-
-// Icon mapping with react-icons
-const iconMap = {
-  Facebook: FaFacebook,
-  X: FaXTwitter,
-  MessageCircle: FaWhatsapp,
-  Send: FaTelegram
-};
+const CONTENT = getTranslations("reachus", CURRENT_LANGUAGE);
 
 export default function ReachUs() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [toast, setToast] = useState({ isVisible: false, message: "" });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", subject: "", message: "" });
+  const handleCopyToClipboard = async (text: string, type: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setToast({
+        isVisible: true,
+        message: `${type} copied to clipboard`
+      });
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+      setToast({
+        isVisible: true,
+        message: `Failed to copy ${type.toLowerCase()}`
+      });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-page-gradient">
-      {/* Header */}
-      <div className="bg-primary-gradient py-20">
-        <div className="max-w-6xl mx-auto px-4 text-center text-white mt-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">{CONTENT.header.title}</h1>
-          <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-            {CONTENT.header.subtitle}
-          </p>
+    <div>
+      <div className="mb-10 mt-30">
+        <div className="max-w-7xl mx-auto text-center text-white">
+          <h1 className="md:text-5xl font-bold mb-6">{CONTENT.header.title}</h1>
+          <p className="md:text-2xl text-white/90">{CONTENT.header.subtitle}</p>
         </div>
       </div>
 
+      <div className="space-y-10 mx-auto max-w-7xl px-4">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 p-8">
+            {CONTENT.contactInfo.methods
+              .filter((method) => method.enabled)
+              .map((method, index) => {
+                const isLiveChat = method.id === "live-chat";
+                const isAddress = method.id === "address";
+                const isHotline = method.id === "hotline";
+                const Component =
+                  method.action && !isLiveChat && !isAddress && !isHotline
+                    ? "a"
+                    : "div";
 
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="grid lg:grid-cols-1 gap-16 justify-center">
-            <div className="space-y-8 max-w-2xl mx-auto">
-              <div className="bg-white rounded-2xl shadow-lg p-8">
-                <h2 className="text-3xl font-bold text-gray-800 mb-8">{CONTENT.contactInfo.title}</h2>
-                
-                <div className="space-y-6">
-                  {CONTENT.contactInfo.methods.map((method, index) => (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-secondary-gradient rounded-full flex items-center justify-center">
-                        <span className="text-2xl">{method.icon}</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-800 mb-1">{method.title}</h3>
-                        <p className="text-gray-600 whitespace-pre-line">{method.description}</p>
-                      </div>
+                const handleClick = () => {
+                  if (isLiveChat) {
+                    setIsChatOpen(true);
+                  } else if (isAddress || isHotline) {
+                    const type = isAddress ? "Address" : "Phone number";
+                    handleCopyToClipboard(method.content, type);
+                  }
+                };
+
+                return (
+                  <Component
+                    key={index}
+                    href={
+                      !isLiveChat && !isAddress && !isHotline
+                        ? method.action || undefined
+                        : undefined
+                    }
+                    onClick={
+                      isLiveChat || isAddress || isHotline
+                        ? handleClick
+                        : undefined
+                    }
+                    className={`flex flex-col items-center text-center transition-all duration-300 group ${
+                      method.action || isLiveChat || isAddress || isHotline
+                        ? "cursor-pointer hover:-translate-y-1"
+                        : ""
+                    }`}
+                  >
+                    <div className="bg-secondary-gradient flex flex-col items-center justify-center text-center h-full w-full rounded-xl p-3 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl text-white">{method.icon}</div>
+                      <h3 className="font-semibold text-white mb-3 text-lg">
+                        {method.title}
+                      </h3>
+                      <p className="text-sm text-white/80 whitespace-pre-line leading-relaxed">
+                        {method.content}
+                      </p>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-lg p-8">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">{CONTENT.community.title}</h3>
-                <p className="text-gray-600 mb-6">{CONTENT.community.description}</p>
-                <div className="flex justify-center gap-4">
-                  {CONTENT.community.socialLinks.map((social, index) => {
-                    const IconComponent = iconMap[social.icon as keyof typeof iconMap];
-                    return (
-                      <a
-                        key={index}
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-12 h-12 bg-secondary-gradient rounded-lg flex items-center justify-center cursor-pointer hover-primary-gradient transition-all hover:scale-110"
-                        title={social.name}
-                      >
-                        <IconComponent className="w-5 h-5 text-white" />
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+                  </Component>
+                );
+              })}
           </div>
         </div>
-      </section>
+      </div>
+
+      <ChatWidget isOpen={isChatOpen} onToggle={setIsChatOpen} />
+      <Toast
+        message={toast.message}
+        isVisible={toast.isVisible}
+        onClose={() => setToast({ isVisible: false, message: "" })}
+      />
     </div>
   );
 }

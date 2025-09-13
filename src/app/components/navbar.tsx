@@ -36,30 +36,28 @@ const menuItems = [
 
 
   return (
-    <div className="flex justify-center">
-        <nav className="flex items-center gap-2">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ease-out 
+    <div className="absolute flex justify-center top-4 left-0 right-4 z-50">
+      <nav className="flex items-center gap-2">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ease-out 
                   cursor-pointer border-b-2 hover:scale-110 ${
-                  isActive
-                    ? "border-white"
-                    : "border-transparent"
-                }`}
-              >
-                <Icon className="w-5 h-5 text-white" />
-                <span className="text-white font-medium text-sm">
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
+                    isActive ? "border-white" : "border-transparent"
+                  }`}
+            >
+              <Icon className="w-5 h-5 text-white" />
+              <span className="text-white font-medium text-sm">
+                {item.label}
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }

@@ -2,7 +2,7 @@ export const reachusContent = {
   header: {
     title: "Reach Us",
     subtitle: `Get help, ask questions, give feedback or report platform issues. 
-    For course-specific inquiries, please use the dedicated channels under Courses Section`,
+    For course-specific inquiries, Please use the dedicated channels under Courses section`,
   },
   form: {
     title: "Send us a message",
@@ -38,27 +38,36 @@ export const reachusContent = {
     title: "Get in touch",
     methods: [
       {
+        id: "live-chat",
         icon: "💬",
         title: "Live Chat Support",
-        description:
-          "Available 24/7 through your student dashboard for instant help with courses and platform",
+        content: "Available 24/7 through your dashboard",
+        action: null,
+        enabled: true,
       },
       {
+        id: "email",
         icon: "✉️",
         title: "Email Support",
-        description: "support@stemxio.com\nResponse within 24 hours",
+        content: "support@stemxio.com",
+        action: "mailto:support@stemxio.com",
+        enabled: true,
       },
       {
-        icon: "📚",
-        title: "Help Center",
-        description:
-          "Comprehensive FAQs, tutorials, and troubleshooting guides available in your account",
+        id: "address",
+        icon: "📍",
+        title: "Address",
+        content: "StemXio LLC\n1234 Innovation Drive\nSilicon Valley, CA 94085\nUnited States",
+        action: null,
+        enabled: true,
       },
       {
-        icon: "🎓",
-        title: "Academic Support",
-        description:
-          "Connect with instructors and study groups through our online community forums",
+        id: "hotline",
+        icon: "📞",
+        title: "Hotline",
+        content: "+94372268601",
+        action: "tel:+94372268601",
+        enabled: true,
       },
     ],
   },
