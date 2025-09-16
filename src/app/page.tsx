@@ -7,7 +7,7 @@ export default function Home() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-page-gradient">
+    <div >
       <section className="relative h-screen overflow-hidden">
         <video
           autoPlay
@@ -46,13 +46,13 @@ export default function Home() {
       </section>
 
       {/* Content Sections Below */}
-      <section className="bg-white py-20">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+            <h2 className="text-4xl font-bold text-white mb-4">
               Why Choose Online Learning with StemXio?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Experience flexible, interactive online education that fits your
               schedule and learning style
             </p>
@@ -63,10 +63,10 @@ export default function Home() {
               <div className="w-16 h-16 bg-secondary-gradient rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl text-white">🔬</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+              <h3 className="text-xl font-semibold text-white mb-3">
                 Virtual Labs
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 State-of-the-art online laboratories accessible 24/7 from
                 anywhere
               </p>
@@ -76,10 +76,10 @@ export default function Home() {
               <div className="w-16 h-16 bg-secondary-gradient rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl text-white">👨‍🏫</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+              <h3 className="text-xl font-semibold text-white mb-3">
                 Live Online Sessions
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 Interactive classes with industry experts and personalized
                 feedback
               </p>
@@ -89,10 +89,10 @@ export default function Home() {
               <div className="w-16 h-16 bg-secondary-gradient rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl text-white">🚀</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+              <h3 className="text-xl font-semibold text-white mb-3">
                 Flexible Learning
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-300">
                 Learn at your own pace with lifetime access to course materials
               </p>
             </div>
@@ -100,14 +100,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-page-gradient py-20">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-gray-800 mb-6">
+              <h2 className="text-4xl font-bold text-white mb-6">
                 Start Your Online STEM Journey
               </h2>
-              <p className="text-lg text-gray-600 mb-8">
+              <p className="text-lg text-gray-300 mb-8">
                 Join thousands of students learning online with flexible
                 scheduling, expert support, and career-focused curriculum
                 designed for working professionals.
@@ -119,8 +119,8 @@ export default function Home() {
                 Get Started Free
               </button>
             </div>
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/20">
+              <h3 className="text-2xl font-semibold text-white mb-6">
                 What you&apos;ll get:
               </h3>
               <ul className="space-y-4">
@@ -128,7 +128,7 @@ export default function Home() {
                   <span className="w-6 h-6 bg-secondary-gradient text-white rounded-full flex items-center justify-center text-sm">
                     ✓
                   </span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-300">
                     500+ online courses and tutorials
                   </span>
                 </li>
@@ -136,7 +136,7 @@ export default function Home() {
                   <span className="w-6 h-6 bg-secondary-gradient text-white rounded-full flex items-center justify-center text-sm">
                     ✓
                   </span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-300">
                     24/7 access to virtual labs
                   </span>
                 </li>
@@ -144,7 +144,7 @@ export default function Home() {
                   <span className="w-6 h-6 bg-secondary-gradient text-white rounded-full flex items-center justify-center text-sm">
                     ✓
                   </span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-300">
                     Online mentorship and career guidance
                   </span>
                 </li>
@@ -152,7 +152,7 @@ export default function Home() {
                   <span className="w-6 h-6 bg-secondary-gradient text-white rounded-full flex items-center justify-center text-sm">
                     ✓
                   </span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-300">
                     Certificate of completion
                   </span>
                 </li>

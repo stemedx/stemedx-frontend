@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff;
   
   /* StemXio Theme Colors */
   --primary-start: #9333ea; /* purple-600 */
@@ -30,8 +30,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000;
+    --foreground: #ffffff;
   }
 }
 
@@ -62,6 +62,11 @@ html::-webkit-scrollbar {
 
 .bg-page-gradient {
   background: linear-gradient(to bottom right, var(--bg-start), var(--bg-end));
+}
+
+/* Main theme gradient for cards and component sections */
+.bg-theme-gradient {
+  background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
 }
 
 .text-primary-gradient {

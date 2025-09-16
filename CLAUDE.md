@@ -55,6 +55,36 @@ const CONTENT = getTranslations('pagename', CURRENT_LANGUAGE);
 - Components remain unchanged when switching to CMS data
 - Ready for dynamic language switching and user preferences
 
+## Styling Guidelines
+
+### Background & Theme Standards
+
+**1. Global Background:**
+- Black background (`bg-black`) is applied globally in `layout.tsx`
+- Individual pages should NOT define background colors
+- Only component-specific backgrounds are allowed in pages
+
+**2. Theme Gradient System:**
+- Primary purple-blue gradient defined in `globals.css`
+- Available utility classes:
+  - `.bg-primary-gradient` - Main theme gradient (purple to blue)
+  - `.bg-secondary-gradient` - Secondary gradient variant
+  - `.bg-theme-gradient` - 135deg diagonal gradient for cards/sections
+  - `.text-primary-gradient` - Gradient text effect
+
+**3. Component Styling:**
+- Use glassmorphism for cards: `bg-white/10 backdrop-blur-md border border-white/20`
+- Text colors on black background: `text-white` for headings, `text-gray-300` for body text
+- Gradient backgrounds for interactive elements and feature cards
+
+**4. CSS Variable System:**
+```css
+--primary-start: #9333ea;    /* purple-600 */
+--primary-end: #2563eb;      /* blue-600 */
+--secondary-start: #a855f7;  /* purple-500 */
+--secondary-end: #3b82f6;    /* blue-500 */
+```
+
 ## Project Information
 - Framework: Next.js 15.5.0 with App Router
 - Styling: Tailwind CSS v4
