@@ -17,8 +17,8 @@ export default function Home() {
           className="absolute top-0 left-0 w-full h-full object-cover"
         >
           <source
-            src="https://icwg9u8ngzketf8y.public.blob.vercel-storage.com/bg.mp4"
-            type="video/mp4"
+            src="https://icwg9u8ngzketf8y.public.blob.vercel-storage.com/Reflect%20Notes.webm"
+            type="video/webm"
           />
         </video>
         <div className="relative z-10 flex items-center justify-center h-full px-4">
