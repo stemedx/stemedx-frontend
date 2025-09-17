@@ -52,12 +52,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col bg-black`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col bg-black overflow-x-hidden`}
       >
         <CustomScrollbar />
         <HomeNavigation />
-        <main className="flex-1">
+        <main className="flex-1 w-full">
           {children}
         </main>
         <Footer />
