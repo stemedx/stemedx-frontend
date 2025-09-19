@@ -36,8 +36,8 @@ const menuItems = [
 
 
   return (
-    <div className="absolute flex justify-center top-4 left-0 right-4 z-50">
-      <nav className="flex items-center gap-2">
+    <div className="fixed flex justify-center top-4 w-full z-50">
+      <nav className="glass flex items-center gap-2 rounded-3xl px-2 py-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -45,9 +45,9 @@ const menuItems = [
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ease-out 
+              className={`relative flex items-center gap-3 px-4 py-3 rounded-3xl transition-all duration-200 ease-out 
                   cursor-pointer border-b-2 hover:scale-110 ${
-                    isActive ? "border-white" : "border-transparent"
+                    isActive ? "border-purple-500" : "border-transparent"
                   }`}
             >
               <Icon className="w-5 h-5 text-white" />

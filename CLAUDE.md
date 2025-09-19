@@ -85,6 +85,25 @@ const CONTENT = getTranslations('pagename', CURRENT_LANGUAGE);
 --secondary-end: #3b82f6;    /* blue-500 */
 ```
 
+## Development Approach Guidelines
+
+### Critical Instructions
+**1. Minimal Changes Only:**
+- Only add what is absolutely necessary to fix the issue
+- Do NOT change existing styles unless they directly conflict with the new addition
+- If something becomes unnecessary due to new additions, then remove it
+- Do not make "genius" improvements or optimizations unless explicitly requested
+
+**2. Change Validation:**
+- If user says there is no change or improvement, immediately revert the last change
+- Always test that changes actually solve the reported problem
+- Do not argue about effectiveness - if user says it doesn't work, revert immediately
+
+**3. Global vs Page-Level Changes:**
+- For layout, responsiveness, and site-wide styling: make changes in `layout.tsx` or global CSS files
+- Do NOT add the same responsive classes to individual pages
+- Think globally first, then page-specific only if absolutely necessary
+
 ## Project Information
 - Framework: Next.js 15.5.0 with App Router
 - Styling: Tailwind CSS v4

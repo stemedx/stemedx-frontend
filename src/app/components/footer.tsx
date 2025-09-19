@@ -17,7 +17,7 @@ export function Footer() {
   const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE);
 
   return (
-    <footer className="bg-white/10 backdrop-blur-md shadow-lg border-t border-t-white/20 py-5 w-full">
+    <div className="glass-strong border-t border-t-white/20 rounded-t-2xl py-5 w-full">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="flex flex-col md:items-start justify-start items-center">
@@ -119,6 +119,6 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+    </div>
   );
 }

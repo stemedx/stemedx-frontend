@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Phone, User, Lock } from "lucide-react";
+import { loginWithEmail, signupWithEmail } from "@/utils/auth-actions";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -11,6 +12,8 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<'email' | 'mobile'>('email');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     mobile: '',
@@ -22,11 +25,49 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (error) setError('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setLoading(true);
+    setError('');
+
+    try {
+      if (loginMethod === 'mobile' && isLogin) {
+        // TODO: Implement mobile OTP login
+        setError('Mobile login not yet implemented');
+        setLoading(false);
+        return;
+      }
+
+      if (isLogin) {
+        const result = await loginWithEmail(formData.email, formData.password);
+        if (result.error) {
+          setError(result.error);
+        } else {
+          onClose();
+          window.location.reload();
+        }
+      } else {
+        if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match');
+          setLoading(false);
+          return;
+        }
+        const result = await signupWithEmail(formData.email, formData.password, formData.name);
+        if (result.error) {
+          setError(result.error);
+        } else {
+          onClose();
+          window.location.reload();
+        }
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const socialProviders = [
@@ -136,6 +177,13 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 }
               </p>
             </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -280,12 +328,19 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full px-8 py-4 text-lg rounded-xl backdrop-blur-md border border-teal-400/30 shadow-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl bg-teal-500/20 text-white hover:bg-teal-500/30"
+                disabled={loading}
+                className="w-full px-8 py-4 text-lg rounded-xl backdrop-blur-md border border-teal-400/30 shadow-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl bg-teal-500/20 text-white hover:bg-teal-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {isLogin 
-                  ? (loginMethod === 'mobile' ? 'Verify OTP' : 'Sign In')
-                  : 'Create Account'
-                }
+                {loading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    {isLogin ? 'Signing In...' : 'Creating Account...'}
+                  </div>
+                ) : (
+                  isLogin 
+                    ? (loginMethod === 'mobile' ? 'Verify OTP' : 'Sign In')
+                    : 'Create Account'
+                )}
               </button>
 
               {/* Divider */}

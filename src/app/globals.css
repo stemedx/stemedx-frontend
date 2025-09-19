@@ -3,14 +3,14 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  
+
   /* StemXio Theme Colors */
   --primary-start: #9333ea; /* purple-600 */
-  --primary-end: #2563eb;   /* blue-600 */
+  --primary-end: #2563eb; /* blue-600 */
   --secondary-start: #a855f7; /* purple-500 */
-  --secondary-end: #3b82f6;   /* blue-500 */
-  --bg-start: #faf5ff;       /* purple-50 */
-  --bg-end: #eff6ff;         /* blue-50 */
+  --secondary-end: #3b82f6; /* blue-500 */
+  --bg-start: #faf5ff; /* purple-50 */
+  --bg-end: #eff6ff; /* blue-50 */
 }
 
 @theme inline {
@@ -18,7 +18,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  
+
   /* StemXio Custom Colors */
   --color-primary-start: var(--primary-start);
   --color-primary-end: var(--primary-end);
@@ -53,11 +53,19 @@ html::-webkit-scrollbar {
 
 /* StemXio Theme Utility Classes */
 .bg-primary-gradient {
-  background: linear-gradient(to bottom right, var(--primary-start), var(--primary-end));
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-start),
+    var(--primary-end)
+  );
 }
 
 .bg-secondary-gradient {
-  background: linear-gradient(to bottom right, var(--secondary-start), var(--secondary-end));
+  background: linear-gradient(
+    to bottom right,
+    var(--secondary-start),
+    var(--secondary-end)
+  );
 }
 
 .bg-page-gradient {
@@ -70,12 +78,48 @@ html::-webkit-scrollbar {
 }
 
 .text-primary-gradient {
-  background: linear-gradient(to right, var(--primary-start), var(--primary-end));
+  background: linear-gradient(
+    to right,
+    var(--primary-start),
+    var(--primary-end)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .hover-primary-gradient:hover {
-  background: linear-gradient(to bottom right, var(--primary-start), var(--primary-end));
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-start),
+    var(--primary-end)
+  );
+}
+
+/* Glassmorphism Utility Classes */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Main theme gradient for borders and outlines */
+.border-primary-gradient {
+  border-bottom: 2px solid #9333ea;
+  box-shadow: 0 0 10px #9333ea;
 }

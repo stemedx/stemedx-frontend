@@ -7,46 +7,46 @@ export default function Home() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <div >
-      <section className="relative h-screen overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover"
-        >
-          <source
-            src="https://icwg9u8ngzketf8y.public.blob.vercel-storage.com/Reflect%20Notes.webm"
-            type="video/webm"
-          />
-        </video>
-        <div className="relative z-10 flex items-center justify-center h-full px-4">
-          <div className="text-center text-white max-w-4xl">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">
-              Welcome to StemXio
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Master STEM skills online with interactive courses, virtual labs,
-              and expert instruction
-            </p>
-            <div className="space-x-4">
-              <button
-                onClick={() => setIsLoginOpen(true)}
-                className="bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/30 transition-all duration-300 hover:scale-105"
-              >
-                Start Learning Online
-              </button>
-              <button className="bg-secondary-gradient/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover-primary-gradient transition-all duration-300 hover:scale-105">
-                Take a Tour
-              </button>
-            </div>
+    <div>
+      <div className="flex flex-col items-center justify-center min-h-screen px-4">
+        <div className="absolute top-40 text-center text-white max-w-4xl">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">
+            Welcome to STEMEdX
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 text-white/90">
+            Master STEM skills online with interactive courses, virtual labs,
+            and expert instruction
+          </p>
+          <div className="space-x-4">
+            <button
+              onClick={() => setIsLoginOpen(true)}
+              className="bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/30 transition-all duration-300 hover:scale-105"
+            >
+              Start Learning Online
+            </button>
+            <button className="bg-secondary-gradient/20 backdrop-blur-sm border border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover-primary-gradient transition-all duration-300 hover:scale-105">
+              Take a Tour
+            </button>
           </div>
         </div>
-      </section>
+        <div>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source
+              src="https://icwg9u8ngzketf8y.public.blob.vercel-storage.com/Reflect%20Notes.webm"
+              type="video/webm"
+            />
+          </video>
+        </div>
+      </div>
 
       {/* Content Sections Below */}
-      <section className="py-20">
+      <div className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">
@@ -98,9 +98,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="py-20">
+      <div className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -160,7 +160,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </div>
