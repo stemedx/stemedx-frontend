@@ -14,7 +14,16 @@ const iconMap = {
 };
 
 export function Footer() {
-  const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE);
+  const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE) as {
+    community?: {
+      title: string;
+      socialLinks: Array<{
+        name: string;
+        icon: string;
+        url: string;
+      }>;
+    };
+  };
 
   return (
     <div className="glass border-t border-t-white/20 rounded-t-2xl py-5 w-full">
@@ -88,7 +97,7 @@ export function Footer() {
             </h3>
 
             <div className="flex justify-center md:justify-start gap-4">
-              {(CONTENT?.community?.socialLinks || []).map((social, index) => {
+              {(CONTENT?.community?.socialLinks || []).map((social: any, index: number) => {
                 const IconComponent =
                   iconMap[social.icon as keyof typeof iconMap];
                 return (
