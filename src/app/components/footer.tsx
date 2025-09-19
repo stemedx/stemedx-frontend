@@ -97,7 +97,7 @@ export function Footer() {
             </h3>
 
             <div className="flex justify-center md:justify-start gap-4">
-              {(CONTENT?.community?.socialLinks || []).map((social: any, index: number) => {
+              {(CONTENT?.community?.socialLinks || []).map((social: { name: string; icon: string; url: string }, index: number) => {
                 const IconComponent =
                   iconMap[social.icon as keyof typeof iconMap];
                 return (

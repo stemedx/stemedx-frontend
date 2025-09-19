@@ -6,7 +6,22 @@ import { ChatWidget } from "@/app/components/chat-widget";
 import { Toast } from "@/app/components/toast";
 
 // Get translations for this page
-const CONTENT = getTranslations("reachus", CURRENT_LANGUAGE);
+const CONTENT = getTranslations("reachus", CURRENT_LANGUAGE) as {
+  header: {
+    title: string;
+    subtitle: string;
+  };
+  contactInfo: {
+    methods: Array<{
+      id: string;
+      icon: string;
+      title: string;
+      content: string;
+      action: string | null;
+      enabled: boolean;
+    }>;
+  };
+};
 
 export default function ReachUs() {
   const [isChatOpen, setIsChatOpen] = useState(false);
