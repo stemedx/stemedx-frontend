@@ -14,10 +14,19 @@ const iconMap = {
 };
 
 export function Footer() {
-  const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE);
+  const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE) as {
+    community?: {
+      title: string;
+      socialLinks: Array<{
+        name: string;
+        icon: string;
+        url: string;
+      }>;
+    };
+  };
 
   return (
-    <footer className="bg-white/10 backdrop-blur-md shadow-lg border-t border-t-white/20 py-5 w-full">
+    <div className="glass border-t border-t-white/20 rounded-t-2xl py-5 w-full">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="flex flex-col md:items-start justify-start items-center">
@@ -84,11 +93,11 @@ export function Footer() {
           {/* Column 4: Community */}
           <div className="flex flex-col items-center md:items-start justify-start space-y-4">
             <h3 className="text-lg font-semibold text-white mb-2">
-              {CONTENT.community.title}
+              {CONTENT?.community?.title || "Connect with Us"}
             </h3>
 
             <div className="flex justify-center md:justify-start gap-4">
-              {CONTENT.community.socialLinks.map((social, index) => {
+              {(CONTENT?.community?.socialLinks || []).map((social: { name: string; icon: string; url: string }, index: number) => {
                 const IconComponent =
                   iconMap[social.icon as keyof typeof iconMap];
                 return (
@@ -110,7 +119,7 @@ export function Footer() {
 
         {/* Bottom Border */}
         <div className="pt-12">
-          <div className="mx-auto h-0.5 w-5xl bg-gradient-to-r from-blue-600/30 via-purple-600 via-pu to-blue-600/30"></div>
+          <div className="mx-auto h-0.5 w-full max-w-5xl bg-gradient-to-r from-blue-600/30 via-purple-600 to-blue-600/30"></div>
 
           <div className="mt-8 text-center">
             <p className="text-white/60 text-sm">
@@ -119,6 +128,6 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+    </div>
   );
 }

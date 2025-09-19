@@ -1,8 +1,7 @@
 import "./globals.css";
-import { HomeNavigation } from "@/app/components/navbar";
+import { Header } from "@/app/components/header";
 import { CustomScrollbar } from "@/app/components/scrollbar";
 import { Footer } from "@/app/components/footer";
-import { b } from "motion/react-client";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -56,14 +55,16 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col bg-black overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col bg-black`}
       >
         <CustomScrollbar />
-        <HomeNavigation />
-        <main className="flex-1 w-full">
-          {children}
-        </main>
-        <Footer />
+        <header className="fixed top-0 w-full z-50">
+          <Header />
+        </header>
+        <main className="flex-1 w-full pt-24">{children}</main>
+        <footer>
+          <Footer />
+        </footer>
       </body>
     </html>
   );
