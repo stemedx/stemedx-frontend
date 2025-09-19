@@ -6,7 +6,27 @@ import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
 
 export default function Home() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const CONTENT = getTranslations('home', CURRENT_LANGUAGE) as any;
+  const CONTENT = getTranslations('home', CURRENT_LANGUAGE) as {
+    hero: {
+      title: string;
+      subtitle: string;
+      buttons: { startLearning: string; takeTour: string };
+    };
+    whyChoose: {
+      title: string;
+      subtitle: string;
+      features: {
+        timeEfficient: { title: string; description: string };
+        flexiblePace: { title: string; description: string };
+        lifetimeAccess: { title: string; description: string };
+      };
+    };
+    stemJourney: {
+      title: string;
+      description: string;
+      button: string;
+    };
+  };
 
   return (
     <div>
@@ -141,12 +161,14 @@ export default function Home() {
 
             <div className="order-1 lg:order-2">
               <div className="relative">
-                <img
-                  src="/bg-image.png"
-                  alt="STEM Learning Workspace"
-                  className="w-full h-auto rounded-2xl shadow-2xl"
-                  style={{ background: "transparent" }}
-                />
+                <picture>
+                  <img
+                    src="/bg-image.png"
+                    alt="STEM Learning Workspace"
+                    className="w-full h-auto rounded-2xl shadow-2xl"
+                    style={{ background: "transparent" }}
+                  />
+                </picture>
               </div>
             </div>
           </div>

@@ -6,7 +6,13 @@ import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
 
 export function HomeNavigation() {
   const pathname = usePathname();
-  const CONTENT = getTranslations('navbar', CURRENT_LANGUAGE) as any;
+  const CONTENT = getTranslations('navbar', CURRENT_LANGUAGE) as {
+    home: string;
+    courses: string;
+    tutorials: string;
+    pricing: string;
+    reachUs: string;
+  };
 
   const menuItems = [
     {

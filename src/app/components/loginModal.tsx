@@ -9,6 +9,18 @@ interface LoginModalProps {
   onClose: () => void;
 }
 
+interface AuthContent {
+  modal: {
+    titles: { login: string; signup: string };
+    subtitles: { login: string; signup: string };
+    tabs: { login: string; signup: string };
+    fields: { name: string; email: string; password: string; confirmPassword: string };
+    buttons: { login: string; signup: string; googleLogin: string };
+    loading: { login: string; signup: string };
+    errors: { passwordMismatch: string; unexpected: string };
+  };
+}
+
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -18,7 +30,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [name, setName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   
-  const AUTH_CONTENT = getTranslations('auth', CURRENT_LANGUAGE) as any;
+  const AUTH_CONTENT = getTranslations('auth', CURRENT_LANGUAGE) as AuthContent;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +60,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
           window.location.reload();
         }
       }
-    } catch (err) {
+    } catch {
       setError(AUTH_CONTENT.modal.errors.unexpected);
     } finally {
       setLoading(false);
