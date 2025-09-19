@@ -1,18 +1,28 @@
 // Localization index file
 import { reachusContent as enReachusContent } from './en/reachus';
 import { reachusContent as siReachusContent } from './si/reachus';
+import { homeContent as enHomeContent } from './en/home';
+import { homeContent as siHomeContent } from './si/home';
+import { authContent as enAuthContent } from './en/auth';
+import { authContent as siAuthContent } from './si/auth';
+import { navbarContent as enNavbarContent } from './en/navbar';
+import { navbarContent as siNavbarContent } from './si/navbar';
 
 export const translations = {
   en: {
     reachus: enReachusContent,
+    home: enHomeContent,
+    auth: enAuthContent,
+    navbar: enNavbarContent,
     // Add more page translations here
-    // home: enHomeContent,
     // courses: enCoursesContent,
   },
   si: {
     reachus: siReachusContent,
+    home: siHomeContent,
+    auth: siAuthContent,
+    navbar: siNavbarContent,
     // Add more page translations here
-    // home: siHomeContent,
     // courses: siCoursesContent,
   }
 };

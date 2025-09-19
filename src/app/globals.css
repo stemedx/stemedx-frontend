@@ -72,22 +72,6 @@ html::-webkit-scrollbar {
   background: linear-gradient(to bottom right, var(--bg-start), var(--bg-end));
 }
 
-/* Main theme gradient for cards and component sections */
-.bg-theme-gradient {
-  background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
-}
-
-.text-primary-gradient {
-  background: linear-gradient(
-    to right,
-    var(--primary-start),
-    var(--primary-end)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .hover-primary-gradient:hover {
   background: linear-gradient(
     to bottom right,
@@ -100,21 +84,18 @@ html::-webkit-scrollbar {
 .glass {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .glass-light {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .glass-strong {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
@@ -122,4 +103,109 @@ html::-webkit-scrollbar {
 .border-primary-gradient {
   border-bottom: 2px solid #9333ea;
   box-shadow: 0 0 10px #9333ea;
+}
+
+/* Custom Animations for STEM Journey Section */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-12px) rotate(0.5deg);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-6px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(-2px) rotate(-0.5deg);
+  }
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 7s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 4s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animation-delay-1500 {
+  animation-delay: 1.5s;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* Gradient Separator */
+.gradient-separator {
+  height: 2px;
+  width: 100%;
+  max-width: 80rem;
+  margin: 3rem auto;
+  background: linear-gradient(to right, rgba(37, 99, 235, 0.3), rgb(147, 51, 234), rgba(37, 99, 235, 0.3));
+  box-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+}
+
+/* Glassmorphic Button */
+.glass-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 4px solid var(--primary-start);
+  box-shadow: 0 8px 32px rgba(147, 51, 234, 0.8);
 }
