@@ -1,9 +1,6 @@
 "use client";
-import { LoginModal } from "@/app/components/loginModal";
-import { useState } from "react";
 
 export default function Courses() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const courses = [
     {
@@ -108,7 +105,7 @@ export default function Courses() {
                   </div>
 
                   <button
-                    onClick={() => setIsLoginOpen(true)}
+                    onClick={() => window.location.href = '/login'}
                     className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold hover-primary-gradient transition-colors duration-200"
                   >
                     Enroll Now
@@ -130,7 +127,7 @@ export default function Courses() {
             scheduling
           </p>
           <button
-            onClick={() => setIsLoginOpen(true)}
+            onClick={() => window.location.href = '/login'}
             className="bg-white text-primary-start px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors duration-200"
           >
             Get Started Today
@@ -138,7 +135,6 @@ export default function Courses() {
         </div>
       </section>
 
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </div>
   );
 }

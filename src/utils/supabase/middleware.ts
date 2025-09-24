@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
+          cookiesToSet.forEach(({ name, value, options }) =>
             request.cookies.set(name, value)
           );
           supabaseResponse = NextResponse.next({
@@ -34,10 +34,32 @@ export async function updateSession(request: NextRequest) {
   // issues with users being randomly logged out.
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
-  await supabase.auth.getUser();
 
-  // Allow access to all pages - authentication is handled via modal
-  // Only protect specific routes if needed in the future
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Define public routes that don't require authentication
+  const publicRoutes = [
+    "/",
+    "/login", 
+    "/register",
+    "/error"
+  ];
+
+  const isPublicRoute = publicRoutes.some(route => 
+    request.nextUrl.pathname === route || 
+    request.nextUrl.pathname.startsWith(route + "/")
+  );
+
+  /*
+  // Only redirect to home if user is not authenticated AND trying to access a protected route
+  if (!user && !isPublicRoute) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    return NextResponse.redirect(url);
+  }
+  */
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:

@@ -1,11 +1,9 @@
 "use client";
 
-import { LoginModal } from "@/app/components/loginModal";
-import { useState } from "react";
 import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
+import Link from "next/link";
 
 export default function Home() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const CONTENT = getTranslations('home', CURRENT_LANGUAGE) as {
     hero: {
       title: string;
@@ -31,24 +29,19 @@ export default function Home() {
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-screen px-4 relative">
-        <div className="absolute top-20 sm:top-40 text-center text-white max-w-4xl z-10">
+        <div className="absolute top-20 sm:top-20 text-center text-white max-w-4xl z-10">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             {CONTENT.hero.title}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white/90">
-            {CONTENT.hero.subtitle}
-          </p>
-          <div className="space-x-4">
-            <button
-              onClick={() => {
-                console.log("Start Learning clicked");
-                setIsLoginOpen(true);
-              }}
-              className="glass-button text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 cursor-pointer"
+          <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
+            <Link
+              href="/courses"
+              className="bg-primary-gradient text-white px-4 py-2 rounded-3xl font-semibold transition-all duration-300 hover:scale-105 cursor-pointer inline-block mx-1 shadow-lg shadow-purple-500/30"
             >
-              {CONTENT.hero.buttons.startLearning}
-            </button>
-          </div>
+              Start Learning
+            </Link>
+            {" "}with Sri Lanka's Premier Online STEM Learning Platform
+          </p>
         </div>
         <div>
           <video
@@ -57,7 +50,6 @@ export default function Home() {
             loop
             playsInline
             className="min-w-full min-h-full object-cover"
-            style={{ width: '100vw', height: '100vh' }}
           >
             <source
               src="https://icwg9u8ngzketf8y.public.blob.vercel-storage.com/Reflect%20Notes.webm"
@@ -148,15 +140,12 @@ export default function Home() {
               <p className="text-base sm:text-lg lg:text-xl text-gray-300 pb-8 lg:pb-10 leading-relaxed">
                 {CONTENT.stemJourney.description}
               </p>
-              <button
-                onClick={() => {
-                  console.log("Get Started clicked");
-                  setIsLoginOpen(true);
-                }}
-                className="bg-primary-gradient text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-lg sm:text-xl hover-primary-gradient transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+              <Link
+                href="/login"
+                className="bg-primary-gradient text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-lg sm:text-xl hover-primary-gradient transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl inline-block text-center"
               >
                 {CONTENT.stemJourney.button}
-              </button>
+              </Link>
             </div>
 
             <div className="order-1 lg:order-2">
@@ -174,8 +163,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </div>
   );
 }

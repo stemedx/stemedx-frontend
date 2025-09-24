@@ -1,9 +1,6 @@
 "use client";
-import { LoginModal } from "@/app/components/loginModal";
-import { useState } from "react";
 
 export default function Tutorials() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const tutorials = [
     {
@@ -171,7 +168,7 @@ export default function Tutorials() {
                   </div>
 
                   <button
-                    onClick={() => setIsLoginOpen(true)}
+                    onClick={() => window.location.href = '/login'}
                     className="w-full bg-primary-gradient text-white py-2 rounded-xl font-semibold text-sm hover-primary-gradient transition-colors duration-200"
                   >
                     Start Tutorial
@@ -192,7 +189,7 @@ export default function Tutorials() {
             Access our complete online library of 500+ interactive tutorials
           </p>
           <button
-            onClick={() => setIsLoginOpen(true)}
+            onClick={() => window.location.href = '/login'}
             className="bg-white text-primary-start px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors duration-200"
           >
             Unlock All Tutorials
@@ -200,7 +197,6 @@ export default function Tutorials() {
         </div>
       </section>
 
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </div>
   );
 }

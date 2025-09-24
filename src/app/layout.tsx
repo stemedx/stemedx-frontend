@@ -61,7 +61,7 @@ export default function RootLayout({
         <header className="fixed top-0 w-full z-50">
           <Header />
         </header>
-        <main className="flex-1 w-full pt-24">{children}</main>
+        <main className="flex-1 w-full pt-20 sm:pt-14">{children}</main>
         <footer>
           <Footer />
         </footer>
