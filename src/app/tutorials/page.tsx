@@ -274,7 +274,7 @@ export default function Tutorials() {
     // Simulate API call
     setTimeout(() => {
       // Mock tracking logic
-      const trackingData = {
+      const trackingData: Record<string, string> = {
         'TB123456789': 'delivered',
         'TB123456788': 'transit',
         'TB123456787': 'shipped',

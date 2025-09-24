@@ -5,11 +5,12 @@ import Link from "next/link";
 import { HomeNavigation } from "./navbar";
 import { Menu, X, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export function Header() {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const supabase = createClient();
 
   useEffect(() => {

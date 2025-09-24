@@ -270,7 +270,7 @@ export default function Offers() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-white pb-4">
-              ⏰ Don't Miss Out!
+              ⏰ Don&apos;t Miss Out!
             </h2>
             <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
               These special offer prices are available for a limited time only. Join thousands of students who are already saving big on premium STEM education!

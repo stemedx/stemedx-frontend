@@ -40,7 +40,7 @@ export default function Home() {
             >
               Start Learning
             </Link>
-            {" "}with Sri Lanka's Premier Online STEM Learning Platform
+            {" "}with Sri Lanka&apos;s Premier Online STEM Learning Platform
           </p>
         </div>
         <div>

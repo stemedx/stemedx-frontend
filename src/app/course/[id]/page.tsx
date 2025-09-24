@@ -235,7 +235,7 @@ export default function CourseOverview() {
               <div className="space-y-12">
                 {/* What You'll Learn */}
                 <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8">
-                  <h3 className="text-2xl font-bold text-white mb-6">What You'll Learn</h3>
+                  <h3 className="text-2xl font-bold text-white mb-6">What You&apos;ll Learn</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     {course.whatYouLearn.map((item, index) => (
                       <div key={index} className="flex items-start gap-3">

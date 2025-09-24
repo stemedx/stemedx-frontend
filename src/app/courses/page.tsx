@@ -176,7 +176,6 @@ export default function Courses() {
 
   const subjects = ["All", "Physics", "Computer Science", "Engineering", "Science", "Biology"];
   const levels = ["All", "Beginner", "Intermediate", "Advanced"];
-  const grades = ["All", "9", "10", "11", "12"];
 
   // Filter courses based on selected criteria
   const filteredCourses = courses.filter(course => {
