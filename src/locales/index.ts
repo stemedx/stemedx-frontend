@@ -7,6 +7,8 @@ import { authContent as enAuthContent } from './en/auth';
 import { authContent as siAuthContent } from './si/auth';
 import { navbarContent as enNavbarContent } from './en/navbar';
 import { navbarContent as siNavbarContent } from './si/navbar';
+import { tutorialsContent as enTutorialsContent } from './en/tutorials';
+import { tutorialsContent as siTutorialsContent } from './si/tutorials';
 
 export const translations = {
   en: {
@@ -14,6 +16,7 @@ export const translations = {
     home: enHomeContent,
     auth: enAuthContent,
     navbar: enNavbarContent,
+    tutorials: enTutorialsContent,
     // Add more page translations here
     // courses: enCoursesContent,
   },
@@ -22,6 +25,7 @@ export const translations = {
     home: siHomeContent,
     auth: siAuthContent,
     navbar: siNavbarContent,
+    tutorials: siTutorialsContent,
     // Add more page translations here
     // courses: siCoursesContent,
   }

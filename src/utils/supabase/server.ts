@@ -24,6 +24,11 @@ export async function createClient() {
           }
         },
       },
+      auth: {
+        persistSession: true,
+        detectSessionInUrl: true,
+        autoRefreshToken: true,
+      },
     }
   );
 }

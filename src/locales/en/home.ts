@@ -1,7 +1,7 @@
 export const homeContent = {
   hero: {
     title: "Welcome to STEMEdX",
-    subtitle: "Join with Sri Lanka's Premier Online STEM Learning Platform",
+    subtitle: "Start Learning with Sri Lanka's Premier Online STEM Learning Platform",
     buttons: {
       startLearning: "Start Learning",
       takeTour: "Take a Tour"

@@ -36,8 +36,6 @@ export async function updateSession(request: NextRequest) {
   // IMPORTANT: DO NOT REMOVE auth.getUser()
   await supabase.auth.getUser();
 
-  // Allow access to all pages - authentication is handled via modal
-  // Only protect specific routes if needed in the future
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:

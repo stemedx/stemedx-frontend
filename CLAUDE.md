@@ -156,6 +156,34 @@ const CONTENT = getTranslations('pagename', CURRENT_LANGUAGE);
 
 **ALWAYS refer to these rules before making ANY page changes.**
 
+## Authentication & Route Protection
+
+### Public Routes (No Auth Required)
+These routes are accessible to both authenticated and unauthenticated users:
+- `/` - Home page
+- `/login` - Authentication page
+- `/register` - User registration page  
+- `/pricing` - Pricing information (same view for all users)
+- `/reachus` - Contact/reach us page (same view for all users)
+- `/courses` - Course catalog (generic view for unauth, personalized for auth users)
+- `/tutorials` - Tutorial listing (generic view for unauth, personalized for auth users)
+- `/error` - Error pages
+
+### Protected Routes
+Any route not listed above requires authentication and will redirect to home if accessed without auth.
+
+### Middleware Behavior
+- **Unauthenticated users**: Can access public routes, redirected to home from protected routes
+- **Authenticated users**: Can access all routes
+- **Course/Tutorial pages**: Show generic content for unauth users, personalized content for auth users
+- **Pricing/ReachUs pages**: Same content regardless of auth status
+
+### Implementation Notes
+- Route protection handled in `/src/utils/supabase/middleware.ts`
+- Middleware matcher configured in `/src/middleware.ts` 
+- Pages should check auth state to show appropriate content (generic vs personalized)
+- Use `supabase.auth.getUser()` in page components to determine content type
+
 ## Project Information
 - Framework: Next.js 15.5.0 with App Router
 - Styling: Tailwind CSS v4

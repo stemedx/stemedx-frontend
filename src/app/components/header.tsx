@@ -1,14 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { HomeNavigation } from "./navbar";
-import { LoginModal } from "./loginModal";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, BookOpen } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export function Header() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  };
 
   return (
     <>
@@ -36,22 +61,71 @@ export function Header() {
           {/* Component 2: Navigation */}
           <HomeNavigation />
 
-          {/* Component 3: Auth Buttons */}
+          {/* Component 3: Auth Buttons / Profile */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <div className="grid grid-cols-2 gap-2 sm:gap-4">
-              <button
-                onClick={() => setIsLoginOpen(true)}
-                className="glass text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
-              >
-                Login
-              </button>
-              <button
-                onClick={() => setIsLoginOpen(true)}
-                className="bg-primary-gradient text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
-              >
-                Sign Up
-              </button>
-            </div>
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="glass text-white p-2 rounded-full hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
+                >
+                  <User size={24} />
+                </button>
+                
+                {isProfileOpen && (
+                  <div className="absolute right-0 top-12 w-48 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg z-50">
+                    <div className="p-2">
+                      <Link
+                        href="/profile"
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <User size={16} />
+                        Profile
+                      </Link>
+                      <Link
+                        href="/my-courses"
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <BookOpen size={16} />
+                        My Courses
+                      </Link>
+                      <Link
+                        href="/settings"
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <Settings size={16} />
+                        Settings
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors w-full text-left"
+                      >
+                        <LogOut size={16} />
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
+                <Link
+                  href="/login"
+                  className="glass text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="bg-primary-gradient text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -75,31 +149,64 @@ export function Header() {
               
               <div className="space-y-4 pt-6">
                 <div className="gradient-separator mb-4"></div>
-                <button
-                  onClick={() => {
-                    setIsLoginOpen(true);
-                    setIsSideMenuOpen(false);
-                  }}
-                  className="w-full glass text-white px-4 py-2 rounded-3xl font-medium hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => {
-                    setIsLoginOpen(true);
-                    setIsSideMenuOpen(false);
-                  }}
-                  className="w-full bg-primary-gradient text-white px-4 py-2 rounded-3xl font-medium hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
-                >
-                  Sign Up
-                </button>
+                {user ? (
+                  <>
+                    <Link
+                      href="/profile"
+                      onClick={() => setIsSideMenuOpen(false)}
+                      className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
+                    >
+                      <User size={16} />
+                      Profile
+                    </Link>
+                    <Link
+                      href="/my-courses"
+                      onClick={() => setIsSideMenuOpen(false)}
+                      className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
+                    >
+                      <BookOpen size={16} />
+                      My Courses
+                    </Link>
+                    <Link
+                      href="/settings"
+                      onClick={() => setIsSideMenuOpen(false)}
+                      className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
+                    >
+                      <Settings size={16} />
+                      Settings
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors text-left"
+                    >
+                      <LogOut size={16} />
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      onClick={() => setIsSideMenuOpen(false)}
+                      className="w-full glass text-white px-4 py-2 rounded-3xl font-medium hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center block"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/register"
+                      onClick={() => setIsSideMenuOpen(false)}
+                      className="w-full bg-primary-gradient text-white px-4 py-2 rounded-3xl font-medium hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center block"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
       )}
 
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
   );
 }

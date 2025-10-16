@@ -47,7 +47,7 @@ export default function ReachUs() {
     <div className="pt-24 pb-10">
       <div className="mb-10">
         <div className="max-w-7xl mx-auto text-center text-white px-4">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">{CONTENT.header.title}</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">{CONTENT.header.title}</h1>
           <p className="text-lg sm:text-xl lg:text-2xl text-white/90">{CONTENT.header.subtitle}</p>
         </div>
       </div>
