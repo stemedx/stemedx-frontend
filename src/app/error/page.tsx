@@ -1,8 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function ErrorPage() {
+function ErrorContent() {
+  const searchParams = useSearchParams();
+  const errorMessage = searchParams.get('message') || 'We encountered an error while processing your request. Please try again.';
+  
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 w-full max-w-md text-center">
@@ -12,7 +17,7 @@ export default function ErrorPage() {
             Something went wrong
           </h1>
           <p className="text-gray-300">
-            We encountered an error while processing your request. Please try again.
+            {errorMessage}
           </p>
         </div>
 
@@ -26,5 +31,17 @@ export default function ErrorPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ErrorPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    }>
+      <ErrorContent />
+    </Suspense>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useActionState } from "react";
 import { loginWithEmail } from "@/utils/auth-actions";
 import { GoogleIcon } from "@/app/components/icons";
 import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
@@ -16,31 +16,9 @@ interface AuthContent {
 }
 
 export default function LoginPage() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [state, formAction, isPending] = useActionState(loginWithEmail, undefined);
   
   const AUTH_CONTENT = getTranslations('auth', CURRENT_LANGUAGE) as AuthContent;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const result = await loginWithEmail(email, password);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        window.location.href = '/';
-      }
-    } catch {
-      setError(AUTH_CONTENT?.modal?.errors?.unexpected || "An unexpected error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <>
@@ -53,37 +31,35 @@ export default function LoginPage() {
         </p>
       </div>
 
-        {error && (
+        {state?.error && (
           <div className="bg-red-500/20 border border-red-400/30 text-red-300 p-3 rounded-lg mb-4 text-sm">
-            {error}
+            {state.error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form action={formAction} className="space-y-4">
           <input
+            name="email"
             type="email"
             placeholder={AUTH_CONTENT?.modal?.fields?.email || "Email Address"}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             required
           />
           
           <input
+            name="password"
             type="password"
             placeholder={AUTH_CONTENT?.modal?.fields?.password || "Password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             required
           />
           
           <button
             type="submit"
-            disabled={loading}
+            disabled={isPending}
             className="w-full bg-primary-gradient text-white p-3 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 transition-opacity"
           >
-            {loading ? (AUTH_CONTENT?.modal?.loading?.login || "Signing In...") : (AUTH_CONTENT?.modal?.buttons?.login || "Sign In")}
+            {isPending ? (AUTH_CONTENT?.modal?.loading?.login || "Signing In...") : (AUTH_CONTENT?.modal?.buttons?.login || "Sign In")}
           </button>
           
           <div className="text-center">

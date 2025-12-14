@@ -1,193 +1,72 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getCoursesWithInstructors } from "@/services/api";
+import { Course, Instructor, Subject } from "@/types/api";
+
+type CourseWithInstructor = Course & { instructor: Instructor; subject: Subject };
 
 export default function Courses() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedSubject, setSelectedSubject] = useState("All");
-  const [selectedLevel, setSelectedLevel] = useState("All");
-  const itemsPerPage = 8; // 2 rows of 4 cards each
+  const [selectedInstructor, setSelectedInstructor] = useState("All");
+  const [selectedSubjectCode, setSelectedSubjectCode] = useState("All");
+  const [selectedCourse, setSelectedCourse] = useState("All");
+  const [courses, setCourses] = useState<CourseWithInstructor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const itemsPerPage = 8;
 
-  const courses = [
-    {
-      id: 1,
-      title: "Advanced Physics Online",
-      description:
-        "Master quantum mechanics through interactive simulations and virtual labs",
-      duration: "12 weeks",
-      level: "Advanced",
-      image: "🔬",
-      subject: "Physics",
-      grade: "12",
-    },
-    {
-      id: 2,
-      title: "Data Science Bootcamp",
-      description:
-        "Complete online program with Python, ML, and real-world projects",
-      duration: "16 weeks",
-      level: "Intermediate",
-      image: "📊",
-      subject: "Computer Science",
-      grade: "11",
-    },
-    {
-      id: 3,
-      title: "Virtual Robotics Lab",
-      description:
-        "Program and simulate robots online with industry-standard tools",
-      duration: "20 weeks",
-      level: "Advanced",
-      image: "🤖",
-      subject: "Engineering",
-      grade: "12",
-    },
-    {
-      id: 4,
-      title: "Environmental Science Online",
-      description: "Interactive modules on climate science and sustainability",
-      duration: "10 weeks",
-      level: "Beginner",
-      image: "🌱",
-      subject: "Science",
-      grade: "10",
-    },
-    {
-      id: 5,
-      title: "Biomedical Engineering Digital",
-      description: "Virtual labs for medical device design and biotechnology",
-      duration: "18 weeks",
-      level: "Advanced",
-      image: "🧬",
-      subject: "Biology",
-      grade: "12",
-    },
-    {
-      id: 6,
-      title: "Computer Vision Masterclass",
-      description: "Online deep learning course with hands-on AI projects",
-      duration: "14 weeks",
-      level: "Intermediate",
-      image: "👁️",
-      subject: "Computer Science",
-      grade: "11",
-    },
-    {
-      id: 7,
-      title: "Artificial Intelligence Fundamentals",
-      description: "Learn the basics of AI and machine learning algorithms",
-      duration: "15 weeks",
-      level: "Intermediate",
-      image: "🤖",
-      subject: "Computer Science",
-      grade: "12",
-    },
-    {
-      id: 8,
-      title: "Quantum Computing Introduction",
-      description: "Explore quantum algorithms and quantum programming",
-      duration: "22 weeks",
-      level: "Advanced",
-      image: "⚛️",
-      subject: "Physics",
-      grade: "12",
-    },
-    {
-      id: 9,
-      title: "Cybersecurity Essentials",
-      description: "Protect systems and networks from digital attacks",
-      duration: "13 weeks",
-      level: "Intermediate",
-      image: "🔒",
-      subject: "Computer Science",
-      grade: "11",
-    },
-    {
-      id: 10,
-      title: "Web Development Full Stack",
-      description: "Build complete web applications from frontend to backend",
-      duration: "24 weeks",
-      level: "Beginner",
-      image: "💻",
-      subject: "Computer Science",
-      grade: "10",
-    },
-    {
-      id: 11,
-      title: "Biotechnology Research Methods",
-      description: "Advanced laboratory techniques and research methodologies",
-      duration: "16 weeks",
-      level: "Advanced",
-      image: "🧪",
-      subject: "Biology",
-      grade: "11",
-    },
-    {
-      id: 12,
-      title: "Digital Signal Processing",
-      description: "Analyze and process digital signals for various applications",
-      duration: "18 weeks",
-      level: "Advanced",
-      image: "📡",
-      subject: "Engineering",
-      grade: "12",
-    },
-    {
-      id: 13,
-      title: "Mobile App Development",
-      description: "Create iOS and Android applications using modern frameworks",
-      duration: "20 weeks",
-      level: "Intermediate",
-      image: "📱",
-      subject: "Computer Science",
-      grade: "10",
-    },
-    {
-      id: 14,
-      title: "Renewable Energy Systems",
-      description: "Design and optimize solar, wind, and other clean energy systems",
-      duration: "14 weeks",
-      level: "Intermediate",
-      image: "🔋",
-      subject: "Engineering",
-      grade: "11",
-    },
-    {
-      id: 15,
-      title: "Game Development with Unity",
-      description: "Create 2D and 3D games using Unity engine and C# scripting",
-      duration: "26 weeks",
-      level: "Beginner",
-      image: "🎮",
-      subject: "Computer Science",
-      grade: "9",
-    },
-    {
-      id: 16,
-      title: "Nanotechnology Applications",
-      description: "Explore nanoscale engineering and its real-world applications",
-      duration: "17 weeks",
-      level: "Advanced",
-      image: "🔬",
-      subject: "Engineering",
-      grade: "12",
-    }
-  ];
+  // Load courses from API
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        setLoading(true);
+        const coursesData = await getCoursesWithInstructors();
+        setCourses(coursesData);
+      } catch (err) {
+        setError('Failed to load courses. Please try again later.');
+        console.error('Error fetching courses:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const subjects = ["All", "Physics", "Computer Science", "Engineering", "Science", "Biology"];
-  const levels = ["All", "Beginner", "Intermediate", "Advanced"];
+    fetchCourses();
+  }, []);
+
+  const displayCourses = courses.length > 0 ? courses.map(course => ({
+    id: course.id,
+    title: course.name,
+    description: course.summary,
+    duration: `${course.duration} hours`,
+    subject: course.subject?.name || "",
+    subjectCode: course.subject?.code || "",
+    instructor: `${course.instructor.first_name} ${course.instructor.last_name}`,
+    price: course.price,
+    thumbnail_url: course.thumbnail_url,
+  })) : [];
+
+  // Get unique values for filters
+  const subjects = ["All", ...Array.from(new Set(displayCourses.map(course => course.subject).filter(Boolean)))];
+  const instructors = ["All", ...Array.from(new Set(displayCourses.map(course => course.instructor).filter(Boolean)))];
+  const subjectCodes = ["All", ...Array.from(new Set(displayCourses.map(course => course.subjectCode).filter(Boolean)))];
+  const courseNames = ["All", ...Array.from(new Set(displayCourses.map(course => course.title).filter(Boolean)))];
 
   // Filter courses based on selected criteria
-  const filteredCourses = courses.filter(course => {
+  const filteredCourses = displayCourses.filter(course => {
     const subjectMatch = selectedSubject === "All" || course.subject === selectedSubject;
-    const levelMatch = selectedLevel === "All" || course.level === selectedLevel;
-    return subjectMatch && levelMatch;
+    const instructorMatch = selectedInstructor === "All" || course.instructor === selectedInstructor;
+    const subjectCodeMatch = selectedSubjectCode === "All" || course.subjectCode === selectedSubjectCode;
+    const courseMatch = selectedCourse === "All" || course.title === selectedCourse;
+    
+    return subjectMatch && instructorMatch && subjectCodeMatch && courseMatch;
   });
 
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedSubject, selectedLevel]);
+  }, [selectedSubject, selectedInstructor, selectedSubjectCode, selectedCourse]);
 
   return (
     <div>
@@ -198,18 +77,44 @@ export default function Courses() {
               Online STEM Courses
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-              Learn from anywhere with our interactive online courses designed by industry experts
+              Learn from anywhere with our interactive online courses designed by industry/academic experts
             </p>
           </div>
 
-          {/* Filters Section */}
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-12">
+              <div className="inline-block w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-white mt-4">Loading courses...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-12">
+              <div className="bg-red-500/20 border border-red-400 rounded-lg p-6 max-w-md mx-auto">
+                <p className="text-red-200">{error}</p>
+                <button 
+                  onClick={() => window.location.reload()} 
+                  className="mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Content */}
+          {!loading && !error && (
+            <>
+              {/* Filters Section */}
           <div className="mb-12 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
-            <div className="flex flex-col sm:flex-row gap-6 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Subject Filter */}
-              <div className="flex-1">
+              <div>
                 <label className="block text-white font-medium mb-3">
                   <span className="text-xl mr-2">🎯</span>
-                  Filter by Subject
+                  Subject
                 </label>
                 <select
                   value={selectedSubject}
@@ -223,46 +128,86 @@ export default function Courses() {
                   ))}
                 </select>
               </div>
-
-              {/* Level Filter */}
-              <div className="flex-1">
+              
+              {/* Subject Code Filter */}
+              <div>
                 <label className="block text-white font-medium mb-3">
-                  <span className="text-xl mr-2">📊</span>
-                  Filter by Level
+                  <span className="text-xl mr-2">📋</span>
+                  Subject Code
                 </label>
                 <select
-                  value={selectedLevel}
-                  onChange={(e) => setSelectedLevel(e.target.value)}
+                  value={selectedSubjectCode}
+                  onChange={(e) => setSelectedSubjectCode(e.target.value)}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-md"
                 >
-                  {levels.map((level) => (
-                    <option key={level} value={level} className="bg-gray-800">
-                      {level}
+                  {subjectCodes.map((code) => (
+                    <option key={code} value={code} className="bg-gray-800">
+                      {code}
                     </option>
                   ))}
                 </select>
               </div>
-
-              {/* Results Count & Clear Filters */}
-              <div className="flex-1">
-                <div className="text-center">
-                  <div className="text-white font-medium mb-2">
-                    <span className="text-xl mr-2">📚</span>
-                    {filteredCourses.length} courses found
-                  </div>
-                  {(selectedSubject !== "All" || selectedLevel !== "All") && (
-                    <button
-                      onClick={() => {
-                        setSelectedSubject("All");
-                        setSelectedLevel("All");
-                      }}
-                      className="bg-orange-500/20 hover:bg-orange-500/30 text-orange-200 hover:text-orange-100 font-medium px-4 py-2 rounded-lg transition-all duration-300 border border-orange-400/30"
-                    >
-                      Clear Filters
-                    </button>
-                  )}
-                </div>
+              
+              {/* Instructor Filter */}
+              <div>
+                <label className="block text-white font-medium mb-3">
+                  <span className="text-xl mr-2">👨‍🏫</span>
+                  Instructor
+                </label>
+                <select
+                  value={selectedInstructor}
+                  onChange={(e) => setSelectedInstructor(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-md"
+                >
+                  {instructors.map((instructor) => (
+                    <option key={instructor} value={instructor} className="bg-gray-800">
+                      {instructor}
+                    </option>
+                  ))}
+                </select>
               </div>
+              
+              {/* Course Name Filter */}
+              <div>
+                <label className="block text-white font-medium mb-3">
+                  <span className="text-xl mr-2">📘</span>
+                  Course Name
+                </label>
+                <select
+                  value={selectedCourse}
+                  onChange={(e) => setSelectedCourse(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-md"
+                >
+                  {courseNames.map((courseName) => (
+                    <option key={courseName} value={courseName} className="bg-gray-800">
+                      {courseName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+
+            
+            {/* Results Count & Clear Filters */}
+            <div className="mt-6 flex justify-between items-center">
+              <div className="text-white font-medium">
+                <span className="text-xl mr-2">📚</span>
+                {filteredCourses.length} courses found
+              </div>
+              {(selectedSubject !== "All" || selectedInstructor !== "All" || selectedSubjectCode !== "All" || selectedCourse !== "All") && (
+                <button
+                  onClick={() => {
+                    setSelectedSubject("All");
+                    setSelectedInstructor("All");
+                    setSelectedSubjectCode("All");
+                    setSelectedCourse("All");
+                  }}
+                  className="bg-orange-500/20 hover:bg-orange-500/30 text-orange-200 hover:text-orange-100 font-medium px-4 py-2 rounded-lg transition-all duration-300 border border-orange-400/30"
+                >
+                  Clear All Filters
+                </button>
+              )}
             </div>
           </div>
           {/* Calculate pagination */}
@@ -278,31 +223,51 @@ export default function Courses() {
                   {currentCourses.map((course) => (
                     <div
                       key={course.id}
-                      className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:scale-105 transition-all duration-300 h-full flex flex-col"
+                      className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:scale-105 transition-all duration-300 h-full flex flex-col relative"
                     >
-                      <div className="text-4xl mb-4 text-center">
-                        {course.image}
-                      </div>
-                      <h3 className="text-lg sm:text-xl font-semibold text-white pb-3">
+                      {/* Subject tag in top right corner */}
+                      {course.subject && (
+                        <div className="absolute top-4 right-4">
+                          <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-400/30 rounded-full text-xs font-medium">
+                            {course.subject}
+                          </span>
+                        </div>
+                      )}
+                      
+                      <h3 className={`text-lg sm:text-xl font-semibold text-white pb-3 ${course.subject ? 'pr-20' : ''}`}>
                         {course.title}
                       </h3>
                       <p className="text-sm sm:text-base text-gray-300 mb-4 flex-1">{course.description}</p>
 
-                      <div className="flex justify-between items-center mb-4">
-                        <span className="text-sm text-gray-300">
-                          Duration: {course.duration}
-                        </span>
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            course.level === "Beginner"
-                              ? "bg-green-500/20 text-green-300"
-                              : course.level === "Intermediate"
-                              ? "bg-yellow-500/20 text-yellow-300"
-                              : "bg-red-500/20 text-red-300"
-                          }`}
-                        >
-                          {course.level}
-                        </span>
+                      <div className="space-y-3 mb-4">
+                        {course.duration && (
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-300">
+                              Duration: {course.duration}
+                            </span>
+                          </div>
+                        )}
+                        
+                        {course.instructor && (
+                          <div className="space-y-2">
+                            <div className="text-sm text-gray-300">
+                              <span className="text-purple-300">Instructor:</span> {course.instructor}
+                            </div>
+                            {course.subjectCode && (
+                              <div>
+                                <span className="px-2 py-1 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded text-xs font-medium">
+                                  {course.subjectCode}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        
+                        {course.price && (
+                          <div className="text-lg font-semibold text-green-400">
+                            LKR {parseFloat(course.price).toLocaleString()}
+                          </div>
+                        )}
                       </div>
 
                       <button
@@ -375,6 +340,8 @@ export default function Courses() {
               </>
             );
           })()}
+            </>
+          )}
         </div>
       </div>
 

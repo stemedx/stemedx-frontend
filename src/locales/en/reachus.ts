@@ -57,7 +57,7 @@ export const reachusContent = {
         id: "address",
         icon: "📍",
         title: "Address",
-        content: "StemXio LLC\n1234 Innovation Drive\nSilicon Valley, CA 94085\nUnited States",
+        content: "Accivion LLC\n1234 Innovation Drive\nSilicon Valley, CA 94085\nUnited States",
         action: null,
         enabled: true,
       },

@@ -17,7 +17,13 @@ export async function logout() {
   redirect("/");
 }
 
-export async function loginWithEmail(email: string, password: string) {
+export async function loginWithEmail(
+  _prevState: { error: string } | undefined,
+  formData: FormData
+): Promise<{ error: string }> {
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+  
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -30,7 +36,7 @@ export async function loginWithEmail(email: string, password: string) {
   }
 
   revalidatePath("/", "layout");
-  return { success: true };
+  redirect("/");
 }
 
 export async function signupWithEmail(email: string, password: string, name?: string) {
@@ -51,5 +57,5 @@ export async function signupWithEmail(email: string, password: string, name?: st
   }
 
   revalidatePath("/", "layout");
-  return { success: true };
+  redirect("/");
 }

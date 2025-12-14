@@ -4,26 +4,32 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { HomeNavigation } from "./navbar";
 import { Menu, X, User, LogOut, Settings, BookOpen } from "lucide-react";
+import { logout } from "@/utils/auth-actions";
 import { createClient } from "@/utils/supabase/client";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export function Header() {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [claims, setClaims] = useState<any>(null);
   const supabase = createClient();
+  
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+    const getClaims = async () => {
+      const { data } = await supabase.auth.getClaims();
+      setClaims(data?.claims || null);
     };
 
-    getUser();
+    getClaims();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user || null);
+      async (_, session) => {
+        if (session) {
+          const { data } = await supabase.auth.getClaims();
+          setClaims(data?.claims || null);
+        } else {
+          setClaims(null);
+        }
       }
     );
 
@@ -31,8 +37,7 @@ export function Header() {
   }, []);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    window.location.href = '/';
+    await logout();
   };
 
   return (
@@ -63,7 +68,7 @@ export function Header() {
 
           {/* Component 3: Auth Buttons / Profile */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {user ? (
+            {claims ? (
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -149,7 +154,7 @@ export function Header() {
               
               <div className="space-y-4 pt-6">
                 <div className="gradient-separator mb-4"></div>
-                {user ? (
+                {claims ? (
                   <>
                     <Link
                       href="/profile"
