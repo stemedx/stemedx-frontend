@@ -1,5 +1,3 @@
-"use client";
-
 import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
 import Link from "next/link";
 

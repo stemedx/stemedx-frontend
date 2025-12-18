@@ -18,9 +18,9 @@ export async function logout() {
 }
 
 export async function loginWithEmail(
-  _prevState: { error: string } | undefined,
+  _prevState: { error?: string; success?: boolean } | undefined,
   formData: FormData
-): Promise<{ error: string }> {
+): Promise<{ error?: string; success?: boolean }> {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
   
@@ -39,7 +39,12 @@ export async function loginWithEmail(
   redirect("/");
 }
 
-export async function signupWithEmail(email: string, password: string, name?: string) {
+export async function signupWithEmail(
+  email: string,
+  password: string,
+  first_name: string,
+  last_name: string
+) {
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signUp({
@@ -47,9 +52,54 @@ export async function signupWithEmail(email: string, password: string, name?: st
     password,
     options: {
       data: {
-        full_name: name,
+        first_name: first_name,
+        last_name: last_name,
       },
     },
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/");
+}
+
+export async function sendPasswordResetEmail(
+  _prevState: { error?: string; success?: boolean } | undefined,
+  formData: FormData
+): Promise<{ error?: string; success?: boolean }> {
+  const email = formData.get('email') as string;
+  
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/confirm?next=/reset-password`,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  return { success: true };
+}
+
+export async function resetPassword(
+  _prevState: { error?: string; success?: boolean } | undefined,
+  formData: FormData
+): Promise<{ error?: string; success?: boolean }> {
+  const password = formData.get('password') as string;
+  const confirmPassword = formData.get('confirmPassword') as string;
+  
+  if (password !== confirmPassword) {
+    return { error: "Passwords do not match" };
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.updateUser({
+    password: password
   });
 
   if (error) {

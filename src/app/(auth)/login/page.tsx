@@ -3,6 +3,7 @@ import { useActionState } from "react";
 import { loginWithEmail } from "@/utils/auth-actions";
 import { GoogleIcon } from "@/app/components/icons";
 import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
+import Link from "next/link";
 
 interface AuthContent {
   modal: {
@@ -11,6 +12,7 @@ interface AuthContent {
     fields: { email: string; password: string };
     buttons: { login: string; googleLogin: string };
     loading: { login: string };
+    links: { forgotPassword: string };
     errors: { unexpected: string };
   };
 }
@@ -61,6 +63,15 @@ export default function LoginPage() {
           >
             {isPending ? (AUTH_CONTENT?.modal?.loading?.login || "Signing In...") : (AUTH_CONTENT?.modal?.buttons?.login || "Sign In")}
           </button>
+
+          <div className="text-center">
+            <Link 
+              href="/forgot-password" 
+              className="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+            >
+              {AUTH_CONTENT?.modal?.links?.forgotPassword || "Forgot Password?"}
+            </Link>
+          </div>
           
           <div className="text-center">
             <div className="border-t border-white/20 my-4"></div>

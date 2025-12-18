@@ -1,43 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { HomeNavigation } from "./navbar";
 import { Menu, X, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { logout } from "@/utils/auth-actions";
-import { createClient } from "@/utils/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function Header() {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [claims, setClaims] = useState<any>(null);
-  const supabase = createClient();
-  
-
-  useEffect(() => {
-    const getClaims = async () => {
-      const { data } = await supabase.auth.getClaims();
-      setClaims(data?.claims || null);
-    };
-
-    getClaims();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_, session) => {
-        if (session) {
-          const { data } = await supabase.auth.getClaims();
-          setClaims(data?.claims || null);
-        } else {
-          setClaims(null);
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, []);
+  const { user, refreshAuth } = useAuth();
 
   const handleSignOut = async () => {
-    await logout();
+    try {
+      await logout();
+    } catch (error) {
+      // If server action fails, refresh auth state
+      await refreshAuth();
+    }
   };
 
   return (
@@ -68,7 +49,7 @@ export function Header() {
 
           {/* Component 3: Auth Buttons / Profile */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {claims ? (
+            {user ? (
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -154,7 +135,7 @@ export function Header() {
               
               <div className="space-y-4 pt-6">
                 <div className="gradient-separator mb-4"></div>
-                {claims ? (
+                {user ? (
                   <>
                     <Link
                       href="/profile"
