@@ -2,7 +2,6 @@ import "./globals.css";
 import { Header } from "@/app/components/header";
 import { CustomScrollbar } from "@/app/components/scrollbar";
 import { Footer } from "@/app/components/footer";
-import { AuthProvider } from "@/contexts/AuthContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -58,7 +57,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col bg-black`}
       >
-        <AuthProvider>
           <CustomScrollbar />
           <header className="fixed top-0 w-full z-50">
             <Header />
@@ -67,7 +65,6 @@ export default function RootLayout({
           <footer>
             <Footer />
           </footer>
-        </AuthProvider>
       </body>
     </html>
   );

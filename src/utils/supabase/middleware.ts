@@ -34,7 +34,20 @@ export async function updateSession(request: NextRequest) {
   // issues with users being randomly logged out.
 
   // IMPORTANT: DO NOT REMOVE auth.getClaims()
-  await supabase.auth.getClaims();
+  const { data: { session }, error } = await supabase.auth.getSession();
+
+  // Protected routes that require authentication
+  const protectedRoutes = ['/profile', '/my-courses', '/settings'];
+  const isProtectedRoute = protectedRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  );
+
+  // Redirect unauthenticated users from protected routes
+  if (isProtectedRoute && !session) {
+    const redirectUrl = new URL('/login', request.url);
+    redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:

@@ -9,6 +9,8 @@ import { navbarContent as enNavbarContent } from './en/navbar';
 import { navbarContent as siNavbarContent } from './si/navbar';
 import { tutorialsContent as enTutorialsContent } from './en/tutorials';
 import { tutorialsContent as siTutorialsContent } from './si/tutorials';
+import { profileContent as enProfileContent } from './en/profile';
+import { profileContent as siProfileContent } from './si/profile';
 
 export const translations = {
   en: {
@@ -17,6 +19,7 @@ export const translations = {
     auth: enAuthContent,
     navbar: enNavbarContent,
     tutorials: enTutorialsContent,
+    profile: enProfileContent,
     // Add more page translations here
     // courses: enCoursesContent,
   },
@@ -26,6 +29,7 @@ export const translations = {
     auth: siAuthContent,
     navbar: siNavbarContent,
     tutorials: siTutorialsContent,
+    profile: siProfileContent,
     // Add more page translations here
     // courses: siCoursesContent,
   }

@@ -54,7 +54,7 @@ export default function ReachUs() {
 
       <div className="space-y-10 mx-auto max-w-7xl px-4">
         <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 p-6 sm:p-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 sm:gap-10 p-8 sm:p-12">
             {CONTENT.contactInfo.methods
               .filter((method) => method.enabled)
               .map((method, index) => {
@@ -94,12 +94,12 @@ export default function ReachUs() {
                         : ""
                     }`}
                   >
-                    <div className="bg-secondary-gradient flex flex-col items-center justify-center text-center h-full w-full rounded-xl p-3 sm:p-4 group-hover:scale-110 transition-transform duration-300">
-                      <div className="text-2xl sm:text-3xl text-white">{method.icon}</div>
-                      <h3 className="font-semibold text-white mb-2 sm:mb-3 text-base sm:text-lg">
+                    <div className="bg-secondary-gradient flex flex-col items-center justify-center text-center h-full w-full rounded-xl p-6 sm:p-8 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl sm:text-4xl text-white mb-3">{method.icon}</div>
+                      <h3 className="font-semibold text-white mb-3 sm:mb-4 text-lg sm:text-xl">
                         {method.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-white/80 whitespace-pre-line leading-relaxed">
+                      <p className="text-sm sm:text-base text-white/80 whitespace-pre-line leading-relaxed">
                         {method.content}
                       </p>
                     </div>
