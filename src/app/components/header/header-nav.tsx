@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { HomeNavigation } from "./navbar";
+import { HomeNavigation } from "../navbar";
 import { Menu, X, User } from "lucide-react";
 import { ProfileDropdown } from "./profile-dropdown";
 
@@ -13,6 +13,21 @@ interface HeaderNavProps {
 export function HeaderNav({ claims }: HeaderNavProps) {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Handle click outside to close profile dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -43,7 +58,7 @@ export function HeaderNav({ claims }: HeaderNavProps) {
           {/* Component 3: Auth Buttons / Profile */}
           <div className="flex items-center gap-2 sm:gap-4">
             {claims ? (
-              <div className="relative">
+              <div className="relative" ref={profileDropdownRef}>
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="glass text-white p-2 rounded-full hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
@@ -53,7 +68,7 @@ export function HeaderNav({ claims }: HeaderNavProps) {
                 
                 {isProfileOpen && (
                   <div className="absolute right-0 top-12 w-48 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg z-50">
-                    <ProfileDropdown />
+                    <ProfileDropdown onLinkClick={() => setIsProfileOpen(false)} />
                   </div>
                 )}
               </div>

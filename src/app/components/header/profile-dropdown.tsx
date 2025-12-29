@@ -12,7 +12,7 @@ export function ProfileDropdown({ isMobile = false, onLinkClick }: ProfileDropdo
     return (
       <>
         <Link
-          href="/profile"
+          href="/profile?tab=profile"
           onClick={onLinkClick}
           className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
         >
@@ -20,7 +20,7 @@ export function ProfileDropdown({ isMobile = false, onLinkClick }: ProfileDropdo
           Profile
         </Link>
         <Link
-          href="/my-courses"
+          href="/profile?tab=courses"
           onClick={onLinkClick}
           className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
         >
@@ -28,7 +28,7 @@ export function ProfileDropdown({ isMobile = false, onLinkClick }: ProfileDropdo
           My Courses
         </Link>
         <Link
-          href="/settings"
+          href="/profile?tab=settings"
           onClick={onLinkClick}
           className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
         >
@@ -51,21 +51,24 @@ export function ProfileDropdown({ isMobile = false, onLinkClick }: ProfileDropdo
   return (
     <div className="p-2">
       <Link
-        href="/profile"
+        href="/profile?tab=profile"
+        onClick={onLinkClick}
         className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
       >
         <User size={16} />
         Profile
       </Link>
       <Link
-        href="/my-courses"
+        href="/profile?tab=courses"
+        onClick={onLinkClick}
         className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
       >
         <BookOpen size={16} />
         My Courses
       </Link>
       <Link
-        href="/settings"
+        href="/profile?tab=settings"
+        onClick={onLinkClick}
         className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
       >
         <Settings size={16} />

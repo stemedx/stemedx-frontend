@@ -24,6 +24,11 @@ export default function RegisterPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [countryCode, setCountryCode] = useState('+94');
+  const [nic, setNic] = useState('');
+  const [dob, setDob] = useState('');
+  const [address, setAddress] = useState('');
   
   const AUTH_CONTENT = getTranslations('auth', CURRENT_LANGUAGE) as AuthContent;
 
@@ -39,12 +44,25 @@ export default function RegisterPage() {
         setLoading(false);
         return;
       }
+
+      // Validate full phone number with country code
+      const fullPhoneNumber = `${countryCode}${phone}`;
+      const fullPhoneRegex = /^\+\d{10,15}$/; // Country code + phone digits should be 10-15 total
+      if (!fullPhoneRegex.test(fullPhoneNumber)) {
+        setError("Invalid phone number format");
+        setLoading(false);
+        return;
+      }
       
       const result = await signupWithEmail(
         email,
         password,
         firstName,
-        lastName
+        lastName,
+        fullPhoneNumber,
+        nic,
+        dob,
+        address
       );
       if (result.error) {
         setError(result.error);
@@ -76,52 +94,167 @@ export default function RegisterPage() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder={"First Name"}
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              First Name <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              Last Name <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
 
-        <input
-          type="text"
-          placeholder={"Last Name"}
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              Email Address <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="email"
+              placeholder={AUTH_CONTENT?.modal?.fields?.email || "Email Address"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              Phone Number <span className="text-red-400">*</span>
+            </label>
+            <div className="grid grid-cols-[100px_1fr] gap-2">
+              <select
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                required
+              >
+                <option value="+94" className="bg-gray-900">🇱🇰 +94</option>
+                <option value="+1" className="bg-gray-900">🇺🇸 +1</option>
+                <option value="+44" className="bg-gray-900">🇬🇧 +44</option>
+                <option value="+91" className="bg-gray-900">🇮🇳 +91</option>
+                <option value="+61" className="bg-gray-900">🇦🇺 +61</option>
+                <option value="+971" className="bg-gray-900">🇦🇪 +971</option>
+                <option value="+33" className="bg-gray-900">🇫🇷 +33</option>
+                <option value="+49" className="bg-gray-900">🇩🇪 +49</option>
+                <option value="+81" className="bg-gray-900">🇯🇵 +81</option>
+                <option value="+82" className="bg-gray-900">🇰🇷 +82</option>
+                <option value="+86" className="bg-gray-900">🇨🇳 +86</option>
+                <option value="+65" className="bg-gray-900">🇸🇬 +65</option>
+                <option value="+60" className="bg-gray-900">🇲🇾 +60</option>
+                <option value="+66" className="bg-gray-900">🇹🇭 +66</option>
+                <option value="+84" className="bg-gray-900">🇻🇳 +84</option>
+              </select>
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                value={phone}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                  if (value.length <= 15) { // Allow up to 15 digits for international numbers
+                    setPhone(value);
+                  }
+                }}
+                maxLength={15}
+                className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                required
+              />
+            </div>
+          </div>
+        </div>
 
-        <input
-          type="email"
-          placeholder={AUTH_CONTENT?.modal?.fields?.email || "Email Address"}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              NIC Number <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="NIC Number"
+              value={nic}
+              onChange={(e) => setNic(e.target.value)}
+              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              Date of Birth <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="date"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+              max={new Date(new Date().setFullYear(new Date().getFullYear() - 13)).toISOString().split('T')[0]}
+              min={new Date(new Date().setFullYear(new Date().getFullYear() - 120)).toISOString().split('T')[0]}
+              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent [color-scheme:dark] cursor-pointer"
+              required
+            />
+          </div>
+        </div>
 
-        <input
-          type="password"
-          placeholder={AUTH_CONTENT?.modal?.fields?.password || "Password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              Password <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="password"
+              placeholder={AUTH_CONTENT?.modal?.fields?.password || "Password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              Confirm Password <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="password"
+              placeholder={
+                AUTH_CONTENT?.modal?.fields?.confirmPassword || "Confirm Password"
+              }
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
 
-        <input
-          type="password"
-          placeholder={
-            AUTH_CONTENT?.modal?.fields?.confirmPassword || "Confirm Password"
-          }
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-        />
+        <div>
+          <label className="block text-white text-sm font-medium mb-2">
+            Address <span className="text-gray-400">(Optional)</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Enter your address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          />
+        </div>
 
         <button
           type="submit"

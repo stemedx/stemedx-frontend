@@ -43,7 +43,11 @@ export async function signupWithEmail(
   email: string,
   password: string,
   first_name: string,
-  last_name: string
+  last_name: string,
+  phone: string,
+  nic: string,
+  dob: string,
+  address?: string,
 ) {
   const supabase = await createClient();
 
@@ -54,11 +58,16 @@ export async function signupWithEmail(
       data: {
         first_name: first_name,
         last_name: last_name,
+        nic: nic,
+        phone: phone,
+        dob: dob,
+        address: address || "",
       },
     },
   });
 
   if (error) {
+    console.log(error)
     return { error: error.message };
   }
 

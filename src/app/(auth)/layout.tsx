@@ -36,7 +36,7 @@ export default function AuthLayout({
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 w-full max-w-md">
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 w-full max-w-2xl">
         {/* Tab Headers - only show for login/register pages */}
         {showTabs && (
           <div className="flex bg-white/5 rounded-lg p-1 mb-6">

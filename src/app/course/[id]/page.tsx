@@ -7,7 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 const getCourseData = (id: string) => {
   const courses = [
     {
-      id: 1,
+      id: id, // Use the actual UUID from the URL
       title: "Advanced Physics Online",
       description: "Master quantum mechanics through interactive simulations and virtual labs",
       duration: "12 weeks",
@@ -64,7 +64,8 @@ const getCourseData = (id: string) => {
     }
   ];
   
-  return courses.find(course => course.id === parseInt(id));
+  // Return the first course (since we only have mock data for one course)
+  return courses[0];
 };
 
 export default function CourseOverview() {

@@ -1,7 +1,8 @@
 import "./globals.css";
-import { Header } from "@/app/components/header";
+import { Header } from "@/app/components/header/header";
 import { CustomScrollbar } from "@/app/components/scrollbar";
 import { Footer } from "@/app/components/footer";
+import { EmailVerificationBanner } from "@/app/components/email-verification-banner";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -58,6 +59,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col bg-black`}
       >
           <CustomScrollbar />
+          <EmailVerificationBanner />
           <header className="fixed top-0 w-full z-50">
             <Header />
           </header>
