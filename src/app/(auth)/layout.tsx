@@ -22,8 +22,11 @@ export default function AuthLayout({
   
   const AUTH_CONTENT = getTranslations('auth', CURRENT_LANGUAGE) as AuthContent;
 
-  // Hide tabs for forgot-password and reset-password pages
-  const showTabs = !pathname.includes('/forgot-password') && !pathname.includes('/reset-password');
+  // Hide tabs for forgot-password, reset-password, and confirm-email pages
+  const showTabs = !pathname.includes('/forgot-password') && !pathname.includes('/reset-password') && !pathname.includes('/confirm-email');
+
+  // Don't wrap confirm-email page in the auth box
+  const isConfirmEmailPage = pathname.includes('/confirm-email');
 
   useEffect(() => {
     setActiveTab(pathname === '/register' ? 'signup' : 'login');
@@ -33,6 +36,11 @@ export default function AuthLayout({
     setActiveTab(tab);
     router.push(tab === 'login' ? '/login' : '/register');
   };
+
+  // Render confirm-email page without the auth box
+  if (isConfirmEmailPage) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
