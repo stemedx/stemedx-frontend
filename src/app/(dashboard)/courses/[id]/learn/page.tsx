@@ -1,101 +1,76 @@
 import LearnPage from "@/components/lesson-player";
 import { redirect } from "next/navigation";
+import { coursesServerApi } from "@/lib/services/api/courses-server";
+import { CourseModule, Course } from "@/lib/types/courses";
 
-// Mock course data with lessons
-const getCourseData = (id: string) => {
-  const courses = [
-    {
-      id: id, // Use the actual UUID from the URL
-      title: "Advanced Physics Online",
-      instructor: "Dr. Sarah Johnson",
-      sections: [
-        {
-          id: "a042429f-278f-4339-9779-426801551c73",
-          title: "Introduction to Quantum Physics",
-          lessons: [
-            {
-              id: 1,
-              title: "What is Quantum Physics?",
-              duration: "15:30",
-              completed: true,
-              type: "video",
-            },
-            {
-              id: 2,
-              title: "Historical Development",
-              duration: "12:45",
-              completed: true,
-              type: "video",
-            },
-            {
-              id: 3,
-              title: "Key Principles Overview",
-              duration: "18:20",
-              completed: false,
-              type: "video",
-            },
-            {
-              id: 4,
-              title: "Practice Quiz",
-              duration: "10:00",
-              completed: false,
-              type: "quiz",
-            },
-          ],
-        },
-        {
-          id: "b9759c94-918a-447b-b47d-2080968d95a0",
-          title: "Wave Functions and Probability",
-          lessons: [
-            {
-              id: 5,
-              title: "Understanding Wave Functions",
-              duration: "20:15",
-              completed: false,
-              type: "video",
-            },
-            {
-              id: 6,
-              title: "Probability Distributions",
-              duration: "16:30",
-              completed: false,
-              type: "video",
-            },
-            {
-              id: 7,
-              title: "Normalization",
-              duration: "14:45",
-              completed: false,
-              type: "video",
-            },
-            {
-              id: 8,
-              title: "Lab Exercise 1",
-              duration: "30:00",
-              completed: false,
-              type: "lab",
-            },
-          ],
-        }
-      ],
-    },
-  ];
+// Transform API data to match LearnPage expected structure
+const transformCourseData = (
+  modules: CourseModule[],
+  courseDetails: Course,
+  courseId: string
+) => {
+  // Create a lesson ID counter to ensure unique numeric IDs
+  let lessonIdCounter = 1;
 
-  // Return the first course with the provided ID (since we only have mock data for one course)
-  return courses[0];
+  return {
+    id: courseId,
+    title: courseDetails.name,
+    instructor: courseDetails.instructor
+      ? `${courseDetails.instructor.first_name} ${courseDetails.instructor.last_name}`
+      : "Instructor Name",
+    sections: modules
+      .sort((a, b) => a.order - b.order)
+      .map((module) => ({
+        id: module.id,
+        title: module.title,
+        lessons: module.CourseModuleVideos
+          .sort((a, b) => a.order - b.order)
+          .map((video) => ({
+            id: lessonIdCounter++,
+            title: video.title,
+            duration: `${module.duration}:00`, // Using module duration, format as mm:ss
+            completed: false, // TODO: Fetch user progress from API
+            type: "video" as const,
+            videoUrl: video.video_url,
+          })),
+      })),
+  };
 };
 
 export default async function Learn({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ lesson?: string }>;
 }) {
   const { id: courseId } = await params;
-  const course = getCourseData(courseId);
+  const { lesson } = await searchParams;
 
-  if (!course) {
+  // Parse initial lesson ID from query params (default to 1)
+  const initialLessonId = lesson ? parseInt(lesson, 10) : 1;
+
+  try {
+    // Fetch course details and modules in parallel
+    const [courseDetails, modules] = await Promise.all([
+      coursesServerApi.getById(courseId),
+      coursesServerApi.getModules(courseId),
+    ]);
+
+    if (!modules || modules.length === 0) {
+      redirect("/courses");
+    }
+
+    const course = transformCourseData(modules, courseDetails, courseId);
+    return (
+      <LearnPage
+        course={course}
+        courseId={courseId}
+        initialLessonId={isNaN(initialLessonId) ? 1 : initialLessonId}
+      />
+    );
+  } catch (error) {
+    console.error("Failed to fetch course data:", error);
     redirect("/courses");
   }
-
-  return <LearnPage course={course} courseId={courseId} />;
 }

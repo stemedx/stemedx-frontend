@@ -276,7 +276,7 @@ export default function Courses() {
                         onClick={() => window.location.href = `/courses/${course.id}`}
                         className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 mt-auto"
                       >
-                        Enroll Now
+                        Start Learning
                       </button>
                     </div>
                   ))}
@@ -346,28 +346,6 @@ export default function Courses() {
           )}
         </div>
       </div>
-
-      <div className="gradient-separator"></div>
-
-      <div className="py-10 sm:py-16 lg:py-20">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white pb-4">
-              Ready to Learn Online?
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-              Join thousands of students learning STEM online with flexible scheduling
-            </p>
-            <button
-              onClick={() => window.location.href = '/login'}
-              className="bg-primary-gradient text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105"
-            >
-              Get Started Today
-            </button>
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 }

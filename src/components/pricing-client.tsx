@@ -263,32 +263,6 @@ export default function Offers() {
           </div>
         </div>
       </div>
-
-      <div className="gradient-separator"></div>
-
-      <div className="py-10 sm:py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white pb-4">
-              ⏰ Don&apos;t Miss Out!
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-              These special offer prices are available for a limited time only. Join thousands of students who are already saving big on premium STEM education!
-            </p>
-            <div className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 mb-6 max-w-md mx-auto">
-              <p className="text-red-300 text-sm font-semibold">
-                ⚡ Offer expires in: 7 days, 23 hours, 45 minutes
-              </p>
-            </div>
-            <button
-              onClick={() => window.location.href = '/login'}
-              className="bg-primary-gradient text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg shadow-purple-500/30"
-            >
-              🚀 Claim Your Bundle Now
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

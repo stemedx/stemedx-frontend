@@ -581,36 +581,6 @@ export default function Tutorials() {
 
       <div className="gradient-separator"></div>
 
-      <div className="py-10 sm:py-16 lg:py-20">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white pb-4">
-              {CONTENT.delivery.title}
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              {CONTENT.delivery.subtitle}
-            </p>
-            <div className="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              <div className="text-center">
-                <div className="text-4xl mb-2">{CONTENT.delivery.features.shipping.icon}</div>
-                <h3 className="font-semibold text-white mb-1">{CONTENT.delivery.features.shipping.title}</h3>
-                <p className="text-gray-300 text-sm">{CONTENT.delivery.features.shipping.description}</p>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl mb-2">{CONTENT.delivery.features.quality.icon}</div>
-                <h3 className="font-semibold text-white mb-1">{CONTENT.delivery.features.quality.title}</h3>
-                <p className="text-gray-300 text-sm">{CONTENT.delivery.features.quality.description}</p>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl mb-2">{CONTENT.delivery.features.tracking.icon}</div>
-                <h3 className="font-semibold text-white mb-1">{CONTENT.delivery.features.tracking.title}</h3>
-                <p className="text-gray-300 text-sm">{CONTENT.delivery.features.tracking.description}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* CSS Animation */}
       <style jsx>{`
         @keyframes fadeInUp {

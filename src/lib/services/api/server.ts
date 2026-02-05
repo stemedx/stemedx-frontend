@@ -1,16 +1,16 @@
-import { createClient } from '@/lib/services/supabase/client';
+import { createClient } from '@/lib/services/supabase/server';
 
 const BASE_URL = 'http://localhost:3001';
 
-// Base API function
-export async function apiRequest<T>(
+// Server-side API function for use in Server Components
+export async function serverApiRequest<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
 
-  // Get Supabase session token
-  const supabase = createClient();
+  // Get Supabase session token from server
+  const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
   const config: RequestInit = {

@@ -1,5 +1,5 @@
 import { API_CONFIG } from '@/lib/constants/api';
-import { Course, CreateCourseRequest, UpdateCourseRequest } from '@/lib/types/courses';
+import { Course, CreateCourseRequest, UpdateCourseRequest, CourseModule } from '@/lib/types/courses';
 import { Instructor } from '@/lib/types/instructors';
 import { Subject } from '@/lib/types/api';
 import { apiRequest } from './client';
@@ -37,6 +37,11 @@ export const coursesApi = {
     return apiRequest<void>(`${API_CONFIG.ENDPOINTS.COURSES}/${id}`, {
       method: 'DELETE',
     });
+  },
+
+  // Get course modules by course unit ID
+  getModules: (courseUnitId: string): Promise<CourseModule[]> => {
+    return apiRequest<CourseModule[]>(`${API_CONFIG.ENDPOINTS.COURSE_MODULES}/${courseUnitId}`);
   },
 };
 

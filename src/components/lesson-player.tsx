@@ -45,18 +45,30 @@ interface LearnPageProps {
         duration: string;
         completed: boolean;
         type: string;
+        videoUrl?: string;
       }>;
     }>;
   };
   courseId: string;
+  initialLessonId?: number;
 }
 
-export default function LearnPage({ course, courseId }: LearnPageProps) {
+export default function LearnPage({ course, courseId, initialLessonId = 1 }: LearnPageProps) {
   const router = useRouter();
-  const [currentLessonId, setCurrentLessonId] = useState(1);
+  const [currentLessonId, setCurrentLessonId] = useState(initialLessonId);
   const [activeTab, setActiveTab] = useState("description");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  // Find current lesson from course data
+  const findCurrentLesson = () => {
+    for (const section of course.sections) {
+      const lesson = section.lessons.find((l) => l.id === currentLessonId);
+      if (lesson) return lesson;
+    }
+    return course.sections[0]?.lessons[0]; // Fallback to first lesson
+  };
+
+  const currentLessonData = findCurrentLesson();
   const currentLesson = getLessonContent(currentLessonId);
 
   // Calculate progress
@@ -153,7 +165,7 @@ export default function LearnPage({ course, courseId }: LearnPageProps) {
         <div className="bg-gray-800 border-b border-gray-700 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h1 className="text-xl font-bold text-white">{currentLesson?.title}</h1>
+              <h1 className="text-xl font-bold text-white">{currentLessonData?.title}</h1>
               <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm rounded-full">
                 Lesson {currentLessonId}
               </span>
@@ -174,13 +186,19 @@ export default function LearnPage({ course, courseId }: LearnPageProps) {
 
         {/* Video Player */}
         <div style={{position: "relative", paddingTop: "56.25%"}}>
-          <iframe
-            src="https://player.mediadelivery.net/embed/572180/6fa71c83-8bd2-4704-8b81-d35876036ef9?token=77f3a9fc2e7ca3d4b1ab736fc1b28d95ab5d5a46404140db4f1d8805b3441be5&expires=1767126305&autoplay=true&loop=false&muted=false&preload=true&responsive=true"
-            loading="lazy"
-            style={{border: 0, position: "absolute", top: 0, height: "100%", width: "100%"}}
-            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
-            allowFullScreen={true}
-          />
+          {currentLessonData?.videoUrl ? (
+            <iframe
+              src={currentLessonData.videoUrl}
+              loading="lazy"
+              style={{border: 0, position: "absolute", top: 0, height: "100%", width: "100%"}}
+              allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
+              allowFullScreen={true}
+            />
+          ) : (
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800">
+              <p className="text-gray-400">No video available for this lesson</p>
+            </div>
+          )}
         </div>
 
         {/* Content Tabs */}

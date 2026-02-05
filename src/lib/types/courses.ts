@@ -31,3 +31,31 @@ export interface CreateCourseRequest {
 }
 
 export interface UpdateCourseRequest extends Partial<CreateCourseRequest> {}
+
+// Course Module Types
+export interface CourseModuleVideo {
+  id: string;
+  module_id: string;
+  title: string;
+  order: number;
+  video_file_id: string;
+  video_url: string;
+  video_url_expiry: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CourseModule {
+  id: string;
+  course_unit_id: string;
+  title: string;
+  order: number;
+  collection_id: string;
+  stripe_product_id: string;
+  price: string;
+  duration: number;
+  enrolled_count: number;
+  created_at: string;
+  updated_at: string;
+  CourseModuleVideos: CourseModuleVideo[];
+}
