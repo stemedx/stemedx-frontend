@@ -1,15 +1,15 @@
 export const homeContent = {
   hero: {
-    title: "Welcome to STEMEdX",
-    subtitle: "Start Learning with Sri Lanka's Premier Online STEM Learning Platform",
+    title: "Welcome to ICT101",
+    subtitle: "Start Learning with Sri Lanka's Premier Online ICT Learning Platform",
     buttons: {
       startLearning: "Start Learning",
       takeTour: "Take a Tour"
     }
   },
   whyChoose: {
-    title: "Why Choose StemEdX?",
-    subtitle: "Master STEM skills faster and smarter with our revolutionary online learning approach",
+    title: "Why Choose ICT101?",
+    subtitle: "Master ICT skills faster and smarter with our revolutionary online learning approach",
     features: {
       timeEfficient: {
         title: "Save Precious Time",
@@ -21,13 +21,13 @@ export const homeContent = {
       },
       lifetimeAccess: {
         title: "Lifetime Learning Asset",
-        description: "One purchase, endless reviews! Access all live and recorded sessions forever - your personal STEM library that grows with you"
+        description: "One purchase, endless reviews! Access all live and recorded sessions forever - your personal ICT library that grows with you"
       }
     }
   },
   stemJourney: {
     title: "Start your Journey",
-    description: "Join thousands of students learning online with flexible scheduling, expert support, and career-focused curriculum designed for working professionals.",
+    description: "Join thousands of students learning online with flexible scheduling, expert support, and career-focused curriculum designed for Sri Lankan students.",
     button: "Get Started",
     benefits: {
       title: "What you'll get:",

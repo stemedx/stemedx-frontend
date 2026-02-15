@@ -11,5 +11,6 @@ export interface ApiResponse<T> {
 export interface Subject {
   id: string;
   name: string;
+  grade: string;
   code: string;
 }

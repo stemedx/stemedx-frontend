@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { User, BookOpen, Settings, Edit3, Save, X } from "lucide-react";
-import { createClient } from "@/lib/services/supabase/client";
+import { createClient } from "@/lib/services/auth/client";
 
 interface UserProfile {
   id: string;

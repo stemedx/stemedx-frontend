@@ -2,7 +2,7 @@ export const authContent = {
   modal: {
     titles: {
       login: "නැවතත් සාදරයෙන් පිළිගනිමු",
-      signup: "StemXio වෙත සම්බන්ධ වන්න",
+      signup: "ICT101 වෙත සම්බන්ධ වන්න",
       forgotPassword: "මුරපදය නැවත සැකසුම",
       resetPassword: "නව මුරපදයක් සකසන්න"
     },

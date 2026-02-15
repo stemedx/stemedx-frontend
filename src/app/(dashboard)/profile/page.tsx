@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/services/supabase/server";
+import { createClient } from "@/lib/services/auth/server";
 import { Profile } from "@/components/forms/profile-form";
 
 interface UserProfile {

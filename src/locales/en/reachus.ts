@@ -73,8 +73,8 @@ export const reachusContent = {
         id: "email",
         icon: "✉️",
         title: "Email Support",
-        content: "support@stemedx.com",
-        action: "mailto:support@stemedx.com",
+        content: "support@ict101.com",
+        action: "mailto:support@ict101.com",
         enabled: true,
       },
     ],
@@ -84,10 +84,10 @@ export const reachusContent = {
     description:
       "Connect with us to get the latest updates on new course updates, platform improvements and insights.",
     socialLinks: [
-      { name: "Facebook", icon: "Facebook", color: "blue", url: "https://facebook.com/stemxio" },
-      { name: "X (Twitter)", icon: "X", color: "gray", url: "https://x.com/stemxio" },
-      { name: "WhatsApp", icon: "MessageCircle", color: "green", url: "https://wa.me/stemxio" },
-      { name: "Telegram", icon: "Send", color: "blue", url: "https://t.me/stemxio" },
+      { name: "Facebook", icon: "Facebook", color: "blue", url: "https://facebook.com/ict101" },
+      { name: "X (Twitter)", icon: "X", color: "gray", url: "https://x.com/ict101" },
+      { name: "WhatsApp", icon: "MessageCircle", color: "green", url: "https://wa.me/ict101" },
+      { name: "Telegram", icon: "Send", color: "blue", url: "https://t.me/ict101" },
     ],
   },
 };

@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/services/supabase/server";
+import { createClient } from "@/lib/services/auth/server";
 import { revalidatePath } from "next/cache";
 
 export async function updateProfile(formData: FormData) {

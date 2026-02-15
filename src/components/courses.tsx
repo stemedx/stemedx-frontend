@@ -11,7 +11,6 @@ type CourseWithInstructor = Course & { instructor: Instructor; subject: Subject 
 export default function Courses() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedSubject, setSelectedSubject] = useState("All");
-  const [selectedInstructor, setSelectedInstructor] = useState("All");
   const [selectedSubjectCode, setSelectedSubjectCode] = useState("All");
   const [selectedCourse, setSelectedCourse] = useState("All");
   const [courses, setCourses] = useState<CourseWithInstructor[]>([]);
@@ -44,31 +43,30 @@ export default function Courses() {
     duration: `${course.duration} hours`,
     subject: course.subject?.name || "",
     subjectCode: course.subject?.code || "",
-    instructor: `${course.instructor.first_name} ${course.instructor.last_name}`,
     price: course.price,
-    thumbnail_url: course.thumbnail_url,
+    thumbnailUrl: course.thumbnail_url,
+    totalModules: course.total_modules,
+    tutorialSessions: course.tutorial_sessions,
   })) : [];
 
   // Get unique values for filters
   const subjects = ["All", ...Array.from(new Set(displayCourses.map(course => course.subject).filter(Boolean)))];
-  const instructors = ["All", ...Array.from(new Set(displayCourses.map(course => course.instructor).filter(Boolean)))];
   const subjectCodes = ["All", ...Array.from(new Set(displayCourses.map(course => course.subjectCode).filter(Boolean)))];
   const courseNames = ["All", ...Array.from(new Set(displayCourses.map(course => course.title).filter(Boolean)))];
 
   // Filter courses based on selected criteria
   const filteredCourses = displayCourses.filter(course => {
     const subjectMatch = selectedSubject === "All" || course.subject === selectedSubject;
-    const instructorMatch = selectedInstructor === "All" || course.instructor === selectedInstructor;
     const subjectCodeMatch = selectedSubjectCode === "All" || course.subjectCode === selectedSubjectCode;
     const courseMatch = selectedCourse === "All" || course.title === selectedCourse;
-    
-    return subjectMatch && instructorMatch && subjectCodeMatch && courseMatch;
+
+    return subjectMatch && subjectCodeMatch && courseMatch;
   });
 
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedSubject, selectedInstructor, selectedSubjectCode, selectedCourse]);
+  }, [selectedSubject, selectedSubjectCode, selectedCourse]);
 
   return (
     <div>
@@ -76,10 +74,10 @@ export default function Courses() {
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center pb-12 sm:pb-16">
             <h1 className="text-5xl md:text-7xl font-bold text-white pb-4">
-              Online STEM Courses
+              All Courses
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-              Learn from anywhere with our interactive online courses designed by industry/academic experts
+              Learn from anywhere with our interactive online courses
             </p>
           </div>
 
@@ -111,7 +109,7 @@ export default function Courses() {
             <>
               {/* Filters Section */}
           <div className="mb-12 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Subject Filter */}
               <div>
                 <label className="block text-white font-medium mb-3">
@@ -131,11 +129,11 @@ export default function Courses() {
                 </select>
               </div>
               
-              {/* Subject Code Filter */}
+              {/* Grade Filter */}
               <div>
                 <label className="block text-white font-medium mb-3">
                   <span className="text-xl mr-2">📋</span>
-                  Subject Code
+                  Grade
                 </label>
                 <select
                   value={selectedSubjectCode}
@@ -145,25 +143,6 @@ export default function Courses() {
                   {subjectCodes.map((code) => (
                     <option key={code} value={code} className="bg-gray-800">
                       {code}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-              {/* Instructor Filter */}
-              <div>
-                <label className="block text-white font-medium mb-3">
-                  <span className="text-xl mr-2">👨‍🏫</span>
-                  Instructor
-                </label>
-                <select
-                  value={selectedInstructor}
-                  onChange={(e) => setSelectedInstructor(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-md"
-                >
-                  {instructors.map((instructor) => (
-                    <option key={instructor} value={instructor} className="bg-gray-800">
-                      {instructor}
                     </option>
                   ))}
                 </select>
@@ -197,11 +176,10 @@ export default function Courses() {
                 <span className="text-xl mr-2">📚</span>
                 {filteredCourses.length} courses found
               </div>
-              {(selectedSubject !== "All" || selectedInstructor !== "All" || selectedSubjectCode !== "All" || selectedCourse !== "All") && (
+              {(selectedSubject !== "All" || selectedSubjectCode !== "All" || selectedCourse !== "All") && (
                 <button
                   onClick={() => {
                     setSelectedSubject("All");
-                    setSelectedInstructor("All");
                     setSelectedSubjectCode("All");
                     setSelectedCourse("All");
                   }}
@@ -225,59 +203,72 @@ export default function Courses() {
                   {currentCourses.map((course) => (
                     <div
                       key={course.id}
-                      className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:scale-105 transition-all duration-300 h-full flex flex-col relative"
+                      className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 h-full flex flex-col"
                     >
-                      {/* Subject tag in top right corner */}
-                      {course.subject && (
-                        <div className="absolute top-4 right-4">
-                          <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-400/30 rounded-full text-xs font-medium">
-                            {course.subject}
-                          </span>
-                        </div>
-                      )}
-                      
-                      <h3 className={`text-lg sm:text-xl font-semibold text-white pb-3 ${course.subject ? 'pr-20' : ''}`}>
-                        {course.title}
-                      </h3>
-                      <p className="text-sm sm:text-base text-gray-300 mb-4 flex-1">{course.description}</p>
-
-                      <div className="space-y-3 mb-4">
-                        {course.duration && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-300">
-                              Duration: {course.duration}
+                      {/* Thumbnail */}
+                      <div className="relative w-full h-50">
+                        {course.thumbnailUrl ? (
+                          <img
+                            src={course.thumbnailUrl}
+                            alt={course.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-purple-900/60 to-blue-900/60 flex items-center justify-center">
+                            <span className="text-4xl">📚</span>
+                          </div>
+                        )}
+                        {/* Subject tag overlay */}
+                        {course.subject && (
+                          <div className="absolute top-3 right-3">
+                            <span className="px-3 py-1 bg-black/50 backdrop-blur-sm text-purple-300 border border-purple-400/30 rounded-full text-xs font-medium">
+                              {course.subject}
                             </span>
-                          </div>
-                        )}
-                        
-                        {course.instructor && (
-                          <div className="space-y-2">
-                            <div className="text-sm text-gray-300">
-                              <span className="text-purple-300">Instructor:</span> {course.instructor}
-                            </div>
-                            {course.subjectCode && (
-                              <div>
-                                <span className="px-2 py-1 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded text-xs font-medium">
-                                  {course.subjectCode}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                        
-                        {course.price && (
-                          <div className="text-lg font-semibold text-green-400">
-                            LKR {parseFloat(course.price).toLocaleString()}
                           </div>
                         )}
                       </div>
 
-                      <button
-                        onClick={() => window.location.href = `/courses/${course.id}`}
-                        className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 mt-auto"
-                      >
-                        Start Learning
-                      </button>
+                      {/* Content */}
+                      <div className="p-5 flex flex-col flex-1">
+                        <h3 className="text-lg sm:text-xl font-semibold text-white pb-2">
+                          {course.title}
+                        </h3>
+                        <p className="text-sm text-gray-300 mb-4 flex-1">{course.description}</p>
+
+                        {/* Stats row */}
+                        <div className="flex flex-wrap gap-3 mb-3 text-xs text-gray-400">
+                          <span className="flex items-center gap-1">
+                            <span>📦</span> {course.totalModules} Modules
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <span>🎓</span> {course.tutorialSessions} Tutorials
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <span>⏱️</span> {course.duration}
+                          </span>
+                        </div>
+
+                        {/* Subject code + Price */}
+                        <div className="flex items-center justify-between mb-4">
+                          {course.subjectCode && (
+                            <span className="px-2 py-1 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded text-xs font-medium">
+                              {course.subjectCode}
+                            </span>
+                          )}
+                          {course.price && (
+                            <span className="text-lg font-semibold text-green-400 ml-auto">
+                              LKR {parseFloat(course.price).toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={() => window.location.href = `/courses/${course.id}`}
+                          className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 mt-auto"
+                        >
+                          Start Learning
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

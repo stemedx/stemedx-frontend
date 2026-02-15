@@ -1,4 +1,4 @@
-import CourseDetailClient from "@/components/course-detail-client";
+import CourseDetails from "@/components/course-details";
 import { coursesServerApi } from "@/lib/services/api/courses-server";
 import { redirect } from "next/navigation";
 
@@ -20,7 +20,7 @@ export default async function CourseDetailPage({
       redirect("/courses");
     }
 
-    return <CourseDetailClient course={course} modules={modules} />;
+    return <CourseDetails course={course} modules={modules} />;
   } catch (error) {
     console.error("Failed to fetch course data:", error);
     redirect("/courses");

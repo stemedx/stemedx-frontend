@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HomeNavigation } from "./navbar";
 import { Menu, X, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { logout } from "@/lib/actions/auth-server";
+import { BRAND } from "@/lib/constants/brand";
 
 interface HeaderProps {
   claims: any;
@@ -121,7 +122,7 @@ export function Header({ claims }: HeaderProps) {
             <Menu size={24} />
           </button>
           <Link href="/" className="text-2xl font-bold text-white">
-            steMEdx
+            {BRAND.name}
           </Link>
         </div>
 
@@ -129,7 +130,7 @@ export function Header({ claims }: HeaderProps) {
         <div className="hidden lg:flex justify-between items-center mx-auto px-4">
           {/* Component 1: Logo */}
           <Link href="/" className="text-2xl sm:text-3xl font-bold text-white">
-            steMEdx
+            {BRAND.name}
           </Link>
 
           {/* Component 2: Navigation */}

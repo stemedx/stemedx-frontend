@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from "@/lib/services/supabase/client";
+import { createClient } from "@/lib/services/auth/client";
 import { redirect } from "next/navigation";
 
 export async function loginWithEmail(

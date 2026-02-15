@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/services/supabase/server";
+import { createClient } from "@/lib/services/auth/server";
 
 export async function logout() {
   const supabase = await createClient();

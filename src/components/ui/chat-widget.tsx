@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Minimize2 } from "lucide-react";
+import { BRAND } from "@/lib/constants/brand";
 
 interface Message {
   id: number;
@@ -20,7 +21,7 @@ export function ChatWidget({ isOpen: controlledIsOpen, onToggle }: ChatWidgetPro
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! Welcome to StemXio. How can I help you today?",
+      text: `Hello! Welcome to ${BRAND.name}. How can I help you today?`,
       sender: 'agent',
       timestamp: new Date()
     }
@@ -106,7 +107,7 @@ export function ChatWidget({ isOpen: controlledIsOpen, onToggle }: ChatWidgetPro
               <MessageCircle className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-semibold text-sm">StemXio Support</h3>
+              <h3 className="font-semibold text-sm">{BRAND.name} Support</h3>
               <p className="text-xs text-white/80">Online now</p>
             </div>
           </div>

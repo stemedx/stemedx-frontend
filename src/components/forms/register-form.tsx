@@ -87,7 +87,7 @@ export function RegisterForm({ content }: RegisterFormProps) {
     <>
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold text-white mb-2">
-          {content?.modal?.titles?.signup || "Join StemXio"}
+          {content?.modal?.titles?.signup || "Join ICT101"}
         </h1>
         <p className="text-gray-300 text-sm">
           {content?.modal?.subtitles?.signup || "Create your account"}

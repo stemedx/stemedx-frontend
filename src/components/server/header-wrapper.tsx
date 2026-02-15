@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/services/supabase/server";
+import { createClient } from "@/lib/services/auth/server";
 import { Header } from "@/components/layouts/header";
 
 export async function HeaderWrapper() {

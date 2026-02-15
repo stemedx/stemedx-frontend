@@ -5,6 +5,7 @@ export const API_CONFIG = {
     INSTRUCTORS: '/v1/instructors',
     TUTORIALS: '/v1/tutorials',
     STUDENTS: '/v1/students',
-    STUDENT_COURSES: '/v1/student-courses'
+    STUDENT_COURSES: '/v1/student-courses',
+    CREATE_ORDER: '/v1/purchases/create-order'
   }
 } as const;

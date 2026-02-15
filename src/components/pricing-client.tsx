@@ -1,266 +1,154 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function Offers() {
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
-  const [exchangeRate, setExchangeRate] = useState(1);
-  const [isLoadingRates, setIsLoadingRates] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  // Currency configuration
-  const currencies: Record<string, { symbol: string; name: string; rate: number }> = {
-    USD: { symbol: "$", name: "USD", rate: 1 },
-    LKR: { symbol: "Rs.", name: "LKR", rate: 295 }
-  };
-
-  // Fetch live exchange rates (like Amazon!)
-  useEffect(() => {
-    const fetchExchangeRate = async () => {
-      if (selectedCurrency === "USD") {
-        setExchangeRate(1);
-        setLastUpdated(new Date());
-        return;
-      }
-
-      setIsLoadingRates(true);
-
-      try {
-        // Using a free exchange rate API (like real e-commerce sites)
-        const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
-        const data = await response.json();
-        
-        if (selectedCurrency === "LKR") {
-          setExchangeRate(data.rates.LKR || 295); // Fallback to hardcoded if API fails
-          setLastUpdated(new Date());
-        }
-      } catch (error) {
-        console.error('Failed to fetch exchange rates:', error);
-        // Fallback to hardcoded rates if API fails
-        setExchangeRate(295);
-        setLastUpdated(new Date());
-      } finally {
-        setIsLoadingRates(false);
-      }
-    };
-
-    fetchExchangeRate();
-  }, [selectedCurrency]);
-
-  // Convert price function
-  const convertPrice = (usdPrice: string): string => {
-    const numericPrice = parseInt(usdPrice.replace('$', ''));
-    const convertedPrice = Math.round(numericPrice * exchangeRate);
-    return `${currencies[selectedCurrency].symbol}${convertedPrice.toLocaleString()}`;
-  };
-
-  const offers = [
-    {
-      id: 1,
-      name: "STEM Starter Bundle",
-      originalPrice: "$199",
-      offerPrice: "$99",
-      discount: "50% OFF",
-      period: "One-time payment",
-      description: "Perfect bundle for beginners - 3 essential courses",
-      courses: [
-        "Introduction to Programming",
-        "Basic Mathematics for STEM",
-        "Scientific Method Fundamentals"
-      ],
-      features: [
-        "3 Complete Courses",
-        "Certificate of completion",
-        "6 months access",
-        "Basic lab simulations",
-        "Community support"
-      ],
-      popular: false,
-      badge: "BEST VALUE"
-    },
-    {
-      id: 2,
-      name: "Advanced STEM Pro Pack",
-      originalPrice: "$499",
-      offerPrice: "$249",
-      discount: "50% OFF",
-      period: "One-time payment",
-      description: "Most popular bundle for serious STEM students",
-      courses: [
-        "Advanced Physics & Quantum Mechanics",
-        "Data Science & Machine Learning",
-        "Engineering Design Principles",
-        "Advanced Mathematics",
-        "Research Methodology"
-      ],
-      features: [
-        "5 Advanced Courses",
-        "Professional Certificates",
-        "12 months access",
-        "Premium lab simulations",
-        "1-on-1 mentoring sessions",
-        "Priority support"
-      ],
-      popular: true,
-      badge: "MOST POPULAR"
-    },
-    {
-      id: 3,
-      name: "Complete STEM Master Suite",
-      originalPrice: "$999",
-      offerPrice: "$399",
-      discount: "60% OFF",
-      period: "One-time payment", 
-      description: "Ultimate bundle - Everything you need for STEM mastery",
-      courses: [
-        "All 15+ Premium Courses",
-        "Specialized Lab Modules",
-        "Industry Projects",
-        "Capstone Research Project"
-      ],
-      features: [
-        "15+ Premium Courses",
-        "All Certificates & Specializations",
-        "Lifetime Access",
-        "Full Lab Suite Access",
-        "Personal Learning Coach",
-        "Industry Mentorship Program",
-        "Job Placement Support"
-      ],
-      popular: false,
-      badge: "LIFETIME ACCESS"
-    }
-  ];
+export default function Pricing() {
+  const router = useRouter();
 
   return (
-    <div>
-      <div className="py-10 sm:py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center pb-12 sm:pb-16">
-            <h1 className="text-5xl md:text-7xl font-bold text-white pb-4">
-              🔥 Limited Time Offers 🔥
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-6">
-              Save big on our premium STEM course bundles - Special discounts available now!
-            </p>
-            
-            {/* Currency Selector */}
-            <div className="flex flex-col items-center gap-2 mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-300">Currency:</span>
-                <select
-                  value={selectedCurrency}
-                  onChange={(e) => setSelectedCurrency(e.target.value)}
-                  disabled={isLoadingRates}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-3 py-1 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
-                >
-                  {Object.entries(currencies).map(([code, currency]) => (
-                    <option key={code} value={code} className="bg-gray-800 text-white">
-                      {currency.name} ({currency.symbol})
-                    </option>
-                  ))}
-                </select>
-                {isLoadingRates && (
-                  <div className="animate-spin h-4 w-4 border-2 border-purple-500 border-t-transparent rounded-full"></div>
-                )}
-              </div>
-              
-              {selectedCurrency === "LKR" && lastUpdated && (
-                <div className="text-xs text-gray-400">
-                  Rate: 1 USD = {exchangeRate.toFixed(2)} LKR
-                  <span className="ml-2">
-                    Updated: {lastUpdated.toLocaleTimeString()}
-                  </span>
+    <div className="py-10 sm:py-16 lg:py-20">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="text-center pb-12 sm:pb-16">
+          <h1 className="text-5xl md:text-7xl font-bold text-white pb-4">
+            Simple, Transparent Pricing
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            Choose the plan that works best for you
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* Individual Courses */}
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-xl">
+            <div className="text-center mb-8">
+              <div className="text-5xl mb-4">📚</div>
+              <h2 className="text-3xl font-bold text-white mb-3">
+                Individual Courses
+              </h2>
+              <p className="text-gray-300 mb-6">
+                Pay as you learn. Purchase courses individually.
+              </p>
+              <div className="mb-6">
+                <div className="text-4xl font-bold text-white mb-2">
+                  Varies by Course
                 </div>
-              )}
+                <p className="text-sm text-gray-400">One-time payment per course</p>
+              </div>
+            </div>
+
+            <ul className="space-y-4 mb-8">
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Lifetime access to purchased courses</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Certificate of completion</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Course materials & resources</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Community support</span>
+              </li>
+            </ul>
+
+            <button
+              onClick={() => router.push('/courses')}
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-blue-500/50"
+            >
+              Browse Courses
+            </button>
+          </div>
+
+          {/* Full Platform Access */}
+          <div className="bg-white/10 backdrop-blur-xl border-2 border-purple-500 rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-2xl relative">
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold px-4 py-2 rounded-full">
+                MOST POPULAR
+              </div>
+            </div>
+
+            <div className="text-center mb-8">
+              <div className="text-5xl mb-4">🚀</div>
+              <h2 className="text-3xl font-bold text-white mb-3">
+                Full Platform Access
+              </h2>
+              <p className="text-gray-300 mb-6">
+                Unlimited access to all courses and future content.
+              </p>
+            </div>
+
+            {/* Pricing Options */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+                <div className="text-sm text-gray-400 mb-2">Monthly</div>
+                <div className="text-3xl font-bold text-white mb-1">
+                  LKR 2,999
+                </div>
+                <div className="text-xs text-gray-400">per month</div>
+              </div>
+              <div className="bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-400/30 rounded-2xl p-6 text-center relative">
+                <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  Save 30%
+                </div>
+                <div className="text-sm text-gray-400 mb-2">Yearly</div>
+                <div className="text-3xl font-bold text-white mb-1">
+                  LKR 24,999
+                </div>
+                <div className="text-xs text-gray-400">per year</div>
+              </div>
+            </div>
+
+            <ul className="space-y-4 mb-8">
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Access to ALL courses</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>New courses added regularly</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>All certificates included</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Priority support</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Exclusive live sessions</span>
+              </li>
+              <li className="flex items-start text-gray-300">
+                <span className="text-green-400 mr-3 text-xl">✓</span>
+                <span>Download course materials</span>
+              </li>
+            </ul>
+
+            <div className="space-y-3">
+              <button
+                className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-purple-500/50"
+              >
+                Get Started - Monthly
+              </button>
+              <button
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-green-500/50"
+              >
+                Get Started - Yearly (Save 30%)
+              </button>
             </div>
           </div>
+        </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {offers.map((offer) => (
-              <div
-                key={offer.id}
-                className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:scale-105 transition-all duration-300 relative ${
-                  offer.popular ? 'ring-2 ring-purple-500' : ''
-                }`}
-              >
-                {/* Badge */}
-                <div className="absolute -top-3 -right-3">
-                  <div className={`text-white text-xs font-bold px-3 py-1 rounded-full ${
-                    offer.popular 
-                      ? 'bg-gradient-to-r from-orange-500 to-red-500' 
-                      : offer.badge === 'LIFETIME ACCESS'
-                      ? 'bg-gradient-to-r from-green-500 to-emerald-500'
-                      : 'bg-gradient-to-r from-blue-500 to-purple-500'
-                  }`}>
-                    {offer.badge}
-                  </div>
-                </div>
-
-                {/* Discount Badge */}
-                <div className="bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full text-center mb-4 w-fit mx-auto">
-                  {offer.discount}
-                </div>
-                
-                <div className="text-center mb-6">
-                  <h3 className="text-lg sm:text-xl font-semibold text-white pb-3">
-                    {offer.name}
-                  </h3>
-                  
-                  {/* Pricing */}
-                  <div className="mb-3">
-                    <div className="flex items-center justify-center gap-3">
-                      <span className="text-2xl line-through text-gray-400">{convertPrice(offer.originalPrice)}</span>
-                      <span className="text-4xl font-bold text-green-400">{convertPrice(offer.offerPrice)}</span>
-                    </div>
-                    <span className="text-gray-300 text-sm">{offer.period}</span>
-                    {selectedCurrency === "LKR" && (
-                      <div className="text-xs text-gray-400 mt-1">
-                        Converted from {offer.offerPrice} USD
-                      </div>
-                    )}
-                  </div>
-                  
-                  <p className="text-sm sm:text-base text-gray-300">
-                    {offer.description}
-                  </p>
-                </div>
-
-                {/* Course List */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-white mb-2">📚 Included Courses:</h4>
-                  <ul className="space-y-2">
-                    {offer.courses.map((course, index) => (
-                      <li key={index} className="text-xs text-gray-300 flex items-center">
-                        <span className="text-purple-400 mr-2">▪</span>
-                        {course}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Features */}
-                <ul className="space-y-2 mb-6">
-                  {offer.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-sm text-gray-300">
-                      <span className="text-green-400 mr-3">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  onClick={() => window.location.href = '/login'}
-                  className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 ${
-                    offer.popular 
-                      ? 'bg-primary-gradient text-white shadow-lg shadow-purple-500/30' 
-                      : 'bg-green-600 hover:bg-green-500 text-white'
-                  }`}
-                >
-                  🛒 Claim This Offer
-                </button>
-              </div>
-            ))}
-          </div>
+        {/* FAQ or Additional Info */}
+        <div className="mt-16 text-center">
+          <p className="text-gray-400 text-sm">
+            All plans include a 7-day money-back guarantee. Cancel anytime.
+          </p>
         </div>
       </div>
     </div>

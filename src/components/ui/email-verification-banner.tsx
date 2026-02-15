@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Mail } from "lucide-react";
-import { createClient } from "@/lib/services/supabase/client";
+import { createClient } from "@/lib/services/auth/client";
 
 export function EmailVerificationBanner() {
   const [show, setShow] = useState(false);

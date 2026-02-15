@@ -2,7 +2,7 @@ export const authContent = {
   modal: {
     titles: {
       login: "Welcome Back",
-      signup: "Join StemXio",
+      signup: "Join ICT101",
       forgotPassword: "Reset Password",
       resetPassword: "Set New Password"
     },

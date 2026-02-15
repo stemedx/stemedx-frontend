@@ -1,5 +1,5 @@
 "use server";
-import { createClient as createServerClient } from "@/lib/services/supabase/server";
+import { createClient as createServerClient } from "@/lib/services/auth/server";
 
 /**
  * Get the user from the server - used in api routes, server componets & server actions

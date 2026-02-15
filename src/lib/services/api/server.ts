@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/services/supabase/server';
+import { createClient } from '@/lib/services/auth/server';
 
 const BASE_URL = 'http://localhost:3001';
 

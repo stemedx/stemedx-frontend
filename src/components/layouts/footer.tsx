@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
 import { FaFacebook, FaWhatsapp, FaTelegram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { BRAND } from "@/lib/constants/brand";
 
 // Icon mapping with react-icons
 const iconMap = {
@@ -31,11 +32,10 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="flex flex-col md:items-start justify-start items-center">
             <Link href="/" className="text-3xl font-bold text-white mb-4">
-              steMEdx
+              {BRAND.name}
             </Link>
             <p className="text-white/80 text-sm text-center md:text-left">
-              Master STEM skills online with interactive courses and expert
-              instruction
+              {BRAND.tagline}
             </p>
           </div>
 
@@ -123,7 +123,7 @@ export function Footer() {
 
           <div className="mt-8 text-center">
             <p className="text-white/60 text-sm">
-              © {new Date().getFullYear()} StemXio LLC. All rights reserved.
+              © {new Date().getFullYear()} {BRAND.legalName}. All rights reserved.
             </p>
           </div>
         </div>
