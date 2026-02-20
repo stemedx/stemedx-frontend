@@ -10,7 +10,8 @@ export interface Instructor {
   portfolio_url?: string;
   social_links?: {
     linkedin?: string;
-    twitter?: string;
+    x?: string;
+    whatsapp?: string;
   };
   created_at?: string;
   updated_at?: string;

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { loginWithEmail } from "@/lib/actions/auth-client";
 import { GoogleIcon } from "@/components/ui/icons";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface AuthContent {
   modal: {
@@ -28,7 +28,8 @@ export function LoginForm({ content }: LoginFormProps) {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  
+  const searchParams = useSearchParams();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -37,7 +38,8 @@ export function LoginForm({ content }: LoginFormProps) {
     try {
       await loginWithEmail(email, password);
 
-      router.push("/");
+      const redirectUrl = searchParams.get('redirect') || '/';
+      router.push(redirectUrl);
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An unexpected error occurred");
     } finally {

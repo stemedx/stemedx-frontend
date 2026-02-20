@@ -13,10 +13,10 @@ export async function enrollInCourse(courseId: string) {
   }
 }
 
-export async function getCourses() {
+export async function getCourses(grade: string = 'AL') {
   try {
-    const courses = await coursesApi.getAll();
-    return { courses };
+    const response = await coursesApi.getAllCoursesByGrade(grade);
+    return { courses: response.courses };
   } catch (error) {
     return { error: "Failed to fetch courses" };
   }

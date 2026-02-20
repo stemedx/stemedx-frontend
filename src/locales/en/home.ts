@@ -27,7 +27,7 @@ export const homeContent = {
   },
   stemJourney: {
     title: "Start your Journey",
-    description: "Join thousands of students learning online with flexible scheduling, expert support, and career-focused curriculum designed for Sri Lankan students.",
+    description: "Join thousands of students learning online with flexible scheduling, expert support, and career-focused curriculum designed for Sri Lankan competitive exams and more.",
     button: "Get Started",
     benefits: {
       title: "What you'll get:",
