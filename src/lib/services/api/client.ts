@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/services/auth/client';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = process.env.API_BASE_URL!;
 
 // Base API function
 export async function apiRequest<T>(

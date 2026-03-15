@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
 import { useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/services/api/client";
+import { createClient } from "@/lib/services/auth/client";
 
 interface HomeProps {
   isAuthenticated: boolean;
@@ -9,6 +12,20 @@ interface HomeProps {
 
 export default function Home({ isAuthenticated }: HomeProps) {
   const router = useRouter();
+
+  // Call students API when authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      const supabase = createClient();
+      supabase.auth.getUser().then(({ data: { user } }) => {
+        if (user) {
+          apiRequest(`/v1/students/${user.id}`)
+            .then(res => console.log('student:', res))
+            .catch(err => console.error('student error:', err));
+        }
+      });
+    }
+  }, [isAuthenticated]);
 
   const handleStartLearning = (e: React.MouseEvent) => {
     if (isAuthenticated === true) {
@@ -48,7 +65,7 @@ export default function Home({ isAuthenticated }: HomeProps) {
           <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
             <button
               onClick={handleStartLearning}
-              className="glow-on-hover text-white px-4 py-2 rounded-3xl font-semibold transition-all duration-300 hover:scale-105 cursor-pointer inline-block mx-1"
+              className="glow-on-hover !border-white/30 text-white px-4 py-2 rounded-3xl font-semibold transition-all duration-300 hover:scale-105 cursor-pointer inline-block mx-1"
             >
               Start Learning
             </button>
@@ -137,7 +154,7 @@ export default function Home({ isAuthenticated }: HomeProps) {
               </p>
               <button
                 onClick={handleStartLearning}
-                className="glow-on-hover text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-lg sm:text-xl transition-all duration-300 hover:scale-105 inline-block text-center"
+                className="glow-on-hover !border-white/30 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-lg sm:text-xl transition-all duration-300 hover:scale-105 inline-block text-center"
               >
                 {CONTENT.stemJourney.button}
               </button>

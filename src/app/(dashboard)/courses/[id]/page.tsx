@@ -10,17 +10,13 @@ export default async function CourseDetailPage({
   const { id: courseId } = await params;
 
   try {
-    // Fetch course details and modules in parallel
-    const [course, modules] = await Promise.all([
-      coursesServerApi.getById(courseId),
-      coursesServerApi.getModules(courseId),
-    ]);
+    const courseDetails = await coursesServerApi.getDetails(courseId);
 
-    if (!course) {
+    if (!courseDetails) {
       redirect("/courses");
     }
 
-    return <CourseDetails course={course} modules={modules} />;
+    return <CourseDetails course={courseDetails} />;
   } catch (error) {
     console.error("Failed to fetch course data:", error);
     redirect("/courses");

@@ -276,6 +276,7 @@ html::-webkit-scrollbar {
   border-radius: inherit;
 }
 
+
 @keyframes glowing {
   0% { background-position: 0 0; }
   50% { background-position: 400% 0; }

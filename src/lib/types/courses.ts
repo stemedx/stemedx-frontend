@@ -62,3 +62,89 @@ export interface CourseModule {
   updated_at: string;
   CourseModuleVideos: CourseModuleVideo[];
 }
+
+// GET /v1/course-units/:id/details response
+export interface CourseDetailsVideo {
+  id: string;
+  title: string;
+  lessonId: number;
+  videoUrl?: string;
+}
+
+export interface CourseDetailsModule {
+  id: string;
+  title: string;
+  duration: number;
+  videoCount: number;
+  videos: CourseDetailsVideo[];
+  isPurchased: boolean;
+  productId: string;
+}
+
+export interface CourseDetailsInstructor {
+  firstName: string;
+  lastName: string;
+  email: string;
+  profileImageUrl: string | null;
+  bioHtml: string | null;
+  socialLinks: {
+    email: string;
+    linkedin?: string;
+    x?: string;
+    whatsapp?: string;
+  } | null;
+}
+
+export interface CourseDetailsResponse {
+  id: string;
+  name: string;
+  description: string;
+  language: string;
+  subject: {
+    name: string;
+    grade: string;
+  };
+  instructor: CourseDetailsInstructor;
+  totalModules: number;
+  modules: CourseDetailsModule[];
+}
+
+// GET /v1/course-modules/:moduleId/details response
+export interface ModuleDetailsVideo {
+  id: string;
+  title: string;
+  duration: string | null;
+  type: string;
+  videoUrl: string | null;
+  completed: boolean;
+  order: number;
+  previousLessonId: string | null;
+  nextLessonId: string | null;
+}
+
+export interface ModuleDetailsResponse {
+  course: { id: string; title: string };
+  progress: { completedLessons: number; totalLessons: number };
+  module: {
+    id: string;
+    title: string;
+    order: number;
+    discussionUrl: string | null;
+    moduleVideos: ModuleDetailsVideo[];
+  };
+  initialLessonId: string;
+}
+
+// POST /v1/course-module-videos/progress
+export interface VideoProgressRequest {
+  student_id: string;
+  video_id: string;
+  is_completed?: boolean;
+  notes?: string;
+}
+
+// GET /v1/course-module-videos/progress/:videoId
+export interface VideoProgressResponse {
+  is_completed: boolean;
+  notes: string | null;
+}
