@@ -22,6 +22,12 @@ export default function AuthLayout({
   
   const AUTH_CONTENT = getTranslations('auth', CURRENT_LANGUAGE) as AuthContent;
 
+  // Hide tabs for forgot-password, reset-password, and confirm-email pages
+  const showTabs = !pathname.includes('/forgot-password') && !pathname.includes('/reset-password') && !pathname.includes('/confirm-email');
+
+  // Don't wrap confirm-email page in the auth box
+  const isConfirmEmailPage = pathname.includes('/confirm-email');
+
   useEffect(() => {
     setActiveTab(pathname === '/register' ? 'signup' : 'login');
   }, [pathname]);
@@ -31,32 +37,39 @@ export default function AuthLayout({
     router.push(tab === 'login' ? '/login' : '/register');
   };
 
+  // Render confirm-email page without the auth box
+  if (isConfirmEmailPage) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 w-full max-w-md">
-        {/* Tab Headers */}
-        <div className="flex bg-white/5 rounded-lg p-1 mb-6">
-          <button
-            onClick={() => handleTabChange('login')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-              activeTab === 'login'
-                ? 'bg-primary-gradient text-white shadow-lg'
-                : 'text-gray-300 hover:text-white hover:bg-white/10'
-            }`}
-          >
-            {AUTH_CONTENT?.modal?.tabs?.login || "Sign In"}
-          </button>
-          <button
-            onClick={() => handleTabChange('signup')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-              activeTab === 'signup'
-                ? 'bg-primary-gradient text-white shadow-lg'
-                : 'text-gray-300 hover:text-white hover:bg-white/10'
-            }`}
-          >
-            {AUTH_CONTENT?.modal?.tabs?.signup || "Sign Up"}
-          </button>
-        </div>
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 w-full max-w-2xl">
+        {/* Tab Headers - only show for login/register pages */}
+        {showTabs && (
+          <div className="flex bg-white/5 rounded-lg p-1 mb-6">
+            <button
+              onClick={() => handleTabChange('login')}
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
+                activeTab === 'login'
+                  ? 'bg-primary-gradient text-white shadow-lg'
+                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {AUTH_CONTENT?.modal?.tabs?.login || "Sign In"}
+            </button>
+            <button
+              onClick={() => handleTabChange('signup')}
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
+                activeTab === 'signup'
+                  ? 'bg-primary-gradient text-white shadow-lg'
+                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {AUTH_CONTENT?.modal?.tabs?.signup || "Sign Up"}
+            </button>
+          </div>
+        )}
 
         {/* Tab Content */}
         {children}

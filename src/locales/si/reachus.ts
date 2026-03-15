@@ -49,15 +49,15 @@ export const reachusContent = {
         id: "email",
         icon: "✉️",
         title: "විද්‍යුත් තැපැල් සහාය",
-        content: "support@stemxio.com",
-        action: "mailto:support@stemxio.com",
+        content: "support@ict101.com",
+        action: "mailto:support@ict101.com",
         enabled: true,
       },
       {
         id: "address",
         icon: "📍",
         title: "ලිපිනය",
-        content: "StemXio LLC\n1234 Innovation Drive\nSilicon Valley, CA 94085\nUnited States",
+        content: "ICT101 LLC\n1234 Innovation Drive\nSilicon Valley, CA 94085\nUnited States",
         action: null,
         enabled: true,
       },
@@ -75,10 +75,10 @@ export const reachusContent = {
     title: "අපේ ප්‍රජාවට එක්වන්න",
     description: "නව පාඨමාලා යාවත්කාලීන කිරීම්, වේදිකා වැඩිදියුණු කිරීම් සහ තීක්ෂණතා පිළිබඳ නවතම යාවත්කාලීන කිරීම් ලබා ගැනීමට අප සමඟ සම්බන්ධ වන්න.",
     socialLinks: [
-      { name: "Facebook", icon: "Facebook", color: "blue", url: "https://facebook.com/stemxio" },
-      { name: "X (Twitter)", icon: "X", color: "gray", url: "https://x.com/stemxio" },
-      { name: "WhatsApp", icon: "MessageCircle", color: "green", url: "https://wa.me/stemxio" },
-      { name: "Telegram", icon: "Send", color: "blue", url: "https://t.me/stemxio" },
+      { name: "Facebook", icon: "Facebook", color: "blue", url: "https://facebook.com/ict101" },
+      { name: "X (Twitter)", icon: "X", color: "gray", url: "https://x.com/ict101" },
+      { name: "WhatsApp", icon: "MessageCircle", color: "green", url: "https://wa.me/ict101" },
+      { name: "Telegram", icon: "Send", color: "blue", url: "https://t.me/ict101" },
     ],
   }
 };

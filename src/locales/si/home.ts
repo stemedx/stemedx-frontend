@@ -1,6 +1,6 @@
 export const homeContent = {
   hero: {
-    title: "STEMEdX වෙත ආයුබෝවන්",
+    title: "ICT101 වෙත ආයුබෝවන්",
     subtitle: "අන්තර්ක්‍රියාකාරී පාඨමාලා, අතථ්‍ය රසායනාගාර සහ විශේෂඥ උපදෙස් සමඟ STEM කුසලතා ඔන්ලයින්ව ප්‍රගුණ කරන්න",
     buttons: {
       startLearning: "ඔන්ලයින් ඉගෙනීම ආරම්භ කරන්න",
@@ -8,7 +8,7 @@ export const homeContent = {
     }
   },
   whyChoose: {
-    title: "StemEdX තෝරා ගන්නේ ඇයි?",
+    title: "ICT101 තෝරා ගන්නේ ඇයි?",
     subtitle: "අපගේ විප්ලවකාරී ඔන්ලයින් ඉගෙනුම් ක්‍රමවේදය සමඟ STEM කුසලතා වේගයෙන් හා බුද්ධිමත්ව ප්‍රගුණ කරන්න",
     features: {
       timeEfficient: {
