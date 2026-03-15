@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/services/auth/client';
 
-const BASE_URL = process.env.API_BASE_URL!;
+const BASE_URL = '/api/proxy';
 
 // Base API function
 export async function apiRequest<T>(
