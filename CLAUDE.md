@@ -129,27 +129,34 @@ const CONTENT = getTranslations('pagename', CURRENT_LANGUAGE);
 
 ### CRITICAL: Follow these rules for ALL page modifications
 
-**1. Glassmorphic & Gradient Themes:**
+**1. Server/Client Component Architecture:**
+- ALL `page.tsx` files MUST be Server Components for data fetching and auth checking
+- Interactive logic MUST be moved to separate Client Components in `src/app/components`
+- Follow the pattern: `page.tsx` (server) → `ComponentClient.tsx` (client)
+- Server components handle: auth, data fetching, server-side redirects
+- Client components handle: state management, user interactions, client-side routing
+
+**2. Glassmorphic & Gradient Themes:**
 - ALL glassmorphic effects MUST use global CSS classes from `globals.css`
 - ALL gradient themes MUST use predefined classes: `.bg-primary-gradient`, `.bg-secondary-gradient`, `.text-primary-gradient`
 - NO inline glassmorphic or gradient styles in components
 
-**2. Localization First:**
+**3. Localization First:**
 - ALL text content MUST be moved to `/locales/[lang]/[page].ts`
 - NO hardcoded text strings in components
 - Use `getTranslations('pagename', CURRENT_LANGUAGE)` pattern
 
-**3. Spacing with Padding:**
+**4. Spacing with Padding:**
 - Components MUST handle spacing using `padding` classes
 - NO `margin` classes for component spacing
 - Use `py-`, `px-`, `pt-`, `pb-`, `pl-`, `pr-` for internal spacing
 
-**4. Mobile Responsive:**
+**5. Mobile Responsive:**
 - ALL pages MUST be mobile responsive
 - Use responsive prefixes: `sm:`, `md:`, `lg:`, `xl:`
 - Test mobile-first approach
 
-**5. Minimal CSS:**
+**6. Minimal CSS:**
 - NO bloated CSS - use only what's necessary
 - Prefer Tailwind utility classes over custom CSS
 - Remove unused classes and redundant styles
