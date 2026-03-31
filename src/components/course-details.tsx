@@ -17,6 +17,84 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentOption, setPaymentOption] = useState<'module' | 'platform' | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank' | null>(null);
+  const [paymentId, setPaymentId] = useState('');
+  const [copiedPaymentId, setCopiedPaymentId] = useState(false);
+  const [isFetchingRef, setIsFetchingRef] = useState(false);
+
+  const resetModalState = () => {
+    setShowPurchaseModal(false);
+    setSelectedProductId(null);
+    setIsProcessing(false);
+    setPaymentOption(null);
+    setPaymentMethod(null);
+    setPaymentId('');
+    setCopiedPaymentId(false);
+    setIsFetchingRef(false);
+  };
+
+  const openPurchaseModal = (productId: string) => {
+    setSelectedProductId(productId);
+    setPaymentOption(null);
+    setPaymentMethod(null);
+    setPaymentId('');
+    setCopiedPaymentId(false);
+    setIsFetchingRef(false);
+    setShowPurchaseModal(true);
+  };
+
+  const fetchBankPaymentRef = async (transferType: 'one-time' | 'subscription') => {
+    if (!selectedProductId || isFetchingRef) return;
+    setIsFetchingRef(true);
+    try {
+      const { payment_reference } = await purchasesApi.createBankPaymentOrder({
+        product_id: selectedProductId,
+        transfer_type: transferType,
+      });
+      setPaymentId(payment_reference);
+    } catch (error) {
+      console.error('Failed to generate payment reference:', error);
+      setIsFetchingRef(false);
+    }
+  };
+
+  const togglePaymentOption = (option: 'module' | 'platform') => {
+    if (paymentOption === option) {
+      setPaymentOption(null);
+      setPaymentMethod(null);
+    } else {
+      setPaymentOption(option);
+      setPaymentMethod(null);
+    }
+  };
+
+  const handleCardPayment = async () => {
+    if (!selectedProductId || isProcessing) return;
+    setIsProcessing(true);
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+      const { checkout_url } = await purchasesApi.createOrder({
+        student_id: user.id,
+        product_id: selectedProductId,
+      });
+      router.push(checkout_url);
+    } catch (error) {
+      console.error('Failed to create order:', error);
+      setIsProcessing(false);
+    }
+  };
+
+  const copyPaymentId = async () => {
+    await navigator.clipboard.writeText(paymentId);
+    setCopiedPaymentId(true);
+    setTimeout(() => setCopiedPaymentId(false), 2000);
+  };
 
   const toggleSection = (index: number) => {
     const newExpanded = new Set(expandedSections);
@@ -265,10 +343,7 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
                         </button>
                       ) : (
                         <button
-                          onClick={() => {
-                            setSelectedProductId(module.productId);
-                            setShowPurchaseModal(true);
-                          }}
+                          onClick={() => openPurchaseModal(module.productId)}
                           className="glow-on-hover !border-white/30 text-white px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105"
                         >
                           Buy Now
@@ -288,79 +363,192 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={() => { setShowPurchaseModal(false); setSelectedProductId(null); setIsProcessing(false); }}
+            onClick={resetModalState}
           />
-          <div className="relative bg-gray-900 border border-white/20 rounded-2xl p-8 max-w-md w-full">
-            <button
-              onClick={() => { setShowPurchaseModal(false); setSelectedProductId(null); setIsProcessing(false); }}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            <h3 className="text-xl font-bold text-white mb-2">Get Access</h3>
-            <p className="text-sm text-gray-400 mb-6">Choose how you want to access this content</p>
+          <div className="relative bg-gray-900 border border-white/20 rounded-2xl p-6 sm:p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-xl font-bold text-white">Get Access</h3>
+                <p className="text-sm text-gray-400 mt-1">Choose how you want to access this content</p>
+              </div>
+              <button
+                onClick={resetModalState}
+                className="text-gray-400 hover:text-white transition-colors p-1"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
 
             <div className="space-y-4">
-              {/* Buy Individual Module */}
-              <button
-                onClick={async () => {
-                  if (!selectedProductId || isProcessing) return;
-                  setIsProcessing(true);
-                  try {
-                    const supabase = createClient();
-                    const { data: { user } } = await supabase.auth.getUser();
-                    if (!user) {
-                      router.push('/login');
-                      return;
-                    }
-                    const { checkout_url } = await purchasesApi.createOrder({
-                      student_id: user.id,
-                      product_id: selectedProductId,
-                    });
-                    router.push(checkout_url);
-                  } catch (error) {
-                    console.error('Failed to create order:', error);
-                    setIsProcessing(false);
-                  }
-                }}
-                disabled={isProcessing}
-                className="w-full bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl p-5 text-left transition-all duration-200 hover:scale-[1.01] group disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <div className="flex items-center gap-4">
+              {/* Option 1: Buy This Module */}
+              <div className={`border rounded-xl overflow-hidden transition-colors ${paymentOption === 'module' ? 'border-purple-500/50 bg-white/5' : 'border-white/15'}`}>
+                <button
+                  onClick={() => togglePaymentOption('module')}
+                  className="w-full px-5 py-4 text-left flex items-center gap-4 hover:bg-white/5 transition-colors"
+                >
                   <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center shrink-0">
                     <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
                     </svg>
                   </div>
-                  <div>
-                    <p className="text-white font-semibold group-hover:text-purple-300 transition-colors">
-                      {isProcessing ? 'Processing...' : 'Buy This Module'}
-                    </p>
-                    <p className="text-xs text-gray-400 mt-0.5">One-time purchase for this module only</p>
+                  <div className="flex-1">
+                    <p className="text-white font-semibold">Buy This Module</p>
+                    <p className="text-sm text-gray-400">One-time purchase for this module only</p>
                   </div>
-                </div>
-              </button>
+                  <svg className={`w-5 h-5 text-gray-400 transition-transform ${paymentOption === 'module' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
 
-              {/* Full Platform Subscription */}
-              <button
-                onClick={() => router.push('/pricing')}
-                className="w-full bg-primary-gradient border border-purple-500/30 rounded-xl p-5 text-left transition-all duration-200 hover:scale-[1.01] group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                    </svg>
+                {paymentOption === 'module' && (
+                  <div className="px-5 pb-4 space-y-3">
+                    {/* Card sub-option */}
+                    <div className={`border rounded-lg overflow-hidden transition-colors ${paymentMethod === 'card' ? 'border-blue-500/40 bg-blue-500/5' : 'border-white/10'}`}>
+                      <button
+                        onClick={() => setPaymentMethod(paymentMethod === 'card' ? null : 'card')}
+                        className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-white/5 transition-colors"
+                      >
+                        <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center shrink-0">
+                          <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white text-sm font-medium">Card Payment</p>
+                          <p className="text-xs text-gray-500">Credit or debit card</p>
+                        </div>
+                        <svg className={`w-4 h-4 text-gray-500 transition-transform ${paymentMethod === 'card' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {paymentMethod === 'card' && (
+                        <div className="px-4 pb-4">
+                          <p className="text-sm text-gray-400 mb-3">You will be redirected to our secure payment gateway.</p>
+                          <button
+                            onClick={handleCardPayment}
+                            disabled={isProcessing}
+                            className="w-full bg-primary-gradient border border-purple-500/30 rounded-lg py-3 text-center font-semibold text-white text-sm transition-all duration-200 hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {isProcessing ? 'Processing...' : 'Proceed to Payment'}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Bank Transfer sub-option */}
+                    <div className={`border rounded-lg overflow-hidden transition-colors ${paymentMethod === 'bank' ? 'border-green-500/40 bg-green-500/5' : 'border-white/10'}`}>
+                      <button
+                        onClick={() => setPaymentMethod(paymentMethod === 'bank' ? null : 'bank')}
+                        className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-white/5 transition-colors"
+                      >
+                        <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center shrink-0">
+                          <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white text-sm font-medium">Bank Transfer</p>
+                          <p className="text-xs text-gray-500">Direct bank transfer</p>
+                        </div>
+                        <svg className={`w-4 h-4 text-gray-500 transition-transform ${paymentMethod === 'bank' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {paymentMethod === 'bank' && (
+                        <div className="px-4 pb-4 space-y-3">
+                          {!paymentId ? (
+                            <button
+                              onClick={() => fetchBankPaymentRef('one-time')}
+                              disabled={isFetchingRef}
+                              className="w-full bg-primary-gradient border border-purple-500/30 rounded-lg py-3 text-center font-semibold text-white text-sm transition-all duration-200 hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {isFetchingRef ? 'Generating...' : 'Generate Payment Reference'}
+                            </button>
+                          ) : (
+                            <>
+                              {/* Payment Reference */}
+                              <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
+                                <p className="text-xs text-purple-300 font-medium mb-2">Your Payment Reference</p>
+                                <div className="flex items-center gap-3">
+                                  <span className="text-xl font-bold text-white tracking-wider flex-1">{paymentId}</span>
+                                  <button
+                                    onClick={copyPaymentId}
+                                    className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-xs text-white transition-colors flex items-center gap-1.5"
+                                  >
+                                    {copiedPaymentId ? (
+                                      <>
+                                        <svg className="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        Copied
+                                      </>
+                                    ) : (
+                                      <>
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                        </svg>
+                                        Copy
+                                      </>
+                                    )}
+                                  </button>
+                                </div>
+                                <p className="text-xs text-gray-400 mt-2">Include this as the remark/reference in your pay-in slip</p>
+                              </div>
+
+                              {/* Bank Details */}
+                              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                                <p className="text-sm text-white font-semibold mb-2">Bank Details</p>
+                                <div className="space-y-2 text-sm">
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">Bank</span>
+                                    <span className="text-white">Bank of Ceylon</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">Account No.</span>
+                                    <span className="text-white">0000 1234 5678</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">Holder</span>
+                                    <span className="text-white">StemEdX (Pvt) Ltd</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">Branch</span>
+                                    <span className="text-white">Colombo Main Branch</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* QR Codes */}
+                              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                                <p className="text-sm text-white font-semibold mb-1">Upload Your Pay-in Slip</p>
+                                <p className="text-xs text-gray-400 mb-3">Scan to join and upload your slip for verification</p>
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div className="flex flex-col items-center gap-2">
+                                    <div className="bg-white rounded-lg p-2">
+                                      <img src="/qr-whatsapp.png" alt="WhatsApp Group QR" className="w-24 h-24 object-contain" />
+                                    </div>
+                                    <span className="text-xs text-green-400 font-medium">WhatsApp</span>
+                                  </div>
+                                  <div className="flex flex-col items-center gap-2">
+                                    <div className="bg-white rounded-lg p-2">
+                                      <img src="/qr-telegram.png" alt="Telegram Group QR" className="w-24 h-24 object-contain" />
+                                    </div>
+                                    <span className="text-xs text-blue-400 font-medium">Telegram</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-white font-semibold">Full Platform Access</p>
-                    <p className="text-xs text-white/60 mt-0.5">Get all courses including this course in a monthly paid plan</p>
-                  </div>
-                </div>
-              </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
