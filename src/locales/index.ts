@@ -11,6 +11,8 @@ import { tutorialsContent as enTutorialsContent } from './en/tutorials';
 import { tutorialsContent as siTutorialsContent } from './si/tutorials';
 import { profileContent as enProfileContent } from './en/profile';
 import { profileContent as siProfileContent } from './si/profile';
+import { paymentContent as enPaymentContent } from './en/payment';
+import { paymentContent as siPaymentContent } from './si/payment';
 
 export const translations = {
   en: {
@@ -20,6 +22,7 @@ export const translations = {
     navbar: enNavbarContent,
     tutorials: enTutorialsContent,
     profile: enProfileContent,
+    payment: enPaymentContent,
     // Add more page translations here
     // courses: enCoursesContent,
   },
@@ -30,6 +33,7 @@ export const translations = {
     navbar: siNavbarContent,
     tutorials: siTutorialsContent,
     profile: siProfileContent,
+    payment: siPaymentContent,
     // Add more page translations here
     // courses: siCoursesContent,
   }

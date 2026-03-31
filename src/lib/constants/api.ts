@@ -8,6 +8,7 @@ export const API_CONFIG = {
     STUDENTS: '/v1/students',
     STUDENT_COURSES: '/v1/student-courses',
     CREATE_ORDER: '/v1/purchases/create-order',
+    BANK_PAYMENT_ORDER: '/v1/purchases/bank-payment-order',
     VIDEO_PROGRESS: '/v1/course-module-videos/progress'
   }
 } as const;
