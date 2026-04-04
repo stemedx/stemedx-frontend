@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
+import { getTranslations } from "@/locales";
+import { useLanguage } from "@/context/language-context";
 
 interface AuthContent {
   modal: {
@@ -19,8 +20,9 @@ export default function AuthLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(pathname === '/register' ? 'signup' : 'login');
-  
-  const AUTH_CONTENT = getTranslations('auth', CURRENT_LANGUAGE) as AuthContent;
+  const { language } = useLanguage();
+
+  const AUTH_CONTENT = getTranslations('auth', language) as AuthContent;
 
   // Hide tabs for forgot-password, reset-password, and confirm-email pages
   const showTabs = !pathname.includes('/forgot-password') && !pathname.includes('/reset-password') && !pathname.includes('/confirm-email');

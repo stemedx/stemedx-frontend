@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
+import { getTranslations } from "@/locales";
+import { useLanguage } from "@/context/language-context";
 import { FaFacebook, FaWhatsapp, FaTelegram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { BRAND } from "@/lib/constants/brand";
@@ -14,16 +15,17 @@ const iconMap = {
   Send: FaTelegram,
 };
 
+const socialLinks = [
+  { name: "Facebook", icon: "Facebook", url: BRAND.social.facebook },
+  { name: "X (Twitter)", icon: "X", url: BRAND.social.twitter },
+  { name: "WhatsApp", icon: "MessageCircle", url: BRAND.social.whatsapp },
+  { name: "Telegram", icon: "Send", url: BRAND.social.telegram },
+];
+
 export function Footer() {
-  const CONTENT = getTranslations('reachus', CURRENT_LANGUAGE) as {
-    community?: {
-      title: string;
-      socialLinks: Array<{
-        name: string;
-        icon: string;
-        url: string;
-      }>;
-    };
+  const { language } = useLanguage();
+  const CONTENT = getTranslations('footer', language) as {
+    tagline: string;
   };
 
   return (
@@ -35,7 +37,7 @@ export function Footer() {
               {BRAND.name}
             </Link>
             <p className="text-white/80 text-sm text-center md:text-left">
-              {BRAND.tagline}
+              {CONTENT.tagline}
             </p>
           </div>
 
@@ -93,11 +95,11 @@ export function Footer() {
           {/* Column 4: Community */}
           <div className="flex flex-col items-center md:items-start justify-start space-y-4">
             <h3 className="text-lg font-semibold text-white mb-2">
-              {CONTENT?.community?.title || "Connect with Us"}
+              Connect with Us
             </h3>
 
             <div className="flex justify-center md:justify-start gap-4">
-              {(CONTENT?.community?.socialLinks || []).map((social: { name: string; icon: string; url: string }, index: number) => {
+              {socialLinks.map((social, index) => {
                 const IconComponent =
                   iconMap[social.icon as keyof typeof iconMap];
                 return (

@@ -1,8 +1,10 @@
 export const reachusContent = {
   header: {
     title: "Reach Us",
-    subtitle: `Get help, ask questions, give feedback or report platform issues. 
-    For course-specific inquiries, Please use the dedicated channels under Courses section`,
+    subtitle: "Get help, ask questions, give feedback or report platform issues.",
+    subtitleBefore: "For course-specific inquiries, please use the dedicated channels under",
+    subtitleLinkText: "Courses",
+    subtitleAfter: "section",
   },
   form: {
     title: "Send us a message",
@@ -42,22 +44,6 @@ export const reachusContent = {
         icon: "💬",
         title: "Live Chat Support",
         content: "Available 24/7 through your dashboard",
-        action: null,
-        enabled: true,
-      },
-      {
-        id: "address-usa",
-        icon: "🇺🇸",
-        title: "USA Address",
-        content: "Accivion LLC\n 30N Gould St Ste 100\nSheridan, WY 82801",
-        action: null,
-        enabled: true,
-      },
-      {
-        id: "address-sl",
-        icon: "🇱🇰",
-        title: "Sri Lanka Address",
-        content: "428/4, Galagedara,\nWariyapola",
         action: null,
         enabled: true,
       },

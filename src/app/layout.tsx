@@ -1,6 +1,7 @@
 import "./globals.css";
 import { CustomScrollbar } from "@/components/ui/scrollbar";
 import { EmailVerificationBanner } from "@/components/ui/email-verification-banner";
+import { LanguageProvider } from "@/context/language-context";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { BRAND } from "@/lib/constants/brand";
@@ -57,7 +58,9 @@ export default function RootLayout({
       >
           <CustomScrollbar />
           <EmailVerificationBanner />
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
       </body>
     </html>
   );

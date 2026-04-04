@@ -18,7 +18,7 @@ export const BRAND = {
   metaTitle: "ICT101: Next Generation ICT Education",
 
   /** Legal entity name used in copyright notices */
-  legalName: "ICT101 LLC",
+  legalName: "Accivion LLC",
 
   /** Primary support email */
   supportEmail: "support@ict101.com",

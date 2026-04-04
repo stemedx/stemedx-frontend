@@ -6,6 +6,28 @@ import { HomeNavigation } from "./navbar";
 import { Menu, X, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { logout } from "@/lib/actions/auth-server";
 import { BRAND } from "@/lib/constants/brand";
+import { useLanguage } from "@/context/language-context";
+import type { Language } from "@/locales";
+
+function LanguageToggle() {
+  const { language, setLanguage } = useLanguage();
+  return (
+    <div className="flex rounded-full overflow-hidden border border-white/20 text-xs">
+      <button
+        onClick={() => setLanguage("si" as Language)}
+        className={`px-2 py-1 transition-colors ${language === "si" ? "bg-white/20 text-white" : "text-white/60 hover:text-white"}`}
+      >
+        සිංහල
+      </button>
+      <button
+        onClick={() => setLanguage("en" as Language)}
+        className={`px-2 py-1 transition-colors ${language === "en" ? "bg-white/20 text-white" : "text-white/60 hover:text-white"}`}
+      >
+        EN
+      </button>
+    </div>
+  );
+}
 
 interface HeaderProps {
   claims: any;
@@ -124,6 +146,9 @@ export function Header({ claims }: HeaderProps) {
           <Link href="/" className="text-2xl font-bold text-white">
             {BRAND.name}
           </Link>
+          <div className="absolute right-4">
+            <LanguageToggle />
+          </div>
         </div>
 
         {/* Desktop Layout */}
@@ -136,8 +161,9 @@ export function Header({ claims }: HeaderProps) {
           {/* Component 2: Navigation */}
           <HomeNavigation />
 
-          {/* Component 3: Auth Buttons / Profile */}
+          {/* Component 3: Language Toggle + Auth Buttons / Profile */}
           <div className="flex items-center gap-2 sm:gap-4">
+            <LanguageToggle />
             {claims ? (
               <div className="relative" ref={profileDropdownRef}>
                 <button

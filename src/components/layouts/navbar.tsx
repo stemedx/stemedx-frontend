@@ -2,11 +2,13 @@
 import { Home, BookOpen, PlayCircle, MessageCircle, CircleDollarSign } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
+import { getTranslations } from "@/locales";
+import { useLanguage } from "@/context/language-context";
 
 export function HomeNavigation() {
   const pathname = usePathname();
-  const CONTENT = getTranslations('navbar', CURRENT_LANGUAGE) as {
+  const { language } = useLanguage();
+  const CONTENT = getTranslations('navbar', language) as {
     home: string;
     courses: string;
     tutorials: string;

@@ -13,6 +13,10 @@ import { profileContent as enProfileContent } from './en/profile';
 import { profileContent as siProfileContent } from './si/profile';
 import { paymentContent as enPaymentContent } from './en/payment';
 import { paymentContent as siPaymentContent } from './si/payment';
+import { footerContent as enFooterContent } from './en/footer';
+import { footerContent as siFooterContent } from './si/footer';
+import { pricingContent as enPricingContent } from './en/pricing';
+import { pricingContent as siPricingContent } from './si/pricing';
 
 export const translations = {
   en: {
@@ -23,6 +27,8 @@ export const translations = {
     tutorials: enTutorialsContent,
     profile: enProfileContent,
     payment: enPaymentContent,
+    footer: enFooterContent,
+    pricing: enPricingContent,
     // Add more page translations here
     // courses: enCoursesContent,
   },
@@ -34,6 +40,8 @@ export const translations = {
     tutorials: siTutorialsContent,
     profile: siProfileContent,
     payment: siPaymentContent,
+    footer: siFooterContent,
+    pricing: siPricingContent,
     // Add more page translations here
     // courses: siCoursesContent,
   }
@@ -43,9 +51,22 @@ export type Language = keyof typeof translations;
 export type TranslationKeys = keyof typeof translations.en;
 
 // Helper function to get translations for a specific page and language
-export function getTranslations(page: TranslationKeys, language: Language = 'en') {
+export function getTranslations(page: TranslationKeys, language: Language = 'si') {
   return translations[language][page];
 }
 
-// Current language - can be made dynamic with context/state later
-export const CURRENT_LANGUAGE: Language = 'en';
+// Default language
+export const CURRENT_LANGUAGE: Language = 'si';
+
+// Server-side language helper — reads the 'lang' cookie
+export async function getServerLanguage(): Promise<Language> {
+  try {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    const lang = cookieStore.get("lang")?.value;
+    if (lang === "en" || lang === "si") return lang;
+  } catch {
+    // cookies() throws outside of server component / route handler context
+  }
+  return "si";
+}

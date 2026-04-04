@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { getTranslations, CURRENT_LANGUAGE } from "@/locales";
+import { getTranslations } from "@/locales";
+import { useLanguage } from "@/context/language-context";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/lib/services/api/client";
 import { createClient } from "@/lib/services/auth/client";
@@ -12,32 +13,28 @@ interface HomeProps {
 
 export default function Home({ isAuthenticated }: HomeProps) {
   const router = useRouter();
+  const { language } = useLanguage();
 
-  // Call students API when authenticated
   useEffect(() => {
     if (isAuthenticated) {
       const supabase = createClient();
       supabase.auth.getUser().then(({ data: { user } }) => {
         if (user) {
-          apiRequest(`/v1/students/${user.id}`)
-            .then(res => console.log('student:', res))
-            .catch(err => console.error('student error:', err));
+          apiRequest(`/v1/students/${user.id}`).catch(() => {});
         }
       });
     }
   }, [isAuthenticated]);
 
-  const handleStartLearning = (e: React.MouseEvent) => {
-    if (isAuthenticated === true) {
-      router.push('/courses');
-    } else {
-      router.push('/login?redirect=/courses');
-    }
+  const handleStartLearning = () => {
+    router.push(isAuthenticated ? '/courses' : '/login?redirect=/courses');
   };
 
-  const CONTENT = getTranslations('home', CURRENT_LANGUAGE) as {
+  const CONTENT = getTranslations('home', language) as {
     hero: {
       title: string;
+      subtitle: string;
+      buttons: { startLearning: string };
     };
     whyChoose: {
       title: string;
@@ -55,6 +52,18 @@ export default function Home({ isAuthenticated }: HomeProps) {
     };
   };
 
+  const subtitleBlock = (
+    <p className="text-lg xl:text-2xl text-white/90 leading-relaxed">
+      <button
+        onClick={handleStartLearning}
+        className="glow-on-hover !border-white/30 text-white px-4 py-2 rounded-3xl font-semibold transition-all duration-300 hover:scale-105 cursor-pointer inline-block mx-1"
+      >
+        {CONTENT.hero.buttons.startLearning}
+      </button>
+      {" "}{CONTENT.hero.subtitle}
+    </p>
+  );
+
   return (
     <div>
       <div className="relative block video-fade-overlay">
@@ -62,15 +71,9 @@ export default function Home({ isAuthenticated }: HomeProps) {
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             {CONTENT.hero.title}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
-            <button
-              onClick={handleStartLearning}
-              className="glow-on-hover !border-white/30 text-white px-4 py-2 rounded-3xl font-semibold transition-all duration-300 hover:scale-105 cursor-pointer inline-block mx-1"
-            >
-              Start Learning
-            </button>
-            {" "}with Sri Lanka&apos;s Premier Online ICT Learning Platform
-          </p>
+          <div className="hidden xl:block mb-8">
+            {subtitleBlock}
+          </div>
         </div>
         <video
           autoPlay
@@ -87,6 +90,9 @@ export default function Home({ isAuthenticated }: HomeProps) {
       </div>
 
       <div className="relative z-20 -mt-35 bg-gradient-to-b from-transparent via-purple-900/50 to-black">
+        <div className="xl:hidden text-center px-4 pb-6">
+          {subtitleBlock}
+        </div>
         <div className="gradient-separator"></div>
 
         {/* Why Choose Section */}
