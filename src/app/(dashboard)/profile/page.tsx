@@ -8,25 +8,24 @@ interface UserProfile {
   first_name?: string;
   last_name?: string;
   phone?: string;
-  address?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  district?: string;
   dob?: string;
   nic?: string;
-  email_verified?: boolean;
 }
 
 export default async function ProfilePage() {
   const supabase = await createClient();
-  
-  // Check authentication
+
   const { data } = await supabase.auth.getClaims();
-  console.log("Auth User:", data);
   if (!data?.claims) {
     redirect("/login");
   }
 
-  // Fetch user data
   const { data: { user: authUser } } = await supabase.auth.getUser();
-  
+
   if (!authUser) {
     redirect("/login");
   }
@@ -37,10 +36,12 @@ export default async function ProfilePage() {
     first_name: authUser.user_metadata?.first_name || "",
     last_name: authUser.user_metadata?.last_name || "",
     phone: authUser.user_metadata?.phone || "",
-    address: authUser.user_metadata?.address || "",
+    addressLine1: authUser.user_metadata?.addressLine1 || "",
+    addressLine2: authUser.user_metadata?.addressLine2 || "",
+    city: authUser.user_metadata?.city || "",
+    district: authUser.user_metadata?.district || "",
     dob: authUser.user_metadata?.dob || "",
     nic: authUser.user_metadata?.nic || "",
-    email_verified: authUser.user_metadata?.email_verified || false,
   };
 
   return <Profile initialUser={userData} />;

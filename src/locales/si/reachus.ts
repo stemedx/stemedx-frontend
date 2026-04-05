@@ -2,8 +2,8 @@ export const reachusContent = {
   header: {
     title: "අප හා සම්බන්ධ වන්න",
     subtitle: "ඕනෑම සහායක් ලබා ගැනීමට, ප්‍රශ්න යොමු කිරීමට, ඔබේ අදහස් දැක්වීමට හෝ වෙබ් අඩවියේ ගැටලු දැනුම් දීමට අප හා සම්බන්ධ වන්න.",
-    subtitleBefore: "පාඨමාලා සම්බන්ධ විමසීම් සඳහා, කරුණාකර",
-    subtitleLinkText: "පාඨමාලා (Courses)",
+    subtitleBefore: "පාඩම් සම්බන්ධ විමසීම් සඳහා, කරුණාකර",
+    subtitleLinkText: "පාඩම් (Courses)",
     subtitleAfter: "පිටුවෙහි ඇති ක්‍රමවේදයන් භාවිතා කරන්න.",
   },
   form: {
@@ -23,7 +23,7 @@ export const reachusContent = {
         options: [
           { value: "general", label: "සාමාන්‍ය විමසීම්" },
           { value: "technical", label: "තාක්ෂණික සහාය" },
-          { value: "course", label: "පාඨමාලා සම්බන්ධ ගැටලු" },
+          { value: "course", label: "පාඩම් සම්බන්ධ ගැටලු" },
           { value: "billing", label: "ගෙවීම් සහ ගිණුම් තොරතුරු" },
           { value: "feedback", label: "වේදිකාව පිළිබඳ ප්‍රතිපෝෂණ" },
           { value: "partnership", label: "හවුල්කාරිත්ව අවස්ථා" },
@@ -68,7 +68,7 @@ export const reachusContent = {
   community: {
     title: "අප සමඟ එක්වන්න",
     description:
-      "නව පාඨමාලා, වේදිකාවේ නවීකරණයන් සහ නවතම තොරතුරු දැනගැනීම සඳහා අපගේ සමාජ මාධ්‍ය ජාල සමඟ එක්වන්න.",
+      "නව පාඩම්, වේදිකාවේ නවීකරණයන් සහ නවතම තොරතුරු දැනගැනීම සඳහා අපගේ සමාජ මාධ්‍ය ජාල සමඟ එක්වන්න.",
     socialLinks: [
       { name: "Facebook", icon: "Facebook", color: "blue", url: "https://facebook.com/ict101" },
       { name: "X (Twitter)", icon: "X", color: "gray", url: "https://x.com/ict101" },

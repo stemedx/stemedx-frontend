@@ -20,7 +20,7 @@ export default function Home({ isAuthenticated }: HomeProps) {
       const supabase = createClient();
       supabase.auth.getUser().then(({ data: { user } }) => {
         if (user) {
-          apiRequest(`/v1/students/${user.id}`).catch(() => {});
+          apiRequest("/v1/students").catch(() => {});
         }
       });
     }
