@@ -10,16 +10,14 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("si");
-  const [mounted, setMounted] = useState(false);
+export function LanguageProvider({ initialLanguage = "si", children }: { initialLanguage?: Language; children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
 
   useEffect(() => {
     const stored = localStorage.getItem("lang") as Language | null;
-    if (stored === "en" || stored === "si") {
+    if ((stored === "en" || stored === "si") && stored !== language) {
       setLanguageState(stored);
     }
-    setMounted(true);
   }, []);
 
   const setLanguage = (lang: Language) => {
@@ -27,8 +25,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("lang", lang);
     document.cookie = `lang=${lang};path=/;max-age=31536000`;
   };
-
-  if (!mounted) return null;
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>

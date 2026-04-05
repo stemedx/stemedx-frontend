@@ -2,6 +2,7 @@ import "./globals.css";
 import { CustomScrollbar } from "@/components/ui/scrollbar";
 import { EmailVerificationBanner } from "@/components/ui/email-verification-banner";
 import { LanguageProvider } from "@/context/language-context";
+import { getServerLanguage } from "@/locales";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { BRAND } from "@/lib/constants/brand";
@@ -43,11 +44,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialLanguage = await getServerLanguage();
   return (
     <html lang="en" className="h-full">
       <head>
@@ -58,7 +60,7 @@ export default function RootLayout({
       >
           <CustomScrollbar />
           <EmailVerificationBanner />
-          <LanguageProvider>
+          <LanguageProvider initialLanguage={initialLanguage}>
             {children}
           </LanguageProvider>
       </body>
