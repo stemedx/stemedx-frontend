@@ -9,13 +9,13 @@ export const navbarContent = {
     en: "EN"
   },
   auth: {
-    login: "පිවිසෙන්න",
+    login: "ඇතුළු වන්න (Login)",
     signUp: "ලියාපදිංචි වන්න",
-    signOut: "පිටවන්න"
+    signOut: "ඉවත් වන්න (Sign Out)"
   },
   profile: {
     profile: "පරිශීලක ගිණුම",
-    myCourses: "මගේ මොඩියුල",
+    myCourses: "මගේ පාඩම්",
     settings: "සැකසුම්"
   }
 };
