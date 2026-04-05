@@ -1,4 +1,9 @@
 export const tutorialsContent = {
+  comingSoon: {
+    title: "Coming Soon!",
+    description: "We're working hard to bring you an amazing tutorial experience. Physical books and materials will be available soon!",
+    button: "Browse Online Courses",
+  },
   header: {
     title: "📚 Tutorial Books",
     subtitle: "High-quality printed textbooks delivered to your door."

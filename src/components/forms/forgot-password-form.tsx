@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { sendPasswordResetEmail } from "@/lib/actions/auth-client";
 import Link from "next/link";
+import { useLanguage } from "@/context/language-context";
+import { getTranslations } from "@/locales";
 
 interface AuthContent {
   modal: {
@@ -17,11 +19,9 @@ interface AuthContent {
   };
 }
 
-interface ForgotPasswordFormProps {
-  content: AuthContent;
-}
-
-export function ForgotPasswordForm({ content }: ForgotPasswordFormProps) {
+export function ForgotPasswordForm() {
+  const { language } = useLanguage();
+  const content = getTranslations('auth', language) as AuthContent;
   const [state, formAction, isPending] = useActionState(sendPasswordResetEmail, undefined);
 
   return (

@@ -1,6 +1,6 @@
 export const navbarContent = {
   home: "Home",
-  courses: "Courses", 
+  courses: "Courses",
   tutorials: "Tutorials",
   pricing: "Pricing",
   reachUs: "Reach Us"

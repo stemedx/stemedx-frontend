@@ -5,6 +5,8 @@ import { loginWithEmail } from "@/lib/actions/auth-client";
 import { GoogleIcon } from "@/components/ui/icons";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLanguage } from "@/context/language-context";
+import { getTranslations } from "@/locales";
 
 interface AuthContent {
   modal: {
@@ -18,11 +20,9 @@ interface AuthContent {
   };
 }
 
-interface LoginFormProps {
-  content: AuthContent;
-}
-
-export function LoginForm({ content }: LoginFormProps) {
+export function LoginForm() {
+  const { language } = useLanguage();
+  const content = getTranslations('auth', language) as AuthContent;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);

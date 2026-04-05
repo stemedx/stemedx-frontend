@@ -1,70 +1,93 @@
 export const profileContent = {
   header: {
-    title: "පැතිකඩ",
-    subtitle: "ඔබේ ගිණුම සහ මනාපයන් කළමනාකරණය කරන්න"
+    title: "පරිශීලක ගිණුම",
+    subtitle: "ඔබේ තොරතුරු සහ ගිණුම් සැකසුම් මෙතැනින් කළමනාකරණය කරන්න"
   },
   tabs: {
-    profile: "පැතිකඩ",
-    courses: "මගේ පාඨමාලා",
+    profile: "පරිශීලක ගිණුම",
+    courses: "මගේ මොඩියුල",
     settings: "ගිණුම් සැකසුම්"
   },
   profileSection: {
-    title: "පැතිකඩ තොරතුරු",
-    editButton: "පැතිකඩ සංස්කරණය",
+    title: "පුද්ගලික තොරතුරු",
+    editButton: "තොරතුරු වෙනස් කරන්න",
     saveButton: "සුරකින්න",
-    cancelButton: "අවලංගු",
+    cancelButton: "අවලංගු කරන්න",
     fields: {
       firstName: {
         label: "මුල් නම",
         placeholder: "ඔබේ මුල් නම ඇතුළත් කරන්න"
       },
       lastName: {
-        label: "අවසාන නම",
-        placeholder: "ඔබේ අවසාන නම ඇතුළත් කරන්න"
-      },
-      username: {
-        label: "පරිශීලක නාමය",
-        placeholder: "ඔබේ පරිශීලක නාමය ඇතුළත් කරන්න"
+        label: "වාසගම", 
+        placeholder: "ඔබේ වාසගම ඇතුළත් කරන්න"
       },
       email: {
-        label: "ඊමේල්",
+        label: "විද්‍යුත් තැපෑල",
         readonly: "(වෙනස් කළ නොහැක)"
       },
       phone: {
         label: "දුරකථන අංකය",
         placeholder: "ඔබේ දුරකථන අංකය ඇතුළත් කරන්න"
+      },
+      nic: {
+        label: "ජාතික හැඳුනුම්පත් අංකය",
+        placeholder: "හැඳුනුම්පත් අංකය ඇතුළත් කරන්න"
+      },
+      dob: {
+        label: "උපන් දිනය"
+      },
+      addressLine1: {
+        label: "ලිපිනය - පේළිය 1",
+        placeholder: "ඔබේ ලිපිනය ඇතුළත් කරන්න"
+      },
+      addressLine2: {
+        label: "ලිපිනය - පේළිය 2",
+        placeholder: "අමතර ලිපින තොරතුරු"
+      },
+      city: {
+        label: "නගරය",
+        placeholder: "ඔබේ නගරය ඇතුළත් කරන්න"
+      },
+      district: {
+        label: "දිස්ත්‍රික්කය",
+        placeholder: "ඔබේ දිස්ත්‍රික්කය ඇතුළත් කරන්න"
       }
     },
-    notSet: "සකස් නොකළ"
+    notSet: "ඇතුළත් කර නැත"
   },
   coursesSection: {
-    title: "මගේ පාඨමාලා",
+    title: "මගේ මොඩියුල",
     empty: {
-      title: "තවම පාඨමාලා නොමැත",
-      subtitle: "අපගේ පාඨමාලා කැටලඝය බ්‍රවුස් කිරීමෙන් ඉගෙනීම ආරම්භ කරන්න",
-      button: "පාඨමාලා බ්‍රවුස් කරන්න"
+      title: "තවමත් මොඩියුල කිසිවක් නැත",
+      subtitle: "අපගේ පාඩම් නාමාවලිය පරීක්ෂා කර අදම ඉගෙනීම අරඹන්න",
+      button: "පාඩම් බලන්න"
     },
-    progress: "ප්‍රගතිය",
-    instructor: "විසින්"
+    fullAccess: {
+      title: "සම්පූර්ණ ප්‍රවේශය",
+      subtitle: "ඔබට සියලුම පාඩම් සහ මොඩියුල (Units) සඳහා ප්‍රවේශය ඇත",
+      expiresOn: "කල් ඉකුත් වන දිනය",
+      button: "සියලුම පාඩම් බලන්න"
+    },
+    module: {
+      unit: "ඒකකය",
+      instructor: "උපදේශක",
+      duration: "කාලය",
+      durationUnit: "පැය",
+    },
   },
   settingsSection: {
     title: "ගිණුම් සැකසුම්",
     security: {
-      title: "ආරක්ෂාව",
-      resetPassword: "මුරපදය නැවත සකසන්න",
-      resetDescription: "ඔබගේ ලියාපදිංචි ඊමේල් ලිපිනයට මුරපදය නැවත සකසන ඊමේල් එකක් යවන්න"
-    },
-    dangerZone: {
-      title: "අනතුරු කලාපය",
-      deleteAccount: "ගිණුම මකන්න",
-      deleteDescription: "ඔබේ ගිණුම සහ සියලු සම්බන්ධිත දත්ත ස්ථිරවම මකන්න. මෙම ක්‍රියාව අවලංගු කළ නොහැක."
+      title: "ආරක්ෂාව (Security)",
+      resetPassword: "මුරපදය අලුත් කරන්න",
+      resetDescription: "ඔබේ ලියාපදිංචි විද්‍යුත් තැපෑලට මුරපදය අලුත් කිරීමේ (Reset) පණිවිඩයක් එවන්න",
+      resetSent: "මුරපදය අලුත් කිරීමේ සබැඳිය ඔබේ විද්‍යුත් තැපෑලට එවන ලදි!",
+      resetError: "අලුත් කිරීමේ විද්‍යුත් තැපෑල යැවීමට අසමත් විය. නැවත උත්සාහ කරන්න."
     }
   },
   messages: {
-    loading: "පූරණය වේ...",
-    accessDenied: "ප්‍රවේශය ප්‍රතික්ෂේප විය. කරුණාකර පුරන්න.",
-    passwordResetSent: "මුරපදය නැවත සකසන ඊමේල් යවන ලදී! ඔබේ ඉන්බොක්ස් පරීක්ෂා කරන්න.",
-    deleteConfirm: "ඔබේ ගිණුම මකා දැමීමට ඔබට විශ්වාසද? මෙම ක්‍රියාව අවලංගු කළ නොහැක.",
-    deleteNotice: "ගිණුම් මකාදැමීම සඳහා පරිපාලක අනුමැතිය අවශ්‍ය වේ. කරුණාකර සහාය අමතන්න."
+    loading: "පූරණය වෙමින් පවතී...",
+    accessDenied: "ප්‍රවේශය අවහිර කර ඇත. කරුණාකර ඇතුළු වන්න (Log in)."
   }
 };

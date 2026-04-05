@@ -4,6 +4,8 @@ import { useState } from "react";
 import { signupWithEmail } from "@/lib/actions/auth-client";
 import { GoogleIcon } from "@/components/ui/icons";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/language-context";
+import { getTranslations } from "@/locales";
 
 interface AuthContent {
   modal: {
@@ -16,11 +18,9 @@ interface AuthContent {
   };
 }
 
-interface RegisterFormProps {
-  content: AuthContent;
-}
-
-export function RegisterForm({ content }: RegisterFormProps) {
+export function RegisterForm() {
+  const { language } = useLanguage();
+  const content = getTranslations('auth', language) as AuthContent;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
