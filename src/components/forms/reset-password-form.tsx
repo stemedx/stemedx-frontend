@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
-import { resetPassword } from "@/lib/actions/auth-client";
+import { useState, useActionState } from "react";
+import { resetPassword } from "@/lib/actions/auth-server";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/language-context";
 import { getTranslations } from "@/locales";
@@ -23,6 +24,8 @@ export function ResetPasswordForm() {
   const { language } = useLanguage();
   const content = getTranslations('auth', language) as AuthContent;
   const [state, formAction, isPending] = useActionState(resetPassword, undefined);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <>
@@ -48,23 +51,41 @@ export function ResetPasswordForm() {
       )}
 
       <form action={formAction} className="space-y-4">
-        <input
-          name="password"
-          type="password"
-          placeholder={content?.modal?.fields?.password || "New Password"}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-          minLength={6}
-        />
+        <div className="relative">
+          <input
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder={content?.modal?.fields?.password || "New Password"}
+            className="w-full p-3 pr-11 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            required
+            minLength={6}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
 
-        <input
-          name="confirmPassword"
-          type="password"
-          placeholder={content?.modal?.fields?.confirmPassword || "Confirm New Password"}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-          minLength={6}
-        />
+        <div className="relative">
+          <input
+            name="confirmPassword"
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder={content?.modal?.fields?.confirmPassword || "Confirm New Password"}
+            className="w-full p-3 pr-11 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            required
+            minLength={6}
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
+          >
+            {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
 
         <button
           type="submit"

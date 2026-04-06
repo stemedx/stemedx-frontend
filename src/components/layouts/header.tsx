@@ -7,9 +7,16 @@ import { Menu, X, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { logout } from "@/lib/actions/auth-server";
 import { BRAND } from "@/lib/constants/brand";
 import { useLanguage } from "@/context/language-context";
+import { getTranslations } from "@/locales";
 import type { Language } from "@/locales";
 
-function LanguageToggle() {
+type NavbarContent = {
+  language: { si: string; en: string };
+  auth: { login: string; signUp: string; signOut: string };
+  profile: { profile: string; myCourses: string; settings: string };
+};
+
+function LanguageToggle({ content }: { content: NavbarContent }) {
   const { language, setLanguage } = useLanguage();
   return (
     <div className="flex rounded-full overflow-hidden border border-white/20 text-xs">
@@ -17,13 +24,13 @@ function LanguageToggle() {
         onClick={() => setLanguage("si" as Language)}
         className={`px-2 py-1 transition-colors ${language === "si" ? "bg-white/20 text-white" : "text-white/60 hover:text-white"}`}
       >
-        සිංහල
+        {content.language.si}
       </button>
       <button
         onClick={() => setLanguage("en" as Language)}
         className={`px-2 py-1 transition-colors ${language === "en" ? "bg-white/20 text-white" : "text-white/60 hover:text-white"}`}
       >
-        EN
+        {content.language.en}
       </button>
     </div>
   );
@@ -33,7 +40,7 @@ interface HeaderProps {
   claims: any;
 }
 
-function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean; onLinkClick?: () => void }) {
+function ProfileDropdown({ isMobile = false, onLinkClick, content }: { isMobile?: boolean; onLinkClick?: () => void; content: NavbarContent }) {
   if (isMobile) {
     return (
       <>
@@ -43,7 +50,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
           className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
         >
           <User size={16} />
-          Profile
+          {content.profile.profile}
         </Link>
         <Link
           href="/profile?tab=courses"
@@ -51,7 +58,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
           className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
         >
           <BookOpen size={16} />
-          My Courses
+          {content.profile.myCourses}
         </Link>
         <Link
           href="/profile?tab=settings"
@@ -59,7 +66,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
           className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors"
         >
           <Settings size={16} />
-          Settings
+          {content.profile.settings}
         </Link>
         <form action={logout} className="w-full">
           <button
@@ -67,7 +74,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
             className="w-full flex items-center gap-3 text-white px-4 py-2 rounded-3xl hover:bg-white/10 transition-colors text-left"
           >
             <LogOut size={16} />
-            Sign Out
+            {content.auth.signOut}
           </button>
         </form>
       </>
@@ -82,7 +89,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
         className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
       >
         <User size={16} />
-        Profile
+        {content.profile.profile}
       </Link>
       <Link
         href="/profile?tab=courses"
@@ -90,7 +97,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
         className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
       >
         <BookOpen size={16} />
-        My Courses
+        {content.profile.myCourses}
       </Link>
       <Link
         href="/profile?tab=settings"
@@ -98,7 +105,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
         className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
       >
         <Settings size={16} />
-        Settings
+        {content.profile.settings}
       </Link>
       <form action={logout}>
         <button
@@ -106,7 +113,7 @@ function ProfileDropdown({ isMobile = false, onLinkClick }: { isMobile?: boolean
           className="flex items-center gap-3 text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors w-full text-left"
         >
           <LogOut size={16} />
-          Sign Out
+          {content.auth.signOut}
         </button>
       </form>
     </div>
@@ -117,6 +124,8 @@ export function Header({ claims }: HeaderProps) {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileDropdownRef = useRef<HTMLDivElement>(null);
+  const { language } = useLanguage();
+  const CONTENT = getTranslations("navbar", language) as NavbarContent;
 
   // Handle click outside to close profile dropdown
   useEffect(() => {
@@ -147,7 +156,7 @@ export function Header({ claims }: HeaderProps) {
             {BRAND.name}
           </Link>
           <div className="absolute right-4">
-            <LanguageToggle />
+            <LanguageToggle content={CONTENT} />
           </div>
         </div>
 
@@ -163,7 +172,7 @@ export function Header({ claims }: HeaderProps) {
 
           {/* Component 3: Language Toggle + Auth Buttons / Profile */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <LanguageToggle />
+            <LanguageToggle content={CONTENT} />
             {claims ? (
               <div className="relative" ref={profileDropdownRef}>
                 <button
@@ -175,7 +184,7 @@ export function Header({ claims }: HeaderProps) {
 
                 {isProfileOpen && (
                   <div className="absolute right-0 top-12 w-48 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg z-50">
-                    <ProfileDropdown onLinkClick={() => setIsProfileOpen(false)} />
+                    <ProfileDropdown onLinkClick={() => setIsProfileOpen(false)} content={CONTENT} />
                   </div>
                 )}
               </div>
@@ -185,13 +194,13 @@ export function Header({ claims }: HeaderProps) {
                   href="/login"
                   className="glass text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center"
                 >
-                  Login
+                  {CONTENT.auth.login}
                 </Link>
                 <Link
                   href="/register"
                   className="bg-primary-gradient text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center"
                 >
-                  Sign Up
+                  {CONTENT.auth.signUp}
                 </Link>
               </div>
             )}
@@ -222,6 +231,7 @@ export function Header({ claims }: HeaderProps) {
                   <ProfileDropdown
                     isMobile={true}
                     onLinkClick={() => setIsSideMenuOpen(false)}
+                    content={CONTENT}
                   />
                 ) : (
                   <>
@@ -230,14 +240,14 @@ export function Header({ claims }: HeaderProps) {
                       onClick={() => setIsSideMenuOpen(false)}
                       className="w-full glass text-white px-4 py-2 rounded-3xl font-medium hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center block"
                     >
-                      Login
+                      {CONTENT.auth.login}
                     </Link>
                     <Link
                       href="/register"
                       onClick={() => setIsSideMenuOpen(false)}
                       className="w-full bg-primary-gradient text-white px-4 py-2 rounded-3xl font-medium hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-center block"
                     >
-                      Sign Up
+                      {CONTENT.auth.signUp}
                     </Link>
                   </>
                 )}

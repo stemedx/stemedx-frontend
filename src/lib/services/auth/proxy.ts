@@ -38,14 +38,29 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  // Protected routes that require authentication
-  const protectedRoutes = ['/profile', '/settings'];
-  const isProtectedRoute = protectedRoutes.some(route => 
-    request.nextUrl.pathname.startsWith(route)
+  // Public routes accessible without authentication
+  const publicRoutes = [
+    '/',
+    '/login',
+    '/register',
+    '/forgot-password',
+    '/reset-password',
+    '/confirm',
+    '/confirm-email',
+    '/pricing',
+    '/reachus',
+    '/courses',
+    '/tutorials',
+    '/error',
+  ];
+
+  const isPublicRoute = publicRoutes.some(route =>
+    request.nextUrl.pathname === route ||
+    (route !== '/' && request.nextUrl.pathname.startsWith(route + '/'))
   );
 
   // Redirect unauthenticated users from protected routes
-  if (isProtectedRoute && !user) {
+  if (!isPublicRoute && !user) {
     const redirectUrl = new URL('/login', request.url);
     redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);

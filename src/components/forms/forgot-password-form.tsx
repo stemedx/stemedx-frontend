@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { sendPasswordResetEmail } from "@/lib/actions/auth-client";
+import { sendPasswordResetEmail } from "@/lib/actions/auth-server";
 import Link from "next/link";
 import { useLanguage } from "@/context/language-context";
 import { getTranslations } from "@/locales";

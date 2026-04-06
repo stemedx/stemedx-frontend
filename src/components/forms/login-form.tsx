@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { loginWithEmail } from "@/lib/actions/auth-client";
-import { GoogleIcon } from "@/components/ui/icons";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "@/context/language-context";
@@ -13,7 +13,7 @@ interface AuthContent {
     titles: { login: string };
     subtitles: { login: string };
     fields: { email: string; password: string };
-    buttons: { login: string; googleLogin: string };
+    buttons: { login: string };
     loading: { login: string };
     links: { forgotPassword: string };
     errors: { unexpected: string };
@@ -27,6 +27,7 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -75,15 +76,24 @@ export function LoginForm() {
           required
         />
 
-        <input
-          name="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder={content?.modal?.fields?.password || "Password"}
-          className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          required
-        />
+        <div className="relative">
+          <input
+            name="password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder={content?.modal?.fields?.password || "Password"}
+            className="w-full p-3 pr-11 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
 
         <button
           type="submit"
@@ -102,16 +112,6 @@ export function LoginForm() {
           </Link>
         </div>
 
-        <div className="text-center">
-          <div className="border-t border-white/20 my-4"></div>
-          <button
-            type="button"
-            className="w-full bg-white/5 border border-white/20 text-white p-3 rounded-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-3"
-          >
-            <GoogleIcon size={20} />
-            {content?.modal?.buttons?.googleLogin || "Continue with Google"}
-          </button>
-        </div>
       </form>
     </>
   );
