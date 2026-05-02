@@ -17,6 +17,8 @@ import { footerContent as enFooterContent } from './en/footer';
 import { footerContent as siFooterContent } from './si/footer';
 import { pricingContent as enPricingContent } from './en/pricing';
 import { pricingContent as siPricingContent } from './si/pricing';
+import { coursesContent as enCoursesContent } from './en/courses';
+import { coursesContent as siCoursesContent } from './si/courses';
 
 export const translations = {
   en: {
@@ -29,8 +31,7 @@ export const translations = {
     payment: enPaymentContent,
     footer: enFooterContent,
     pricing: enPricingContent,
-    // Add more page translations here
-    // courses: enCoursesContent,
+    courses: enCoursesContent,
   },
   si: {
     reachus: siReachusContent,
@@ -42,8 +43,7 @@ export const translations = {
     payment: siPaymentContent,
     footer: siFooterContent,
     pricing: siPricingContent,
-    // Add more page translations here
-    // courses: siCoursesContent,
+    courses: siCoursesContent,
   }
 };
 

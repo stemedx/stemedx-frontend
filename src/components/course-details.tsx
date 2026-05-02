@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/language-context";
+import { getTranslations } from "@/locales";
 import { CourseDetailsResponse } from "@/lib/types/courses";
 import { purchasesApi } from "@/lib/services/api/purchases";
 import { createClient } from "@/lib/services/auth/client";
@@ -12,6 +14,8 @@ interface CourseDetailClientProps {
 
 export default function CourseOverview({ course }: CourseDetailClientProps) {
   const router = useRouter();
+  const { language } = useLanguage();
+  const CONTENT = getTranslations('courses', language) as { instructor: { label: string } };
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
@@ -203,7 +207,7 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
                 <h3 className="text-lg font-bold text-white">
                   {`${instructor.firstName} ${instructor.lastName}`}
                 </h3>
-                <p className="text-sm text-purple-300">Instructor</p>
+                <p className="text-sm text-purple-300">{CONTENT.instructor.label}</p>
               </div>
             </div>
 
@@ -260,11 +264,11 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
             )}
 
             {/* Bio */}
-            {instructor.bioHtml && (
+            {(language === 'si' ? instructor.bio_sinhala : instructor.bioHtml) && (
               <div className="pt-5 border-t border-white/10 flex-1 overflow-y-auto">
                 <div
                   className="text-sm text-gray-300 leading-relaxed max-w-none [&_h3]:text-white [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:border-b [&_h3]:border-purple-500/40 [&_h3]:pb-1 [&_h3]:mb-2 [&_h3]:mt-4 [&_h4]:text-white [&_h4]:text-sm [&_h4]:font-semibold [&_h4]:border-b [&_h4]:border-purple-500/40 [&_h4]:pb-1 [&_h4]:mb-2 [&_h4]:mt-4 [&_strong]:text-white [&_a]:text-purple-400 [&_ul]:my-2 [&_ul]:pl-4 [&_ul]:list-disc [&_li]:my-1 [&_li]:font-normal [&_p]:my-2"
-                  dangerouslySetInnerHTML={{ __html: markdownToHtml(instructor.bioHtml) }}
+                  dangerouslySetInnerHTML={{ __html: markdownToHtml((language === 'si' ? instructor.bio_sinhala : instructor.bioHtml)!) }}
                 />
               </div>
             )}

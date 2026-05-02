@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/language-context";
+import { getTranslations } from "@/locales";
 import { getAllCourses } from "@/lib/services/api/courses";
 import { Course } from "@/lib/types/courses";
 import { Instructor } from "@/lib/types/instructors";
@@ -15,6 +17,8 @@ interface CoursesProps {
 
 export default function Courses({ isAuthenticated }: CoursesProps) {
   const router = useRouter();
+  const { language } = useLanguage();
+  const CONTENT = getTranslations('courses', language) as { header: { title: string; subtitle: string }; card: { browseButton: string } };
   const [displayCount, setDisplayCount] = useState(12);
   const [courses, setCourses] = useState<CourseWithInstructor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,10 +71,10 @@ export default function Courses({ isAuthenticated }: CoursesProps) {
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center pb-12 sm:pb-16">
             <h1 className="text-5xl md:text-7xl font-bold text-white pb-4">
-              All Courses
+              {CONTENT.header.title}
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-              Learn from anywhere with our interactive online courses
+              {CONTENT.header.subtitle}
             </p>
           </div>
 
@@ -166,9 +170,9 @@ export default function Courses({ isAuthenticated }: CoursesProps) {
 
                         <button
                           onClick={() => handleBrowseCourse(course.id)}
-                          className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 mt-auto"
+                          className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 mt-auto cursor-pointer"
                         >
-                          Browse Course
+                          {CONTENT.card.browseButton}
                         </button>
                       </div>
                     </div>
