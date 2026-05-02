@@ -87,6 +87,7 @@ export interface CourseDetailsInstructor {
   email: string;
   profileImageUrl: string | null;
   bioHtml: string | null;
+  bio_sinhala: string | null;
   socialLinks: {
     email: string;
     linkedin?: string;
