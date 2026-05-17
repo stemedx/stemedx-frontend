@@ -1,15 +1,16 @@
 import { createClient } from '@/lib/services/auth/server';
+type NextFetchRequestConfig = { revalidate?: number | false; tags?: string[] };
 
 const BASE_URL = process.env.API_BASE_URL!;
 
 // Server-side API function for use in Server Components
 export async function serverApiRequest<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  next?: NextFetchRequestConfig
 ): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
 
-  // Get Supabase session token from server
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
@@ -22,10 +23,11 @@ export async function serverApiRequest<T>(
       ...options.headers,
     },
     ...options,
+    ...(next ? { next } : { cache: 'no-store' }),
   };
 
   try {
-    const response = await fetch(url, { ...config, next: { revalidate: 300 } });
+    const response = await fetch(url, config);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
