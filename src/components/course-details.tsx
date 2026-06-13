@@ -296,11 +296,16 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
                             {video.title}
                           </span>
                         </div>
-                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/30 border border-purple-500/40 shrink-0">
-                          <svg className="w-3 h-3 text-purple-300" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </span>
+                        <div className="flex items-center gap-2 shrink-0">
+                          {video.duration != null && (
+                            <span className="text-xs text-gray-400">{video.duration} {t.min}</span>
+                          )}
+                          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/30 border border-purple-500/40">
+                            <svg className="w-3 h-3 text-purple-300" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </span>
+                        </div>
                       </button>
                     ))}
 

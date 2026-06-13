@@ -68,6 +68,7 @@ export interface CourseDetailsVideo {
   id: string;
   title: string;
   lessonId: number;
+  duration?: number;
   videoUrl?: string;
 }
 
