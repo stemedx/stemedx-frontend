@@ -80,6 +80,8 @@ export interface CourseDetailsModule {
   videos: CourseDetailsVideo[];
   isPurchased: boolean;
   productId: string;
+  price: number;
+  isFree: boolean;
 }
 
 export interface CourseDetailsInstructor {

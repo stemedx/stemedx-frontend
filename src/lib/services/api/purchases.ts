@@ -6,7 +6,8 @@ export interface CreateOrderRequest {
 }
 
 export interface CreateOrderResponse {
-  checkout_url: string;
+  checkout_url: string | null;
+  free: boolean;
 }
 
 export const purchasesApi = {
