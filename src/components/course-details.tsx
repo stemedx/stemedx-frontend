@@ -24,6 +24,7 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentOption, setPaymentOption] = useState<'module' | 'platform' | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank' | null>(null);
+  const [enrollingModuleId, setEnrollingModuleId] = useState<string | null>(null);
 
   const resetModalState = () => {
     setShowPurchaseModal(false);
@@ -54,14 +55,34 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
     if (!selectedProductId || isProcessing) return;
     setIsProcessing(true);
     try {
-      const { checkout_url } = await purchasesApi.createOrder({
+      const { checkout_url, free } = await purchasesApi.createOrder({
         product_id: selectedProductId,
       });
-      router.push(checkout_url);
+      if (free) {
+        resetModalState();
+        router.refresh();
+      } else if (checkout_url) {
+        router.push(checkout_url);
+      }
     } catch (error) {
       console.error('Failed to create order:', error);
       setIsProcessing(false);
     }
+  };
+
+  const handleFreeEnroll = async (productId: string, moduleId: string) => {
+    if (enrollingModuleId) return;
+    setEnrollingModuleId(moduleId);
+    try {
+      const { free } = await purchasesApi.createOrder({ product_id: productId });
+      if (free) {
+        router.push(`/courses/${course.id}/learn?module=${moduleId}`);
+        return;
+      }
+    } catch (error) {
+      console.error('Failed to enroll in free module:', error);
+    }
+    setEnrollingModuleId(null);
   };
 
   const toggleSection = (index: number) => {
@@ -262,6 +283,11 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
                     <h4 className="text-base font-semibold text-white text-left">
                       {module.title}
                     </h4>
+                    {module.isFree && (
+                      <span className="px-2 py-0.5 bg-green-500/20 text-green-300 text-xs rounded-full">
+                        {t.free}
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-gray-400">
@@ -317,6 +343,14 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
                           className="glow-on-hover !border-white/30 text-white px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105"
                         >
                           {t.startLearning}
+                        </button>
+                      ) : module.isFree ? (
+                        <button
+                          onClick={() => handleFreeEnroll(module.productId, module.id)}
+                          disabled={enrollingModuleId === module.id}
+                          className="glow-on-hover !border-white/30 text-white px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {enrollingModuleId === module.id ? t.modal.processing : t.enrollFree}
                         </button>
                       ) : (
                         <button
