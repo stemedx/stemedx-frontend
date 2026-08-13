@@ -191,6 +191,45 @@ Any route not listed above requires authentication and will redirect to home if 
 - Pages should check auth state to show appropriate content (generic vs personalized)
 - Use `supabase.auth.getUser()` in page components to determine content type
 
+## Backend API Reference (excludes Supabase)
+
+All calls use `fetch` (no axios). Client-side calls go through the Next.js rewrite proxy `/api/proxy/:path*` → `${API_BASE_URL}` (see `next.config.ts`) via `apiRequest()` in `src/lib/services/api/client.ts`. Server-side calls (Server Components, route handlers) hit `API_BASE_URL` directly via `serverApiRequest()` in `src/lib/services/api/server.ts`. Both attach the Supabase session's `access_token` as `Authorization: Bearer`.
+
+### Courses
+| Endpoint | FE Path |
+|---|---|
+| GET `/v1/course-units` | `/courses` |
+| GET `/v1/course-units?grade=` | `/courses` |
+| GET `/v1/course-units/{id}` | `/courses/[id]` |
+| GET `/v1/course-modules/course-unit/{id}` | `/courses/[id]` |
+| GET `/v1/course-modules/{moduleId}/details` | `/courses/[id]/learn` |
+
+### Instructors (dead code — no FE callers currently)
+- GET `/v1/instructors`
+- GET `/v1/instructors/{id}`
+
+### Video Progress / Notes
+| Endpoint | FE Path |
+|---|---|
+| GET `/v1/course-module-videos/progress/{videoId}` | `/courses/[id]/learn` |
+| POST `/v1/course-module-videos/progress` | `/courses/[id]/learn` |
+
+### Purchases / Payments
+| Endpoint | FE Path |
+|---|---|
+| POST `/v1/purchases/create-order` | `/courses/[id]` (redirects to Stripe checkout, which returns to `/checkout`) |
+
+Stripe Embedded Checkout SDK (`@stripe/stripe-js`) is used directly on `/checkout` — third-party API touchpoint, not our backend.
+
+### Students / Profile
+| Endpoint | FE Path |
+|---|---|
+| GET `/v1/students` | `/` (home page, fire-and-forget for authenticated users) |
+| GET `/v1/students/modules` | `/profile` |
+| PATCH `/v1/students` | `/profile` |
+
+Note: `STUDENT_COURSES` and `TUTORIALS` endpoint constants in `src/lib/constants/api.ts` are defined but currently unused.
+
 ## Project Information
 - Framework: Next.js 15.5.0 with App Router
 - Styling: Tailwind CSS v4
