@@ -4,12 +4,12 @@ import type { Metadata } from "next";
 import { BRAND } from "@/lib/constants/brand";
 
 export const metadata: Metadata = {
-  title: `${BRAND.name} – Master ICT Skills Online`,
-  description: "Learn ICT, programming, and digital skills with ICT101's interactive courses. Expert-led lessons, hands-on labs, and structured learning paths.",
+  title: `${BRAND.name} – Online ICT Learning`,
+  description: "ශ්‍රී ලංකාවේ ප්‍රමුඛතම සබැඳි (Online) තොරතුරු හා සන්නිවේදන තාක්ෂණ ඉගෙනුම් වේදිකාව",
   alternates: { canonical: BRAND.website },
   openGraph: {
-    title: `${BRAND.name} – Master ICT Skills Online`,
-    description: "Learn ICT, programming, and digital skills with ICT101's interactive courses. Expert-led lessons, hands-on labs, and structured learning paths.",
+    title: `${BRAND.name} – Online ICT Learning`,
+    description: "ශ්‍රී ලංකාවේ ප්‍රමුඛතම සබැඳි (Online) තොරතුරු හා සන්නිවේදන තාක්ෂණ ඉගෙනුම් වේදිකාව",
     url: BRAND.website,
     type: "website",
     images: [{ url: `${BRAND.website}/og-image.png`, width: 1200, height: 630, alt: BRAND.name }],
