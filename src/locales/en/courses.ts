@@ -22,6 +22,8 @@ export const coursesContent = {
     courseContent: "Course Content",
     startLearning: "Start Learning",
     buyNow: "Buy Now",
+    free: "Free",
+    enrollFree: "Enroll Free",
     modal: {
       title: "Get Access",
       subtitle: "Choose how you want to access this content",

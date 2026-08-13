@@ -22,6 +22,8 @@ export const coursesContent = {
     courseContent: "පාඨමාලා අන්තර්ගතය",
     startLearning: "ඉගෙනීම ආරම්භ කරන්න",
     buyNow: "දැන් මිලදී ගන්න",
+    free: "නොමිලේ",
+    enrollFree: "නොමිලේ ලියාපදිංචි වන්න",
     modal: {
       title: "ප්‍රවේශය ලබා ගන්න",
       subtitle: "ඔබට අන්තර්ගතයට ප්‍රවේශ වීමට අවශ්‍ය ආකාරය තෝරන්න",
