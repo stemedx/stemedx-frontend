@@ -4,11 +4,7 @@ export const coursesContent = {
     subtitle: "අපගේ මාර්ගගත පාඨමාලා හරහා ඕනෑම තැනක සිට ඉගෙන ගන්න"
   },
   card: {
-    browseButton: "පාඨමාලාව බලන්න",
-    modules: "මොඩියුල",
-    tutorials: "නිබන්ධන",
-    hours: "පැය",
-    mins: "මිනිත්තු"
+    browseButton: "පාඨමාලාව බලන්න"
   },
   instructor: {
     label: "ගුරුවරයා"

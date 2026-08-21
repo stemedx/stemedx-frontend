@@ -4,11 +4,7 @@ export const coursesContent = {
     subtitle: "Learn from anywhere with our interactive online courses"
   },
   card: {
-    browseButton: "Browse Course",
-    modules: "Modules",
-    tutorials: "Tutorials",
-    hours: "hrs",
-    mins: "min"
+    browseButton: "Browse Course"
   },
   instructor: {
     label: "Instructor"
