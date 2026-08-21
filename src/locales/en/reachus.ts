@@ -38,32 +38,13 @@ export const reachusContent = {
   },
   contactInfo: {
     title: "Get in touch",
-    methods: [
-      {
-        id: "live-chat",
-        icon: "💬",
-        title: "Live Chat Support",
-        content: "Available 24/7 through your dashboard",
-        action: null,
-        enabled: true,
-      },
-      {
-        id: "hotline",
-        icon: "📞",
-        title: "Hotline",
-        content: "+94372268601",
-        action: "tel:+94372268601",
-        enabled: true,
-      },
-      {
-        id: "email",
-        icon: "✉️",
-        title: "Email Support",
-        content: "support@ict101.com",
-        action: "mailto:support@ict101.com",
-        enabled: true,
-      },
-    ],
+    whatsapp: {
+      title: "WhatsApp",
+      description: "Scan the QR code or tap the button below to start a chat with us on WhatsApp.",
+      qrImageAlt: "ict101 WhatsApp Business QR code",
+      link: "https://wa.me/message/5EYTQ2WWBKOOK1",
+      linkLabel: "Chat on WhatsApp",
+    },
   },
   community: {
     title: "Connect with Us",

@@ -1,5 +1,5 @@
 "use client";
-import { Home, BookOpen, PlayCircle, MessageCircle, CircleDollarSign } from "lucide-react";
+import { Home, BookOpen, PlayCircle, MessageCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { getTranslations } from "@/locales";
@@ -31,11 +31,6 @@ export function HomeNavigation() {
       icon: BookOpen,
       label: CONTENT?.tutorials || "Tutorials",
       href: "/tutorials",
-    },
-    {
-      icon: CircleDollarSign,
-      label: CONTENT?.pricing || "Pricing",
-      href: "/pricing",
     },
     {
       icon: MessageCircle,

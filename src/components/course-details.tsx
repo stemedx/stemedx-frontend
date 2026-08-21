@@ -146,13 +146,12 @@ export default function CourseOverview({ course }: CourseDetailClientProps) {
             </h1>
 
             <div className="mb-6 flex-1">
-              <p className="text-base text-gray-300 leading-relaxed">
-                {showFullOverview
-                  ? course.description
-                  : course.description.length > 500
-                  ? `${course.description.substring(0, 500)}...`
-                  : course.description}
-              </p>
+              <div
+                className={`text-base text-gray-300 leading-relaxed max-w-none [&_h3]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-4 [&_h4]:text-white [&_h4]:text-base [&_h4]:font-semibold [&_h4]:mb-2 [&_h4]:mt-3 [&_strong]:text-white [&_a]:text-purple-400 [&_a]:underline [&_ul]:my-2 [&_ul]:pl-5 [&_ul]:list-disc [&_li]:my-1 [&_p]:my-2 ${
+                  showFullOverview ? "" : "line-clamp-6"
+                }`}
+                dangerouslySetInnerHTML={{ __html: markdownToHtml(course.description) }}
+              />
               {course.description.length > 500 && (
                 <button
                   onClick={() => setShowFullOverview(!showFullOverview)}
