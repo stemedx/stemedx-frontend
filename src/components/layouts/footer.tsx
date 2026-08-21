@@ -55,12 +55,6 @@ export function Footer() {
               >
                 Reach Us
               </Link>
-              <Link
-                href="/pricing"
-                className="block text-white/80 hover:text-white transition-colors text-sm"
-              >
-                Pricing
-              </Link>
             </div>
           </div>
 
