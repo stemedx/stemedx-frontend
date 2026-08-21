@@ -12,7 +12,6 @@ export interface Course {
   price: string;
   subject_id: string;
   product_id: string;
-  duration: number;
   total_modules: number;
   tutorial_sessions: number;
   created_at?: string;

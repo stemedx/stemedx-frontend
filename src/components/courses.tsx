@@ -18,13 +18,8 @@ interface CoursesProps {
 export default function Courses({ isAuthenticated }: CoursesProps) {
   const router = useRouter();
   const { language } = useLanguage();
-  const CONTENT = getTranslations('courses', language) as { header: { title: string; subtitle: string }; card: { browseButton: string; modules: string; tutorials: string; hours: string; mins: string } };
+  const CONTENT = getTranslations('courses', language) as { header: { title: string; subtitle: string }; card: { browseButton: string } };
 
-  const formatDuration = (minutes: number) => {
-    if (minutes < 60) return `${minutes} ${CONTENT.card.mins}`;
-    const h = Math.round(minutes / 60);
-    return `~${h} ${CONTENT.card.hours}`;
-  };
   const [displayCount, setDisplayCount] = useState(12);
   const [courses, setCourses] = useState<CourseWithInstructor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,14 +56,10 @@ export default function Courses({ isAuthenticated }: CoursesProps) {
   const displayCourses = courses.length > 0 ? courses.map(course => ({
     id: course.id,
     title: (course as any).title || course.name,
-    description: (course as any).description || course.summary,
-    duration: course.duration,
     subject: (course as any).subject || course.subject?.name || "",
     subjectCode: (course as any).grade || course.subject?.code || "",
     language: (course as any).language || "",
     thumbnailUrl: (course as any).thumbnailUrl || course.thumbnail_url,
-    totalModules: (course as any).totalModules || course.total_modules,
-    tutorialSessions: (course as any).tutorialSessions || course.tutorial_sessions,
   })) : [];
 
   return (
@@ -115,7 +106,7 @@ export default function Courses({ isAuthenticated }: CoursesProps) {
                   {displayCourses.slice(0, displayCount).map((course) => (
                     <div
                       key={course.id}
-                      className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 h-full flex flex-col"
+                      className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-white/30 hover:shadow-xl hover:shadow-purple-900/20 h-full flex flex-col"
                     >
                       {/* Thumbnail */}
                       <div className="relative w-full h-50">
@@ -142,27 +133,13 @@ export default function Courses({ isAuthenticated }: CoursesProps) {
                       </div>
 
                       {/* Content */}
-                      <div className="p-5 flex flex-col flex-1">
-                        <h3 className="text-lg sm:text-xl font-semibold text-white pb-2">
+                      <div className="p-6 flex flex-col gap-3 flex-1">
+                        <h3 className="text-lg sm:text-xl font-semibold text-white text-center leading-snug truncate">
                           {course.title}
                         </h3>
-                        <p className="text-sm text-gray-300 mb-4 flex-1">{course.description}</p>
-
-                        {/* Stats row */}
-                        <div className="flex flex-wrap gap-3 mb-3 text-xs text-gray-400">
-                          <span className="flex items-center gap-1">
-                            <span>📦</span> {course.totalModules} {CONTENT.card.modules}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <span>🎓</span> {course.tutorialSessions} {CONTENT.card.tutorials}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <span>⏱️</span> {formatDuration(course.duration)}
-                          </span>
-                        </div>
 
                         {/* Subject code & Language */}
-                        <div className="flex items-center gap-2 mb-4">
+                        <div className="flex items-center justify-center flex-wrap gap-2">
                           {course.subjectCode && (
                             <span className="px-2 py-1 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded text-xs font-medium">
                               {course.subjectCode}
@@ -177,7 +154,7 @@ export default function Courses({ isAuthenticated }: CoursesProps) {
 
                         <button
                           onClick={() => handleBrowseCourse(course.id)}
-                          className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 mt-auto cursor-pointer"
+                          className="w-full bg-primary-gradient text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:brightness-110 hover:shadow-lg hover:shadow-purple-500/30 mt-auto cursor-pointer"
                         >
                           {CONTENT.card.browseButton}
                         </button>
