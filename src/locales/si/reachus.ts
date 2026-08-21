@@ -38,32 +38,13 @@ export const reachusContent = {
   },
   contactInfo: {
     title: "සම්බන්ධ වීමට වෙනත් ක්‍රම",
-    methods: [
-      {
-        id: "live-chat",
-        icon: "💬",
-        title: "සජීවී චැට් සහාය (Live Chat)",
-        content: "ඔබේ උපකරණ පුවරුව (Dashboard) හරහා පැය 24 පුරාම ලබාගත හැක",
-        action: null,
-        enabled: true,
-      },
-      {
-        id: "hotline",
-        icon: "📞",
-        title: "ක්ෂණික ඇමතුම් අංකය",
-        content: "+94372268601",
-        action: "tel:+94372268601",
-        enabled: true,
-      },
-      {
-        id: "email",
-        icon: "✉️",
-        title: "විද්‍යුත් තැපෑල",
-        content: "support@ict101.com",
-        action: "mailto:support@ict101.com",
-        enabled: true,
-      },
-    ],
+    whatsapp: {
+      title: "WhatsApp ගිණුම",
+      description: "QR කේතය පරිලෝකනය කරන්න හෝ පහත බොත්තම ඔබා අප සමඟ WhatsApp හරහා කතාබහ ආරම්භ කරන්න.",
+      qrImageAlt: "ict101 WhatsApp Business QR කේතය",
+      link: "https://wa.me/message/5EYTQ2WWBKOOK1",
+      linkLabel: "WhatsApp හරහා කතාබහ කරන්න",
+    },
   },
   community: {
     title: "අප සමඟ එක්වන්න",

@@ -11,8 +11,19 @@ export const pricingContent = {
     priceNote: "One-time payment per course",
     features: [
       "Lifetime access to purchased courses",
-      "Course materials & resources",
-      "Community, Instructor support",
+      "Instructor support",
+    ],
+    button: "Browse Courses",
+  },
+  monthlySubscription: {
+    icon: "🚀",
+    title: "Monthly Subscription",
+    description: "Unlimited learning, billed monthly.",
+    price: "Rs 3500",
+    priceNote: "Billed monthly",
+    features: [
+      "Access to all available course video content (tutorial video contents not included) on monthly basis",
+      "Instructor support",
     ],
     button: "Browse Courses",
   },
